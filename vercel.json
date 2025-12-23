@@ -1,7 +1,0 @@
-{
-  "buildCommand": "cd fitcree-design-app && yarn build",
-  "outputDirectory": "fitcree-design-app/.next",
-  "installCommand": "cd fitcree-design-app && yarn install",
-  "framework": "nextjs"
-}
-
