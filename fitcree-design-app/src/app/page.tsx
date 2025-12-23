@@ -9,7 +9,7 @@ export default function Home() {
             FitCree Design
           </h1>
           <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            デザイン作成用のプロジェクトです。
+            デザイン作成用のプロジェクトです!!!
           </p>
         </div>
       </main>
