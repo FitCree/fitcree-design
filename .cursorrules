@@ -1,0 +1,48 @@
+# FitCree UI開発ルール
+
+## プロジェクトの位置づけ
+
+この「fitcree-design」プロジェクトは、Figmaを使わずにデザインを構築するためのプロジェクトフォルダです。
+サービスのビジョンやコンセプトについては、`fitcree-design-app/docs/concept/product-vision.md` を参照してください。
+ただし、このファイルはサービスのビジョンであり、UI・UXの設計判断の参考程度にとどめてください。
+実装の優先順位や具体的な仕様は、本ルールおよび `docs/specs/` 内の仕様書に従ってください。
+
+## 基本原則
+
+### 1. UI変更は仕様書経由で行う
+UIを変更したいときは、`fitcree-design-app/docs/specs/` のデータを書き換えること。
+`pages/` や `components/` のロジックは、エンジニア以外は触らないので、AIが自動で対応すること。
+
+### 2. 仕様駆動開発の徹底
+デザインの相談を受けたら、まず仕様書（`docs/specs/`）を更新し、次にそれに対応するUIを反映させる「仕様駆動」を徹底すること。
+
+### 3. 既存コンポーネントの使用
+新しい項目を追加する際は、必ず `src/components/` にある既存のコンポーネントを使用すること。
+
+利用可能なコンポーネント：
+- `TextInput` - テキスト入力
+- `TextArea` - テキストエリア
+- `CheckboxGrid` - チェックボックスグリッド
+- `RadioCard` - カード型ラジオボタン
+- `RadioList` - リスト型ラジオボタン
+- `UrlListInput` - URLリスト入力
+- `FileUploader` - ファイルアップロード
+- `TipsBox` - ヒントボックス
+- `FormSection` - フォームセクション
+
+### 4. 仕様書の構造
+`docs/specs/` では、以下の形式でフィールドを定義する：
+- `id`: フィールドの一意の識別子
+- `label`: ラベル名
+- `type`: フィールドタイプ（'text', 'textarea', 'checkbox-grid', 'card-radio', 'radio-list', 'url-list', 'file' など）
+- `required`: 必須フラグ（オプション）
+- `options`: 選択肢（オプション）
+- `placeholder`: プレースホルダー（オプション）
+- `maxLength`: 最大文字数（オプション）
+
+## 開発フロー
+
+1. **仕様書の更新**: `docs/specs/` を編集
+2. **UIの自動反映**: AIが仕様書の変更を検知し、`pages/` や `components/` のロジックを自動更新
+3. **コンポーネントの確認**: 新しいフィールドタイプが必要な場合は、`components/` の既存コンポーネントで対応可能か確認
+
