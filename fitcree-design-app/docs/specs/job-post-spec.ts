@@ -4,13 +4,13 @@
  * type の種類: 'text', 'textarea', 'checkbox-grid', 'card-radio', 'radio-list', 'url-list', 'file'
  */
 
-import { REQUEST_CATEGORIES, INDUSTRIES } from './master-data';
+import { REQUEST_CATEGORIES, INDUSTRIES, USAGE_PURPOSES } from './master-data';
 
 export const JOB_POST_STEPS = [
   {
     id: 1,
     title: '基本情報',
-    tips: "「依頼タイプ」や「用途」、「業界」を明確にすることで、得意分野の合うクリエイターからの応募が増え、ミスマッチが減少します。",
+    tips: "「用途」や「業界」、「依頼タイプ」を明確にすることで、得意分野の合うクリエイターからの応募が増え、ミスマッチが減少します。",
     fields: [
       { 
         id: 'title', 
@@ -24,18 +24,43 @@ export const JOB_POST_STEPS = [
           '新規ブランド立ち上げに伴うロゴデザイン作成'
         ]
       },
-      { id: 'category', label: '依頼分野', type: 'radio-list', options: REQUEST_CATEGORIES, cols: 3 },
-      { id: 'requestType', label: '依頼タイプ', type: 'card-radio', options: [
-        { id: 'proposal', label: '提案型', desc: '方向性から相談', icon: '💡' },
-        { id: 'specified', label: '指定型', desc: '要件通り', icon: '🎯' },
-        { id: 'partner', label: '伴走型', desc: '継続支援', icon: '🤝' }
-      ]},
+      { 
+        id: 'category',
+        label: '依頼分野',
+        type: 'radio-list',
+        required: true,
+        description: '作成してほしい分野を選択してください',
+        options: REQUEST_CATEGORIES,
+        cols: 3
+      },
+      { 
+        id: 'usagePurpose', 
+        label: '作成物の用途', 
+        type: 'checkbox-grid', 
+        required: true,
+        description: '完成物の用途を選択してください（「依頼分野」に応じて選択肢が変わります）',
+        categoryBasedOptions: USAGE_PURPOSES,
+        dependsOn: 'category',
+        cols: 2
+      },
       { 
         id: 'industry', 
-        label: '業界', 
+        label: '作成物の業界', 
         type: 'checkbox-grid', 
-        description: '業界特有の知識やレギュレーション理解が必要な場合に、マッチング精度が高まります。',
+        required: true,
+        description: '業界特有の知識やレギュレーション理解が必要な場合に、マッチング精度が高まります',
         options: INDUSTRIES
+      },
+      { id: 'requestType',
+        label: '依頼タイプ',
+        type: 'card-radio',
+        required: true,
+        description: '現在の想定でお選びください（契約後の変更・相談も可能です。迷った場合は「提案型」をお選びください）',
+        options: [
+          { id: 'proposal', label: '提案型', desc: '「何を作るか」から相談・提案してほしい', icon: '💡', recommend: '方向性が曖昧 / プロのアイデアが欲しい' },
+          { id: 'specified', label: '指定型', desc: '決まった仕様通りに、正確に作ってほしい', icon: '🎯', recommend: '仕様・デザインが確定済 / スピード重視' },
+          { id: 'partner', label: '伴走型', desc: '継続的に関わり、一緒に改善してほしい', icon: '🤝', recommend: 'SNS運用 / サイト保守 / ブランド育成' }
+        ]
       }
     ]
   },

@@ -20,20 +20,22 @@ export const RadioList = ({ options, name, selectedValue, onChange, cols }: any)
   };
 
   return (
-    <div className={getGridClass()}>
+    <ul className={getGridClass()}>
       {normalizedOptions.map((opt: any) => (
-        <label key={opt.id} className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? 'bg-blue-50 border-blue-300' : 'bg-white border-neutral-300'}`}>
-          <input 
-            type="radio" name={name} checked={selectedValue === opt.id} onChange={() => onChange(opt.id)}
-            className="w-4 h-4 text-blue-500 focus:ring-blue-500 mr-3"
-          />
-          <div>
-            <span className="text-sm font-bold text-neutral-800">{opt.label}</span>
-            {opt.sub && <span className="text-xs text-neutral-500 ml-2">({opt.sub})</span>}
-          </div>
-        </label>
+        <li key={opt.id}>
+          <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? 'bg-blue-50 border-blue-300' : 'bg-white border-neutral-300'}`}>
+            <input 
+              type="radio" name={name} checked={selectedValue === opt.id} onChange={() => onChange(opt.id)}
+              className="w-4 h-4 text-blue-500 focus:ring-blue-500 mr-3"
+            />
+            <div>
+              <span className="text-sm font-bold text-neutral-800">{opt.label}</span>
+              {opt.sub && <span className="text-xs text-neutral-500 ml-2">({opt.sub})</span>}
+            </div>
+          </label>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

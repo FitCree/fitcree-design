@@ -19,7 +19,7 @@ export const FormSection = ({ label, required, children, helpText, examples, des
     {examples && examples.length > 0 && (
       <ul className="text-sm text-neutral-600 mt-2 space-y-1 list-disc list-inside">
         {examples.map((example: string, index: number) => (
-          <li key={index}>例 :{example}</li>
+          <li key={index}>例 : {example}</li>
         ))}
       </ul>
     )}

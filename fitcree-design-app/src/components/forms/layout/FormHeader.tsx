@@ -3,7 +3,7 @@ import { Eye, X } from 'lucide-react';
 
 // --- ページヘッダー ---
 export const FormHeader = ({ title, onPreview }: any) => (
-  <div className="bg-white max-w-full py-1 px-4 sticky top-0 z-20">
+  <div className="bg-white max-w-full py-1 px-4 border-b border-neutral-200 sticky top-0 z-20">
     <div className="max-w-screen-xl mx-auto">
       <div className='flex justify-between items-center'>
 

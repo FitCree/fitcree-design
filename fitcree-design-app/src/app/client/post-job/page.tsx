@@ -42,7 +42,28 @@ export default function MultiStepJobPost() {
   const isFirstStep = currentStepIdx === 0;
 
   const updateData = (id: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [id]: value }));
+    setFormData((prev: any) => {
+      const newData = { ...prev, [id]: value };
+      
+      // 依頼分野が変更された場合、用途フィールドの選択肢を更新
+      if (id === 'category') {
+        // 用途フィールドの選択肢を更新し、選択されていた値が新しい選択肢に含まれない場合はリセット
+        const usagePurposeField = JOB_POST_STEPS
+          .flatMap((step: any) => step.fields)
+          .find((f: any) => f.id === 'usagePurpose') as { categoryBasedOptions?: Record<string, string[]> } | undefined;
+
+        if (usagePurposeField?.categoryBasedOptions) {
+          const categoryValue = value;
+          const newOptions = usagePurposeField.categoryBasedOptions[categoryValue] || usagePurposeField.categoryBasedOptions['default'] || [];
+          const currentSelected = newData['usagePurpose'] || [];
+          // 新しい選択肢に含まれない値を削除
+          const validSelected = currentSelected.filter((v: string) => newOptions.includes(v));
+          newData['usagePurpose'] = validSelected;
+        }
+      }
+      
+      return newData;
+    });
   };
 
   const goPreview = () => {
@@ -72,11 +93,23 @@ export default function MultiStepJobPost() {
           />
         );
       case 'checkbox-grid':
+        // 動的な選択肢の処理（依頼分野に応じて用途の選択肢が変わる）
+        let options = field.options;
+        if (field.categoryBasedOptions && field.dependsOn) {
+          const dependentValue = formData[field.dependsOn];
+          if (dependentValue) {
+            options = field.categoryBasedOptions[dependentValue] || field.categoryBasedOptions['default'] || [];
+          } else {
+            options = field.categoryBasedOptions['default'] || [];
+          }
+        }
+        
         return (
           <UI.CheckboxGrid
-            options={field.options}
+            options={options}
             selectedValues={formData[field.id] || []}
             onChange={(v: any) => updateData(field.id, v)}
+            cols={field.cols}
           />
         );
       case 'card-radio':
@@ -157,7 +190,7 @@ export default function MultiStepJobPost() {
       <FormStepper currentStep={currentStep.id} steps={JOB_POST_STEPS} />
 
       {/* main */}
-      <main className="max-w-2xl mx-auto pt-12 px-4">
+      <main className="max-w-3xl mx-auto pt-12 px-4">
         
         <h2 className="text-xl font-bold text-white flex items-center gap-y-2 gap-x-4 mb-6 bg-slate-500 p-3 rounded-lg">
           <span className="text-white text-sm font-black">STEP {currentStep.id}</span>
@@ -168,7 +201,7 @@ export default function MultiStepJobPost() {
           <UI.TipsBox title="投稿のポイント" content={currentStep.tips} />
         )}
 
-        <div className="space-y-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
           {currentStep.fields.map((field: any) => (
             <UI.FormSection
               key={field.id}
