@@ -49,7 +49,8 @@ export const JOB_POST_STEPS = [
         type: 'checkbox-grid', 
         required: true,
         description: '業界特有の知識やレギュレーション理解が必要な場合に、マッチング精度が高まります',
-        options: INDUSTRIES
+        options: INDUSTRIES,
+        cols: 3
       },
       { id: 'requestType',
         label: '依頼タイプ',

@@ -29,7 +29,7 @@ export const RadioList = ({ options, name, selectedValue, onChange, cols }: any)
               className="w-4 h-4 text-blue-500 focus:ring-blue-500 mr-3"
             />
             <div>
-              <span className="text-sm font-bold text-neutral-800">{opt.label}</span>
+              <span className="text-sm font-medium text-neutral-800">{opt.label}</span>
               {opt.sub && <span className="text-xs text-neutral-500 ml-2">({opt.sub})</span>}
             </div>
           </label>

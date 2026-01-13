@@ -7,4 +7,3 @@ export const TextArea = ({ value, onChange, placeholder, rows = 5 }: any) => (
     className="w-full p-4 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm leading-relaxed"
   />
 );
-

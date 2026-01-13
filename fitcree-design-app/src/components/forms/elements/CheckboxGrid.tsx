@@ -3,16 +3,16 @@ import React from 'react';
 // --- 選択：チェックボックスグリッド（カラム数可変） ---
 export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3 }: any) => {
   const gridClass = cols === 2 
-    ? 'grid-cols-2' 
+    ? 'grid-cols-1 sm:grid-cols-2' 
     : cols === 4 
     ? 'grid-cols-2 sm:grid-cols-4' 
     : 'grid-cols-2 sm:grid-cols-3';
   
   return (
-    <ul className={`grid gap-2 ${gridClass}`}>
+    <ul className={`grid gap-2 items-stretch ${gridClass}`}>
       {options.map((opt: string) => (
-        <li key={opt}>
-          <label className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${selectedValues.includes(opt) ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
+        <li key={opt} className="h-full">
+          <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${selectedValues.includes(opt) ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
             <input 
               type="checkbox" checked={selectedValues.includes(opt)}
               onChange={() => {

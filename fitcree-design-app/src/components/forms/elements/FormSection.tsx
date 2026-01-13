@@ -3,7 +3,7 @@ import { AlertCircle } from 'lucide-react';
 
 // --- 共通：フォームセクション枠 ---
 export const FormSection = ({ label, required, children, helpText, examples, description }: any) => (
-  <section className="mb-10">
+  <section className="mt-10">
     <div className="flex items-center gap-2 mb-2">
       <label className="text-base font-bold text-neutral-800">
         {label}
@@ -19,7 +19,9 @@ export const FormSection = ({ label, required, children, helpText, examples, des
     {examples && examples.length > 0 && (
       <ul className="text-sm text-neutral-600 mt-2 space-y-1 list-disc list-inside">
         {examples.map((example: string, index: number) => (
-          <li key={index}>例 : {example}</li>
+          <li key={index} className="pl-4 [text-indent:-1rem]">
+            例 : {example}
+          </li>
         ))}
       </ul>
     )}

@@ -201,7 +201,7 @@ export default function MultiStepJobPost() {
           <UI.TipsBox title="投稿のポイント" content={currentStep.tips} />
         )}
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
+        <div className="bg-white rounded-xl border border-gray-200 pr-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">
           {currentStep.fields.map((field: any) => (
             <UI.FormSection
               key={field.id}
