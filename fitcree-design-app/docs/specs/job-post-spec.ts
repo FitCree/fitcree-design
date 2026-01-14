@@ -140,7 +140,29 @@ export const JOB_POST_STEPS = [
         defaultType: 'date',
         dateInputId: 'date' // 日付入力を表示する選択肢のID
       },
-      { id: 'budgetRange', label: '予算レンジ', type: 'select', required: true, options: ['相談して決めたい', '5,000円 〜 30,000円', '30,000円 〜 100,000円', '100,000円 〜 300,000円', '300,000円 〜 500,000円', '500,000円 〜 1,000,000円', '1,000,000円以上'] }
+      { 
+        id: 'budgetRange',
+        label: '予算レンジ',
+        type: 'select',
+        required: true,
+        options: [
+          '相談して決めたい',
+          '5,000円 〜 30,000円',
+          '30,000円 〜 100,000円',
+          '100,000円 〜 300,000円',
+          '300,000円 〜 500,000円',
+          '500,000円 〜 1,000,000円',
+          '1,000,000円以上'
+        ]
+      },
+      {
+        id: 'contractType',
+        label: '契約タイプ',
+        type: 'radio-list',
+        description: '現在は「単発」のみ可能です。今後のアップデートで「継続」や「時給」の契約タイプの追加を予定しています',
+        options: ['単発'],
+        cols: 3
+      }
     ]
   },
   {
