@@ -7,7 +7,7 @@ export const TipsBox = ({ title, content }: any) => (
     <div className="text-sky-500 mt-0.5"><HelpCircle size={18} /></div>
     <div>
       <p className="font-bold text-neutral-800 text-sm mb-1">{title}</p>
-      <p className="text-neutral-600 text-sm leading-relaxed">{content}</p>
+      <p className="text-neutral-800 text-sm leading-relaxed">{content}</p>
     </div>
   </div>
 );

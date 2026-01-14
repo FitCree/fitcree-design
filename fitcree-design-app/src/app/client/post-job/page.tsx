@@ -90,6 +90,7 @@ export default function MultiStepJobPost() {
             value={formData[field.id] || ''}
             onChange={(v: any) => updateData(field.id, v)}
             placeholder={field.placeholder}
+            maxLength={field.maxLength}
           />
         );
       case 'checkbox-grid':
@@ -164,6 +165,30 @@ export default function MultiStepJobPost() {
             placeholder={field.placeholder}
           />
         );
+      case 'tag-input':
+        return (
+          <UI.TagInput
+            value={formData[field.id] || []}
+            onChange={(v: any) => updateData(field.id, v)}
+            placeholder={field.placeholder}
+            maxTags={field.maxTags}
+          />
+        );
+      case 'reference-url-input':
+        return (
+          <UI.ReferenceUrlInput
+            urls={formData[field.id] || []}
+            onChange={(v: any) => updateData(field.id, v)}
+            maxUrls={field.maxUrls}
+          />
+        );
+      case 'reference-file-uploader':
+        return (
+          <UI.ReferenceFileUploader
+            files={formData[field.id] || []}
+            onChange={(v: any) => updateData(field.id, v)}
+          />
+        );
       default:
         return <div className="text-sm text-neutral-400">未対応のフィールドタイプです</div>;
     }
@@ -198,7 +223,7 @@ export default function MultiStepJobPost() {
         </h2>
 
         {currentStep.tips && (
-          <UI.TipsBox title="投稿のポイント" content={currentStep.tips} />
+          <UI.TipsBox title="このステップのポイント" content={currentStep.tips} />
         )}
 
         <div className="bg-white rounded-xl border border-gray-200 pr-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">

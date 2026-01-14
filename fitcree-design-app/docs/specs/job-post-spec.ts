@@ -68,10 +68,20 @@ export const JOB_POST_STEPS = [
   {
     id: 2,
     title: '詳細',
+    tips: "「背景・目的」を詳しく書いたり、イメージに近い参考資料を添付することで、クリエイターとの認識ズレを防ぎ、質の高い提案が集まりやすくなります。",
     fields: [
-      { id: 'background', label: '依頼背景・目的', type: 'textarea', required: true, placeholder: 'なぜこの制作が必要なのか、想いを記載してください' },
+      { 
+        id: 'background',
+        label: '依頼背景・目的',
+        type: 'textarea',
+        required: true,
+        maxLength: 1000,
+        placeholder: '（例）\n▼背景\n来月、表参道に新規オープンするカフェのWEBサイト制作をお願いしたいです。現在はInstagramのみで告知していますが、メニュー詳細や予約機能を持つ公式サイトが必要です。\n\n▼目的\n・ブランドイメージの確立\n・Webからの予約獲得（月50件目標）\n・Instagramからの動線強化'
+      },
       { id: 'target', label: 'ターゲットユーザー', type: 'text', placeholder: '例：20代の働く女性' },
-      { id: 'taste', label: '求めるテイスト', type: 'text', placeholder: '例：#シンプル #高級感' }
+      { id: 'taste', label: '求めるテイスト（タグ）', type: 'tag-input', placeholder: 'ハッシュタグを追加する', maxTags: 10 },
+      { id: 'referenceUrls', label: '参考サイト等のURL (3つまで)', type: 'reference-url-input', maxUrls: 3 },
+      { id: 'referenceFiles', label: '参考資料・添付ファイル', type: 'reference-file-uploader' }
     ]
   },
   {

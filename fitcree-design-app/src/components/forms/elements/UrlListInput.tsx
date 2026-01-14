@@ -14,7 +14,7 @@ export const UrlListInput = ({ urls = [], onChange }: any) => {
       {urls.map((url: string, idx: number) => (
         <input 
           key={idx} type="url" value={url} onChange={(e) => updateUrl(idx, e.target.value)}
-          placeholder="https://..." className="w-full p-2 border border-neutral-300 rounded text-sm focus:ring-blue-500"
+          placeholder="https://..." className="w-full p-2 border border-neutral-300 rounded text-base focus:ring-blue-500"
         />
       ))}
       <button onClick={addField} className="text-xs text-blue-600 font-bold flex items-center gap-1 hover:underline hover:text-blue-700">
