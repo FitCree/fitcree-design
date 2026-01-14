@@ -126,8 +126,21 @@ export const JOB_POST_STEPS = [
     id: 4,
     title: '予算・日程',
     fields: [
-      { id: 'deadlineDate', label: '希望納期', type: 'date' },
-      { id: 'budgetRange', label: '予算レンジ', type: 'select', options: ['1万〜3万', '3万〜10万', '10万〜30万', '30万以上'] }
+      { 
+        id: 'deadlineDate', 
+        label: '希望納期', 
+        type: 'conditional-date', 
+        required: true,
+        helpText: '※無理のないスケジュール設定をおすすめします',
+        options: [
+          { id: 'date', label: '日付を指定', icon: 'Calendar' },
+          { id: 'asap', label: 'なるべく早く (急募)', icon: 'Zap' },
+          { id: 'negotiable', label: '契約後に相談', icon: 'MessageCircle' }
+        ],
+        defaultType: 'date',
+        dateInputId: 'date' // 日付入力を表示する選択肢のID
+      },
+      { id: 'budgetRange', label: '予算レンジ', type: 'select', required: true, options: ['相談して決めたい', '5,000円 〜 30,000円', '30,000円 〜 100,000円', '100,000円 〜 300,000円', '300,000円 〜 500,000円', '500,000円 〜 1,000,000円', '1,000,000円以上'] }
     ]
   },
   {

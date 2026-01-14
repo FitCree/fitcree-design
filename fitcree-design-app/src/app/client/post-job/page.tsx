@@ -35,6 +35,12 @@ export default function MultiStepJobPost() {
           newData[field.id] = [];
           hasChanges = true;
         }
+        // conditional-dateタイプのデフォルト値を設定
+        if (field.type === 'conditional-date' && !newData[`${field.id}Type`]) {
+          newData[`${field.id}Type`] = field.defaultType || (field.options && field.options[0]?.id) || 'date';
+          newData[field.id] = '';
+          hasChanges = true;
+        }
       });
     });
 
@@ -178,6 +184,19 @@ export default function MultiStepJobPost() {
             onChange={(v: any) => updateData(field.id, v)}
           />
         );
+      case 'conditional-date':
+        return (
+          <UI.ConditionalDateInput
+            typeValue={formData[`${field.id}Type`] || field.defaultType || (field.options && field.options[0]?.id) || 'date'}
+            onTypeChange={(type) => updateData(`${field.id}Type`, type)}
+            dateValue={formData[field.id] || ''}
+            onDateChange={(date) => updateData(field.id, date)}
+            helpText={field.helpText}
+            options={field.options || []}
+            defaultType={field.defaultType}
+            dateInputId={field.dateInputId}
+          />
+        );
       case 'select':
         return (
           <UI.SelectInput
@@ -268,7 +287,7 @@ export default function MultiStepJobPost() {
               key={field.id}
               label={field.label}
               required={field.required}
-              helpText={field.helpText}
+              helpText={field.type === 'conditional-date' ? undefined : field.helpText}
               examples={field.examples}
               description={field.description}
             >

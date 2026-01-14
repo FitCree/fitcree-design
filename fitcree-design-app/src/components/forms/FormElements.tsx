@@ -15,3 +15,4 @@ export { SelectInput } from './elements/SelectInput';
 export { DateInput } from './elements/DateInput';
 export { TagInput } from './elements/TagInput';
 export { ConditionalCheckboxGrid } from './elements/ConditionalCheckboxGrid';
+export { ConditionalDateInput } from './elements/ConditionalDateInput';
