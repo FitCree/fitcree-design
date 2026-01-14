@@ -14,3 +14,4 @@ export { ToggleSwitch } from './elements/ToggleSwitch';
 export { SelectInput } from './elements/SelectInput';
 export { DateInput } from './elements/DateInput';
 export { TagInput } from './elements/TagInput';
+export { ConditionalCheckboxGrid } from './elements/ConditionalCheckboxGrid';

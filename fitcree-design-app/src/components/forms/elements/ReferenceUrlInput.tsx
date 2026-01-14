@@ -35,13 +35,13 @@ export const ReferenceUrlInput = ({
             value={url}
             onChange={(e) => handleUrlChange(idx, e.target.value)}
             placeholder="参考サイト等のURL (https://...)"
-            className="flex-1 p-3 border border-gray-300 rounded-lg text-neutral-800 focus:ring-2 focus:ring-indigo-500 placeholder:text-neutral-400"
+            className="flex-1 p-3 border border-neutral-300 rounded-lg text-neutral-800 focus:ring-1 focus:ring-blue-500 placeholder:text-neutral-400"
           />
           {idx === displayUrls.length - 1 && canAddMore && (
             <button 
               onClick={addUrlField} 
               type="button"
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 text-sm"
+              className="px-3 py-2 bg-white border border-neutral-300 rounded-lg text-neutral-600 hover:bg-neutral-50 text-sm"
             >
               + 追加
             </button>

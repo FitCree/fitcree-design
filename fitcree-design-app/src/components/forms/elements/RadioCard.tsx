@@ -15,7 +15,7 @@ export const RadioCard = ({ options, selectedValue, onChange }: any) => (
         {opt.recommend && (
           <div className="mt-2 pt-2 border-t border-neutral-200">
             <p className="text-xs text-indigo-500 font-bold mb-1">こんな時におすすめ</p>
-            <p className="text-xs text-gray-600 leading-tight">{opt.recommend}</p>
+            <p className="text-xs text-neutral-600 leading-tight">{opt.recommend}</p>
           </div>
         )}
         {selectedValue === opt.id && <CheckCircle2 size={18} className="absolute top-3 right-3 text-blue-500" />}

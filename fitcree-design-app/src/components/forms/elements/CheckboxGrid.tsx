@@ -8,23 +8,41 @@ export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3 
     ? 'grid-cols-2 sm:grid-cols-4' 
     : 'grid-cols-2 sm:grid-cols-3';
   
+  // オブジェクト形式の選択肢かどうかを判定
+  const isObjectOptions = options.length > 0 && typeof options[0] === 'object' && options[0].id;
+  
   return (
     <ul className={`grid gap-2 items-stretch ${gridClass}`}>
-      {options.map((opt: string) => (
-        <li key={opt} className="h-full">
-          <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${selectedValues.includes(opt) ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
-            <input 
-              type="checkbox" checked={selectedValues.includes(opt)}
-              onChange={() => {
-                const next = selectedValues.includes(opt) ? selectedValues.filter((v:any) => v !== opt) : [...selectedValues, opt];
-                onChange(next);
-              }}
-              className="w-4 h-4 text-blue-500 rounded border-neutral-300 focus:ring-blue-500 mr-2"
-            />
-            <span className="text-sm text-neutral-800 font-medium">{opt}</span>
-          </label>
-        </li>
-      ))}
+      {options.map((opt: any) => {
+        const optId = typeof opt === 'string' ? opt : opt.id;
+        const optTitle = typeof opt === 'string' ? opt : opt.title;
+        const optDescription = typeof opt === 'object' ? opt.description : undefined;
+        const isSelected = selectedValues.includes(optId);
+        
+        return (
+          <li key={optId} className="h-full">
+            <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${isSelected ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
+              <input 
+                type="checkbox" 
+                checked={isSelected}
+                onChange={() => {
+                  const next = isSelected ? selectedValues.filter((v: any) => v !== optId) : [...selectedValues, optId];
+                  onChange(next);
+                }}
+                className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 flex-shrink-0"
+              />
+              {optDescription ? (
+                <div className="flex-1">
+                  <span className="font-bold text-neutral-800 text-sm block">{optTitle}</span>
+                  <span className="text-sm text-neutral-600 mt-1">{optDescription}</span>
+                </div>
+              ) : (
+                <span className="text-sm text-neutral-800 font-medium">{optTitle}</span>
+              )}
+            </label>
+          </li>
+        );
+      })}
     </ul>
   );
 };

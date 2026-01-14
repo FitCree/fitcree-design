@@ -88,12 +88,37 @@ export const JOB_POST_STEPS = [
     id: 3,
     title: '条件・制約',
     fields: [
-      { id: 'nda', label: 'NDA締結', type: 'toggle', desc: '秘密保持契約の締結を必須とする' },
-      { id: 'deliveryFormat', label: '納品形式', type: 'checkbox-grid', options: ['PNG/JPG', 'AI/PSD', 'PDF', 'Figma', 'MP4/MOV', 'HTML/CSS', 'Word/Excel', 'その他'] },
-      { id: 'publicity', label: '実績公開', type: 'radio', options: [
-        { id: 'ok', label: '公開OK' },
-        { id: 'partial', label: '成果物のみOK' },
-        { id: 'ng', label: '不可' }
+      { 
+        id: 'conditions', 
+        label: '必須条件・制約', 
+        type: 'checkbox-grid', 
+        cols: 2,
+        options: [
+          { id: 'nda', title: 'NDA（秘密保持契約）の締結必須', description: '未公開情報や個人情報を含む場合' },
+          { id: 'residence', title: '居住地・対面指定あり', description: '撮影や打ち合わせで現地に来れる方' },
+          { id: 'invoiceIssuer', title: '適格請求書（インボイス）発行事業者', description: 'インボイス登録済みの方に限定する場合' },
+          { id: 'copyrightTransfer', title: '著作権の譲渡・利用許諾', description: '納品時に成果物の権利譲渡が必要な場合' },
+          { id: 'onlineMeeting', title: 'オンライン会議（顔出し）可能', description: 'ビデオ通話での打ち合わせが必要な場合' }
+        ]
+      },
+      { 
+        id: 'deliveryFormat', 
+        label: '納品形式', 
+        type: 'conditional-checkbox-grid', 
+        required: true,
+        defaultMode: 'consult',
+        modeOptions: [
+          { id: 'consult', label: '相談して決める (推奨)' },
+          { id: 'specified', label: '形式を指定する' }
+        ],
+        checkboxHelpText: '必要な形式をすべて選択してください',
+        options: ['JPG / PNG', 'AI / PSD', 'Figma / XD', 'HTML・CSS等ファイル', 'PDF / ドキュメント', 'Word / Excel', 'MP4 / MOV', 'その他・相談'],
+        cols: 3
+      },
+      { id: 'publicity', label: '実績公開', type: 'radio', required: true, options: [
+        { id: 'ok', label: '公開OK', description: '案件内容や成果物をすべて公開してもよい' },
+        { id: 'partial', label: '成果物など一部OK', description: '社名非公開など、範囲は相談して決定します' },
+        { id: 'ng', label: '不可', description: '完全非公開でお願いしたい' }
       ]}
     ]
   },

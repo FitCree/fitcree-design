@@ -29,6 +29,12 @@ export default function MultiStepJobPost() {
           newData[field.id] = firstOption;
           hasChanges = true;
         }
+        // conditional-checkbox-gridタイプのデフォルト値を設定
+        if (field.type === 'conditional-checkbox-grid' && !newData[`${field.id}Type`]) {
+          newData[`${field.id}Type`] = field.defaultMode || 'consult';
+          newData[field.id] = [];
+          hasChanges = true;
+        }
       });
     });
 
@@ -146,8 +152,24 @@ export default function MultiStepJobPost() {
           <UI.ToggleSwitch
             checked={!!formData[field.id]}
             desc={field.desc}
+            title={field.title}
+            description={field.description}
             onChange={(v: any) => updateData(field.id, v)}
           />
+        );
+      case 'toggle-group':
+        return (
+          <div className="space-y-3">
+            {field.items.map((item: any) => (
+              <UI.ToggleSwitch
+                key={item.id}
+                checked={!!formData[item.id]}
+                title={item.title}
+                description={item.description}
+                onChange={(v: any) => updateData(item.id, v)}
+              />
+            ))}
+          </div>
         );
       case 'date':
         return (
@@ -189,6 +211,20 @@ export default function MultiStepJobPost() {
             onChange={(v: any) => updateData(field.id, v)}
           />
         );
+      case 'conditional-checkbox-grid':
+        return (
+          <UI.ConditionalCheckboxGrid
+            modeValue={formData[`${field.id}Type`] || field.defaultMode || 'consult'}
+            onModeChange={(mode: 'consult' | 'specified') => updateData(`${field.id}Type`, mode)}
+            selectedValues={formData[field.id] || []}
+            onValuesChange={(values: string[]) => updateData(field.id, values)}
+            options={field.options || []}
+            defaultMode={field.defaultMode || 'consult'}
+            cols={field.cols || 3}
+            modeOptions={field.modeOptions}
+            checkboxHelpText={field.checkboxHelpText}
+          />
+        );
       default:
         return <div className="text-sm text-neutral-400">未対応のフィールドタイプです</div>;
     }
@@ -226,7 +262,7 @@ export default function MultiStepJobPost() {
           <UI.TipsBox title="このステップのポイント" content={currentStep.tips} />
         )}
 
-        <div className="bg-white rounded-xl border border-gray-200 pr-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">
+        <div className="bg-white rounded-xl border border-neutral-200 pr-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">
           {currentStep.fields.map((field: any) => (
             <UI.FormSection
               key={field.id}
