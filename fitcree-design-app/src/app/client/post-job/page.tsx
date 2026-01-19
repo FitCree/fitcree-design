@@ -267,7 +267,16 @@ export default function MultiStepJobPost() {
       <FormHeader title="案件投稿" onPreview={goPreview} />
 
       {/* Stepper */}
-      <FormStepper currentStep={currentStep.id} steps={JOB_POST_STEPS} />
+      <FormStepper
+        currentStep={currentStep.id}
+        steps={JOB_POST_STEPS}
+        isStepClickable={() => true}
+        onStepChange={(stepId) => {
+          const nextIdx = JOB_POST_STEPS.findIndex((s) => s.id === stepId);
+          if (nextIdx >= 0) setCurrentStepIdx(nextIdx);
+          window.scrollTo(0, 0);
+        }}
+      />
 
       {/* main */}
       <main className="max-w-3xl mx-auto pt-12 px-4">

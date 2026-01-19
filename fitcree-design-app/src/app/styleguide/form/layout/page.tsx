@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import * as FormLayout from '../../../../components/forms/FormLayout';
 
 export default function StyleguidePage() {
@@ -8,6 +9,7 @@ export default function StyleguidePage() {
     { id: 2, title: '詳細' },
     { id: 3, title: '条件・制約' },
   ];
+  const [currentStep, setCurrentStep] = useState(2);
 
   return (
     <div className="min-h-screen bg-slate-100 py-12 px-4 sm:px-8 pb-32">
@@ -28,7 +30,12 @@ export default function StyleguidePage() {
 
             <div id="formstepper">
               <h2 className="text-sm font-bold text-indigo-600 mb-3">FormStepper</h2>
-              <FormLayout.FormStepper currentStep={2} steps={steps} />
+              <FormLayout.FormStepper
+                currentStep={currentStep}
+                steps={steps}
+                isStepClickable={() => true}
+                onStepChange={setCurrentStep}
+              />
             </div>
 
             <div id="formfooter">
