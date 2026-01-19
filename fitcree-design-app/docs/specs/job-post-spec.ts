@@ -68,7 +68,6 @@ export const JOB_POST_STEPS = [
   {
     id: 2,
     title: '詳細',
-    tips: "「背景・目的」を詳しく書いたり、イメージに近い参考資料を添付することで、クリエイターとの認識ズレを防ぎ、質の高い提案が集まりやすくなります。",
     fields: [
       { 
         id: 'background',
@@ -187,7 +186,13 @@ export const JOB_POST_STEPS = [
     id: 5,
     title: '人物像',
     fields: [
-      { id: 'persona', label: 'どんなパートナーを求めていますか？', type: 'textarea', placeholder: 'スキルだけでなく人柄やスタンスの希望を記載してください' }
+      { 
+        id: 'persona',
+        label: 'どんなパートナーを求めていますか？',
+        type: 'textarea',
+        description: 'スキルだけでなく、スタンスや人柄についても書くとマッチング精度が上がります。',
+        placeholder: '（例）\n・レスポンスが早く、細かい修正にも柔軟に対応いただける方\n・こちらの意図を汲み取り、プラスアルファの提案をしてくれる方\n・ポートフォリオに飲食店の実績がある方'
+      }
     ]
   }
 ];
