@@ -115,11 +115,29 @@ export const JOB_POST_STEPS = [
         options: ['JPG / PNG', 'AI / PSD', 'Figma / XD', 'HTML・CSS等ファイル', 'PDF / ドキュメント', 'Word / Excel', 'MP4 / MOV', 'その他・相談'],
         cols: 3
       },
-      { id: 'publicity', label: '実績公開', type: 'radio', required: true, options: [
-        { id: 'ok', label: '公開OK', description: '案件内容や成果物をすべて公開してもよい' },
-        { id: 'partial', label: '成果物など一部OK', description: '社名非公開など、範囲は相談して決定します' },
-        { id: 'ng', label: '不可', description: '完全非公開でお願いしたい' }
-      ]}
+      { 
+        id: 'publicity',
+        label: '実績公開',
+        type: 'radio',
+        required: true,
+        options: [
+          { id: 'ok', label: '公開OK', description: '案件内容や成果物をすべて公開してもよい' },
+          { id: 'partial', label: '成果物など一部OK', description: '社名非公開など、範囲は相談して決定します' },
+          { id: 'ng', label: '不可', description: '完全非公開でお願いしたい' }
+        ]
+      },
+      {
+        id: 'requirements',
+        label: 'クリエイターによる応募時に追加で提出してほしいもの',
+        type: 'checkbox-grid',
+        description: 'クリエイターのポートフォリオや詳細は自動で添付され、応募と共に通知されます。\nチェックを入れた項目は、クリエイターが応募する際の必須入力項目になります。\n（ラフ案などを必須にすると、応募数が減る可能性があります）',
+        cols: 2,
+        options: [
+          { id: 'proposal', title: '提案メッセージ', description: '案件へのアプローチや意気込みなど' },
+          { id: 'rough', title: 'ラフ案・構成案', description: '具体的な完成イメージ（※応募ハードルが上がります）' },
+          { id: 'estimate', title: '概算見積もり', description: '作業工程ごとの金額感や内訳' }
+        ]
+      }
     ]
   },
   {
@@ -170,13 +188,6 @@ export const JOB_POST_STEPS = [
     title: '人物像',
     fields: [
       { id: 'persona', label: 'どんなパートナーを求めていますか？', type: 'textarea', placeholder: 'スキルだけでなく人柄やスタンスの希望を記載してください' }
-    ]
-  },
-  {
-    id: 6,
-    title: '応募条件',
-    fields: [
-      { id: 'requirements', label: '応募時に提出してほしいもの', type: 'checkbox-grid', options: ['提案文', 'ラフ案', '見積もり', 'SNS/HP'] }
     ]
   }
 ];

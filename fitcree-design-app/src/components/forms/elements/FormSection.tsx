@@ -13,7 +13,7 @@ export const FormSection = ({ label, required, children, helpText, examples, des
       )}
     </div>
     {description && (
-      <p className="text-sm text-neutral-600 mb-2">{description}</p>
+      <p className="text-sm text-neutral-600 mb-2 whitespace-pre-line">{description}</p>
     )}
     {children}
     {examples && examples.length > 0 && (

@@ -34,7 +34,7 @@ export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3 
               {optDescription ? (
                 <div className="flex-1">
                   <span className="font-bold text-neutral-800 text-sm block">{optTitle}</span>
-                  <span className="text-sm text-neutral-600 mt-1">{optDescription}</span>
+                  <span className="text-sm text-neutral-600 mt-1 whitespace-pre-line">{optDescription}</span>
                 </div>
               ) : (
                 <span className="text-sm text-neutral-800 font-medium">{optTitle}</span>

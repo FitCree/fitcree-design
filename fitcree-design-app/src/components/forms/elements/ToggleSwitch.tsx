@@ -26,7 +26,7 @@ export const ToggleSwitch = ({ checked = false, onChange, desc, title, descripti
         </div>
         <div className="flex-1">
           {title && <span className="font-bold text-neutral-800 text-sm block">{title}</span>}
-          {description && <span className="text-sm text-neutral-600 mt-0.5">{description}</span>}
+          {description && <span className="text-sm text-neutral-600 mt-0.5 whitespace-pre-line">{description}</span>}
         </div>
       </label>
     );

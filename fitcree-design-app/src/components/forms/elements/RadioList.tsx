@@ -31,7 +31,7 @@ export const RadioList = ({ options, name, selectedValue, onChange, cols }: any)
             {opt.description ? (
               <div className="flex-1">
                 <span className="font-bold text-neutral-800 text-sm block">{opt.label}</span>
-                <span className="text-sm text-neutral-600 mt-0.5">{opt.description}</span>
+                <span className="text-sm text-neutral-600 mt-0.5 whitespace-pre-line">{opt.description}</span>
               </div>
             ) : (
               <div>
