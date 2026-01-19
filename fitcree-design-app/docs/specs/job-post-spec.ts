@@ -68,6 +68,7 @@ export const JOB_POST_STEPS = [
   {
     id: 2,
     title: '詳細',
+    tips: "「背景・目的」を詳しく書いたり、イメージに近い参考資料を添付することで、クリエイターとの認識ズレを防ぎ、質の高い提案が集まりやすくなります。",
     fields: [
       { 
         id: 'background',
@@ -86,6 +87,7 @@ export const JOB_POST_STEPS = [
   {
     id: 3,
     title: '条件・制約',
+    tips: "NDA（秘密保持契約）や権利関係、インボイス対応など、契約前に確認しておきたい条件を明示することで、プロ意識の高いクリエイターと安心して取引できます。",
     fields: [
       { 
         id: 'conditions', 
@@ -142,6 +144,7 @@ export const JOB_POST_STEPS = [
   {
     id: 4,
     title: '予算・日程',
+    tips: "余裕を持った納期設定や相場に見合った予算は、成果物の品質向上に直結します。迷う場合は「相談して決める」を選び、プロの意見を聞くのも有効です。",
     fields: [
       { 
         id: 'deadlineDate', 
@@ -185,6 +188,7 @@ export const JOB_POST_STEPS = [
   {
     id: 5,
     title: '人物像',
+    tips: "スキルだけでなく、「連絡の頻度」や「フィードバックへの姿勢」など、あなたが重視する価値観やスタンスを書くと、長く付き合えるパートナーと出会いやすくなります。",
     fields: [
       { 
         id: 'persona',
