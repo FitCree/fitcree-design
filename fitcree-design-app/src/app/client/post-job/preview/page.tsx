@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, ChevronLeft, MapPin, Calendar, Clock, DollarSign, Tag, FileText, Link, Paperclip, Target, User, Edit2 } from 'lucide-react';
+import { Check, ChevronLeft, MapPin, Calendar, Clock, DollarSign, Tag, FileText, Link, Paperclip, Target, User, Edit2, PartyPopper, Home } from 'lucide-react';
 import { JOB_POST_STEPS } from '@/../docs/specs/job-post-spec';
 
 export default function JobPostPreviewPage() {
   const router = useRouter();
   const [data, setData] = useState<any>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -226,7 +227,10 @@ export default function JobPostPreviewPage() {
               >
                 内容を修正する
               </button>
-              <button className="flex-1 py-4 bg-blue-600 text-white rounded-xl font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+              <button 
+                onClick={() => setIsSubmitted(true)}
+                className="flex-1 py-4 bg-blue-600 text-white rounded-xl font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+              >
                 <Check size={22} strokeWidth={3} />
                 この内容で投稿する
               </button>
@@ -237,6 +241,29 @@ export default function JobPostPreviewPage() {
           </div>
         )}
       </div>
+
+      {/* Submission Success Modal */}
+      {isSubmitted && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center scale-in-center animate-in zoom-in-95 duration-300">
+            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <PartyPopper size={40} />
+            </div>
+            <h3 className="text-2xl font-black text-neutral-800 mb-2">投稿が完了しました！</h3>
+            <p className="text-neutral-600 text-sm font-medium mb-8 leading-relaxed">
+              案件の投稿を受け付けました。<br />
+              クリエイターからの提案をお待ちください。
+            </p>
+            <button
+              onClick={() => router.push('/')}
+              className="w-full py-4 bg-slate-800 text-white rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-slate-900 transition-all shadow-lg"
+            >
+              <Home size={20} />
+              トップページへ
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
