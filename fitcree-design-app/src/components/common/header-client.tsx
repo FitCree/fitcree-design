@@ -9,19 +9,19 @@ import {
 } from "lucide-react";
 import { MOCK_CLIENTS } from "@/data/mock-data";
 
-// Use the first client as the current user for now
-const MOCK_USER = MOCK_CLIENTS[0];
+// Determing the user based on URL is handled inside the component
+const DEFAULT_USER = MOCK_CLIENTS[0];
 
-const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const HeaderDropdown = ({ isOpen, onClose, user }: { isOpen: boolean; onClose: () => void; user: any }) => {
   if (!isOpen) return null;
 
   return (
     <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <img src={MOCK_USER.avatarUrl} alt="" className="w-10 h-10 rounded-full border border-gray-200" />
+          <img src={user.avatarUrl} alt="" className="w-10 h-10 rounded-full border border-gray-200" />
           <div>
-            <p className="text-sm font-bold text-gray-900">{MOCK_USER.name}</p>
+            <p className="text-sm font-bold text-gray-900">{user.name}</p>
             <p className="text-xs text-gray-500">マイページ</p>
           </div>
         </div>
@@ -59,6 +59,12 @@ export default function HeaderClient() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Extract clientId from pathname if present
+  // Path format: /client/[clientId]
+  const pathParts = pathname?.split("/") || [];
+  const clientId = pathParts[2];
+  const currentUser = MOCK_CLIENTS.find(c => c.id === clientId) || DEFAULT_USER;
+
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -89,14 +95,14 @@ export default function HeaderClient() {
 
       {/* Center: Search & Actions (Hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-6">
-        <button onClick={() => alert("このページは作成中です")} className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
+        <Link href="/search/creators" className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
           <Search size={16} className="text-blue-600 mr-2" />
           クリエイターを探す
-        </button>
-        <a href="/client/post-job" className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
+        </Link>
+        <Link href="/client/post-job" className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
           <Plus size={16} className="text-blue-600 mr-2" />
           案件を作成
-        </a>
+        </Link>
       </div>
 
       {/* Right: Icons & Avatar */}
@@ -117,13 +123,13 @@ export default function HeaderClient() {
             className="block focus:outline-none transition-transform active:scale-95"
           >
             <img
-              src={MOCK_USER.avatarUrl}
+              src={currentUser.avatarUrl}
               alt="User Avatar"
               className={`w-9 h-9 rounded-full bg-gray-100 border-2 ${isDropdownOpen ? 'border-blue-500' : 'border-white'} shadow-sm`}
             />
           </button>
 
-          <HeaderDropdown isOpen={isDropdownOpen} onClose={() => setIsDropdownOpen(false)} />
+          <HeaderDropdown isOpen={isDropdownOpen} onClose={() => setIsDropdownOpen(false)} user={currentUser} />
         </div>
       </div>
     </header>

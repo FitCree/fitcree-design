@@ -36,8 +36,25 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/client">
-                  クライアント用トップページ : /client
+                  クライアントトップページ サンプル : /client
                 </Link>
+                <ul className="mt-2 flex flex-col gap-3 list-disc pl-5 text-neutral-800">
+                  <li>
+                    <Link className="link-blue" href="/client/client-1">
+                      クライアントユーザー 1 : /client/client-1
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link-blue" href="/client/client-2">
+                      クライアントユーザー 2 : /client/client-2
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="link-blue" href="/client/client-3">
+                      クライアントユーザー 3 : /client/client-3
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li>
                 <Link className="link-blue" href="/client/post-job">
@@ -52,6 +69,19 @@ export default function Home() {
               <li>
                 <Link className="link-blue" href="/client/post-job/preview">
                   案件投稿フォーム プレビュー : /client/post-job/preview
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mt-12 w-full">
+            <h2 className="mb-4 text-xl font-bold text-neutral-800">
+              検索ページ
+            </h2>
+            <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
+              <li>
+                <Link className="link-blue" href="/search/creators">
+                  クリエイター検索 (作成中) : /search/creators
                 </Link>
               </li>
             </ul>

@@ -33,6 +33,7 @@ export interface Project {
   budget: string;
   partnerName?: string;
   progress?: number;
+  hasUnreadMessage?: boolean;
 }
 
 // --- Mock Data ---
@@ -63,10 +64,10 @@ export const MOCK_CLIENTS: User[] = [
         id: 1,
         title: '【急募】新規オーガニックカフェのロゴデザイン・ショップカード制作',
         status: 'recruiting',
-        statusLabel: '募集中',
+        statusLabel: CLIENT_STATS_TEMPLATE[0].label,
         category: 'デザイン',
-        postedDate: '2024-02-20',
-        deadline: '2024-03-05',
+        postedDate: '2026/02/20',
+        deadline: '2026/03/05',
         applicants: 12,
         newApplicants: 3,
         budget: '50,000 ~ 100,000円'
@@ -75,10 +76,10 @@ export const MOCK_CLIENTS: User[] = [
         id: 2,
         title: '自社ECサイトの商品撮影（アパレル・小物）',
         status: 'selection',
-        statusLabel: '選定中',
+        statusLabel: CLIENT_STATS_TEMPLATE[1].label,
         category: '写真撮影',
-        postedDate: '2024-02-15',
-        deadline: '2024-02-28',
+        postedDate: '2026/02/15',
+        deadline: '2026/02/28',
         applicants: 8,
         newApplicants: 0,
         budget: '30,000 ~ 50,000円'
@@ -87,13 +88,14 @@ export const MOCK_CLIENTS: User[] = [
         id: 3,
         title: '採用LPのライティング・インタビュー取材',
         status: 'in_progress',
-        statusLabel: '進行中',
+        statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: '佐藤 ライター',
         category: 'ライティング',
-        postedDate: '2024-01-10',
-        deadline: '2024-02-25',
+        postedDate: '2026/01/10',
+        deadline: '2026/02/25',
         progress: 60,
-        budget: '100,000円'
+        budget: '100,000円',
+        hasUnreadMessage: true
       }
     ]
   },
@@ -114,10 +116,10 @@ export const MOCK_CLIENTS: User[] = [
         id: 101,
         title: 'コーポレートサイトのリニューアル（要件定義〜実装）',
         status: 'selection',
-        statusLabel: '選定中',
+        statusLabel: CLIENT_STATS_TEMPLATE[1].label,
         category: 'Web開発',
-        postedDate: '2024-02-10',
-        deadline: '2024-03-10',
+        postedDate: '2026/02/10',
+        deadline: '2026/03/10',
         applicants: 15,
         newApplicants: 2,
         budget: '500,000 ~ 1,000,000円'
@@ -126,11 +128,11 @@ export const MOCK_CLIENTS: User[] = [
         id: 102,
         title: '新卒採用向けパンフレットのデザイン',
         status: 'in_progress',
-        statusLabel: '進行中',
+        statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: '山田 クリエイター',
         category: 'デザイン',
-        postedDate: '2024-01-20',
-        deadline: '2024-02-28',
+        postedDate: '2026/01/20',
+        deadline: '2026/02/28',
         progress: 80,
         budget: '100,000 ~ 200,000円'
       }
@@ -153,13 +155,14 @@ export const MOCK_CLIENTS: User[] = [
         id: 201,
         title: '海外向け製品カタログの翻訳（日→英）',
         status: 'in_progress',
-        statusLabel: '進行中',
+        statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: 'John Translator',
         category: '翻訳',
-        postedDate: '2024-01-15',
-        deadline: '2024-02-20',
+        postedDate: '2026/01/15',
+        deadline: '2026/02/20',
         progress: 30,
-        budget: '50,000 ~ 100,000円'
+        budget: '50,000 ~ 100,000円',
+        hasUnreadMessage: true
       }
     ]
   }
