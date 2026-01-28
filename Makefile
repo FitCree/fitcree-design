@@ -12,4 +12,4 @@ run: ## run dev server
 	cd fitcree-design-app && yarn dev
 
 deploy: ## deploy to vercel
-	cd fitcree-design-app && vercel --prod
+	vercel --prod --yes
