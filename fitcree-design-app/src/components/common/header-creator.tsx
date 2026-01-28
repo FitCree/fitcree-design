@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import {
   User, Settings, Heart, Activity, LogOut,
   Search, Plus, Mail, Bell
@@ -73,10 +74,10 @@ export default function HeaderCreator() {
     <header className="bg-white border-b border-orange-500 fixed top-0 w-full z-20 h-14 flex items-center justify-between px-4 sm:px-8">
       {/* Left: Logo */}
       <div className="flex items-center gap-6">
-        <a href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           {/* FitCree Logo (Image) */}
           <img src="/images/fitcree-logo.svg" alt="FitCree" className="h-6 w-auto" />
-        </a>
+        </Link>
       </div>
 
       {/* Center: Navigation (Hidden on mobile) */}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import {
@@ -58,11 +59,6 @@ export default function HeaderClient() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // post-job 配下（/client/post-job で始まるパス）ではヘッダーを表示しない
-  if (pathname?.startsWith("/client/post-job")) {
-    return null;
-  }
-
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -76,14 +72,19 @@ export default function HeaderClient() {
     };
   }, []);
 
+  // post-job 配下（/client/post-job で始まるパス）ではヘッダーを表示しない
+  if (pathname?.startsWith("/client/post-job")) {
+    return null;
+  }
+
   return (
     <header className="bg-white border-b border-blue-400 fixed top-0 w-full z-20 h-14 flex items-center justify-between px-4 sm:px-8">
       {/* Left: Logo & Mode Switch */}
       <div className="flex items-center gap-6">
-        <a href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           {/* FitCree Logo (Image) */}
           <img src="/images/fitcree-logo.svg" alt="FitCree" className="h-6 w-auto" />
-        </a>
+        </Link>
       </div>
 
       {/* Center: Search & Actions (Hidden on mobile) */}
