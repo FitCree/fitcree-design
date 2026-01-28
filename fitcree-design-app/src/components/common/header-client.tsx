@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react"; // Added missing imports
+import { usePathname } from "next/navigation";
+import React, { useState, useRef, useEffect } from "react";
 import {
   User, Settings, Heart, Activity, LogOut,
-  Search, Plus, Mail, Bell, RefreshCw
-} from "lucide-react"; // Import icons
-import { MOCK_CLIENTS } from "@/data/mock-data"; // Import mock data
+  Search, Plus, Mail, Bell
+} from "lucide-react";
+import { MOCK_CLIENTS } from "@/data/mock-data";
 
 // Use the first client as the current user for now
 const MOCK_USER = MOCK_CLIENTS[0];
@@ -53,8 +54,14 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
 };
 
 export default function HeaderClient() {
+  const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // post-job 配下（/client/post-job で始まるパス）ではヘッダーを表示しない
+  if (pathname?.startsWith("/client/post-job")) {
+    return null;
+  }
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -77,13 +84,6 @@ export default function HeaderClient() {
           {/* FitCree Logo (Image) */}
           <img src="/images/fitcree-logo.svg" alt="FitCree" className="h-6 w-auto" />
         </a>
-
-        {/*
-        <button className="hidden sm:flex items-center text-xs font-bold text-green-600 hover:text-green-700 transition-colors bg-green-50 px-3 py-1.5 rounded-full">
-          <RefreshCw size={14} className="mr-1.5" />
-          クリエイターモードへ
-        </button>
-        */}
       </div>
 
       {/* Center: Search & Actions (Hidden on mobile) */}
@@ -100,12 +100,6 @@ export default function HeaderClient() {
 
       {/* Right: Icons & Avatar */}
       <div className="flex items-center gap-2 sm:gap-4">
-        {/* 
-        <button className="hidden sm:block text-sm font-bold text-blue-600 border border-blue-600 px-4 py-1.5 rounded hover:bg-blue-50 transition-colors">
-          ワークスペース
-        </button>
-        */}
-
         <button className="text-gray-500 hover:text-gray-700 p-2 relative">
           <Mail size={20} />
         </button>

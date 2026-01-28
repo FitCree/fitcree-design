@@ -8,7 +8,7 @@ export default function CreatorLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       <HeaderCreator />
-      <main className="pt-20 pb-10 px-4 sm:px-8 max-w-7xl mx-auto">
+      <main className="pt-14">
         {children}
       </main>
     </div>
