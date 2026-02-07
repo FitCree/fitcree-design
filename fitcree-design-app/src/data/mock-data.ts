@@ -1,4 +1,5 @@
 import { LucideIcon, Briefcase, Users, Clock, MessageSquare } from 'lucide-react';
+import { PROJECT_DETAILS } from './mock-projects';
 
 // --- Interfaces ---
 
@@ -34,6 +35,31 @@ export interface Project {
   partnerName?: string;
   progress?: number;
   hasUnreadMessage?: boolean;
+  // 詳細データ用（job-post-spec.tsに基づく）
+  details?: ProjectDetails;
+}
+
+export interface ProjectDetails {
+  usagePurpose?: string[];
+  industry?: string[];
+  requestType?: 'proposal' | 'specified' | 'partner';
+  background?: string;
+  target?: string;
+  taste?: string[];
+  referenceUrls?: string[];
+  referenceFiles?: string[];
+  conditions?: string[];
+  deliveryFormat?: {
+    mode: 'consult' | 'specified';
+    values: string[];
+  };
+  publicity?: 'ok' | 'partial' | 'ng';
+  requirements?: string[];
+  deadlineDate?: {
+    type: 'date' | 'asap' | 'negotiable';
+    value?: string;
+  };
+  persona?: string;
 }
 
 // --- Mock Data ---
@@ -70,7 +96,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2026/03/05',
         applicants: 12,
         newApplicants: 3,
-        budget: '50,000 ~ 100,000円'
+        budget: '50,000 ~ 100,000円',
+        details: PROJECT_DETAILS[1]
       },
       {
         id: 2,
@@ -82,7 +109,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2026/02/28',
         applicants: 8,
         newApplicants: 0,
-        budget: '30,000 ~ 50,000円'
+        budget: '30,000 ~ 50,000円',
+        details: PROJECT_DETAILS[2]
       },
       {
         id: 3,
@@ -95,7 +123,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2026/02/25',
         progress: 60,
         budget: '100,000円',
-        hasUnreadMessage: true
+        hasUnreadMessage: true,
+        details: PROJECT_DETAILS[3]
       }
     ]
   },
@@ -122,7 +151,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2026/03/10',
         applicants: 15,
         newApplicants: 2,
-        budget: '500,000 ~ 1,000,000円'
+        budget: '500,000 ~ 1,000,000円',
+        details: PROJECT_DETAILS[101]
       },
       {
         id: 102,
@@ -134,7 +164,8 @@ export const MOCK_CLIENTS: User[] = [
         postedDate: '2026/01/20',
         deadline: '2026/02/28',
         progress: 80,
-        budget: '100,000 ~ 200,000円'
+        budget: '100,000 ~ 200,000円',
+        details: PROJECT_DETAILS[102]
       }
     ]
   },
@@ -162,7 +193,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2026/02/20',
         progress: 30,
         budget: '50,000 ~ 100,000円',
-        hasUnreadMessage: true
+        hasUnreadMessage: true,
+        details: PROJECT_DETAILS[201]
       }
     ]
   }

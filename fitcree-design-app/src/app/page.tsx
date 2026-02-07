@@ -18,7 +18,7 @@ export default function Home() {
 
           <div className="mt-12 w-full">
             <h2 className="mb-4 text-xl font-bold text-neutral-800">
-              クリエイター用ページ
+              クリエイターモード
             </h2>
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
@@ -26,12 +26,17 @@ export default function Home() {
                   クリエイター用トップページ : /creator
                 </Link>
               </li>
+              <li>
+                <Link className="link-blue" href="/projects/1">
+                  案件詳細ページサンプル : /projects/1
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div className="mt-12 w-full">
             <h2 className="mb-4 text-xl font-bold text-neutral-800">
-              クライアント用ページ
+              クライアントモード
             </h2>
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
