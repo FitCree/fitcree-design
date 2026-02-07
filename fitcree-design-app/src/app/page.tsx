@@ -91,6 +91,7 @@ export default function Home() {
             <h2 className="mb-4 text-xl font-semibold text-neutral-800">
               スタイルガイド
             </h2>
+            <p className="text-neutral-500 mt-2">スタイルガイドのページです。</p>
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/styleguide">
