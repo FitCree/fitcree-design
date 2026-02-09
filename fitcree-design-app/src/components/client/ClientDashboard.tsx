@@ -9,7 +9,8 @@ import {
   MessageSquare,
   Clock
 } from 'lucide-react';
-import { User, Project } from '@/data/mock-data';
+import { User, Project, PROJECT_STATUS_CONFIG } from '@/data/mock-data';
+import { REQUEST_CATEGORIES } from '@/../docs/specs/master-data';
 
 interface ClientDashboardProps {
   user: User;
@@ -21,9 +22,10 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
   // Stats for the tabs
   const tabConfig = [
     { label: 'すべて', id: 'all' as const },
-    { label: '募集中', id: 'recruiting' as const },
-    { label: '選定中', id: 'selection' as const },
-    { label: '進行中', id: 'in_progress' as const },
+    { label: PROJECT_STATUS_CONFIG.recruiting.label, id: 'recruiting' as const },
+    { label: PROJECT_STATUS_CONFIG.selection.label, id: 'selection' as const },
+    { label: PROJECT_STATUS_CONFIG.in_progress.label, id: 'in_progress' as const },
+    { label: PROJECT_STATUS_CONFIG.closed.label, id: 'closed' as const },
   ];
 
   // Separate Unread Messages Stat
@@ -35,7 +37,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
     : user.projects?.filter(p => p.status === activeTab);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-8">
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex items-center gap-4">
@@ -105,25 +107,24 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <ul className="space-y-4">
             {filteredProjects && filteredProjects.length > 0 ? (
               filteredProjects.map((project) => (
-                <div key={project.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:border-blue-300 transition-colors group">
+                <li key={project.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:border-blue-300 transition-colors group">
                   <Link href={`/client/${user.id}/project/${project.id}`} className="p-6 block">
-                    <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                      <div className="space-y-1">
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${project.status === 'recruiting' ? 'bg-blue-100 text-blue-700' :
-                            project.status === 'selection' ? 'bg-sky-100 text-sky-700' :
-                              'bg-green-100 text-green-700'
-                            }`}>
-                            {project.statusLabel}
-                          </span>
-                          <span className="text-sm text-neutral-700">{project.category}</span>
+                          <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
+                            {PROJECT_STATUS_CONFIG[project.status].label}
+                          </p>
                         </div>
-                        <h3 className="font-bold text-neutral-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                        <h3 className="font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
                           {project.title}
                         </h3>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-orange-50 text-neutral-700 px-3 py-0.5 rounded-full border border-orange-100 text-xs text-orange-500 font-bold">{REQUEST_CATEGORIES[project.categoryId]}</span>
+                        </div>
                       </div>
                       {project.status === 'in_progress' ? (
                         <div className="flex items-center gap-2">
@@ -140,11 +141,11 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                           )}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2">
+                        <p className="flex items-center gap-1">
                           <Clock size={14} className="text-neutral-700" />
-                          <p className="text-sm text-neutral-700">期限日</p>
-                          <p className="font-bold text-neutral-700 text-sm">{project.deadline}</p>
-                        </div>
+                          <span className="text-sm text-neutral-700 whitespace-nowrap">期限日</span>
+                          <span className="font-bold text-neutral-700 text-sm">{project.deadline}</span>
+                        </p>
                       )}
                     </div>
 
@@ -175,14 +176,14 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                       </p>
                     </div>
                   </Link>
-                </div>
+                </li>
               ))
             ) : (
               <div className="py-20 text-center bg-white rounded-2xl border border border-neutral-200">
                 <p className="text-neutral-500">条件に一致する案件はありません</p>
               </div>
             )}
-          </div>
+          </ul>
         </div>
 
         {/* Sidebar Actions */}

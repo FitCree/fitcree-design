@@ -4,7 +4,7 @@
  * type の種類: 'text', 'textarea', 'checkbox-grid', 'card-radio', 'radio-list', 'url-list', 'file'
  */
 
-import { REQUEST_CATEGORIES, INDUSTRIES, USAGE_PURPOSES } from './master-data';
+import { REQUEST_CATEGORIES, INDUSTRIES, USAGE_PURPOSES, BUDGET_RANGES } from './master-data';
 
 export const JOB_POST_STEPS = [
   {
@@ -12,11 +12,11 @@ export const JOB_POST_STEPS = [
     title: '基本情報',
     tips: "「用途」や「業界」、「依頼タイプ」を明確にすることで、得意分野の合うクリエイターからの応募が増え、ミスマッチが減少します。",
     fields: [
-      { 
-        id: 'title', 
-        label: '案件タイトル', 
-        type: 'text', 
-        required: true, 
+      {
+        id: 'title',
+        label: '案件タイトル',
+        type: 'text',
+        required: true,
         maxLength: 80,
         examples: [
           '【30代女性向け】新規オーガニックカフェのLPデザイン・コーディング依頼',
@@ -24,7 +24,7 @@ export const JOB_POST_STEPS = [
           '新規ブランド立ち上げに伴うロゴデザイン作成'
         ]
       },
-      { 
+      {
         id: 'category',
         label: '依頼分野',
         type: 'radio-list',
@@ -33,26 +33,27 @@ export const JOB_POST_STEPS = [
         options: REQUEST_CATEGORIES,
         cols: 3
       },
-      { 
-        id: 'usagePurpose', 
-        label: '作成物の用途', 
-        type: 'checkbox-grid', 
+      {
+        id: 'usagePurpose',
+        label: '作成物の用途',
+        type: 'checkbox-grid',
         required: true,
         description: '完成物の用途を選択してください（「依頼分野」に応じて選択肢が変わります）',
         categoryBasedOptions: USAGE_PURPOSES,
         dependsOn: 'category',
         cols: 2
       },
-      { 
-        id: 'industry', 
-        label: '作成物の業界', 
-        type: 'checkbox-grid', 
+      {
+        id: 'industry',
+        label: '作成物の業界',
+        type: 'checkbox-grid',
         required: true,
         description: '業界特有の知識やレギュレーション理解が必要な場合に、マッチング精度が高まります',
         options: INDUSTRIES,
         cols: 3
       },
-      { id: 'requestType',
+      {
+        id: 'requestType',
         label: '依頼タイプ',
         type: 'card-radio',
         required: true,
@@ -70,7 +71,7 @@ export const JOB_POST_STEPS = [
     title: '詳細',
     tips: "「背景・目的」を詳しく書いたり、イメージに近い参考資料を添付することで、クリエイターとの認識ズレを防ぎ、質の高い提案が集まりやすくなります。",
     fields: [
-      { 
+      {
         id: 'background',
         label: '依頼背景・目的',
         type: 'textarea',
@@ -89,10 +90,10 @@ export const JOB_POST_STEPS = [
     title: '条件・制約',
     tips: "NDA（秘密保持契約）や権利関係、インボイス対応など、契約前に確認しておきたい条件を明示することで、プロ意識の高いクリエイターと安心して取引できます。",
     fields: [
-      { 
-        id: 'conditions', 
-        label: '必須条件・制約', 
-        type: 'checkbox-grid', 
+      {
+        id: 'conditions',
+        label: '必須条件・制約',
+        type: 'checkbox-grid',
         cols: 2,
         options: [
           { id: 'nda', title: 'NDA（秘密保持契約）の締結必須', description: '未公開情報や個人情報を含む場合' },
@@ -102,10 +103,10 @@ export const JOB_POST_STEPS = [
           { id: 'onlineMeeting', title: 'オンライン会議（顔出し）可能', description: 'ビデオ通話での打ち合わせが必要な場合' }
         ]
       },
-      { 
-        id: 'deliveryFormat', 
-        label: '納品形式', 
-        type: 'conditional-checkbox-grid', 
+      {
+        id: 'deliveryFormat',
+        label: '納品形式',
+        type: 'conditional-checkbox-grid',
         required: true,
         defaultMode: 'consult',
         modeOptions: [
@@ -116,7 +117,7 @@ export const JOB_POST_STEPS = [
         options: ['JPG / PNG', 'AI / PSD', 'Figma / XD', 'HTML・CSS等ファイル', 'PDF / ドキュメント', 'Word / Excel', 'MP4 / MOV', 'その他・相談'],
         cols: 3
       },
-      { 
+      {
         id: 'publicity',
         label: '実績公開',
         type: 'radio',
@@ -146,10 +147,10 @@ export const JOB_POST_STEPS = [
     title: '予算・日程',
     tips: "余裕を持った納期設定や相場に見合った予算は、成果物の品質向上に直結します。迷う場合は「相談して決める」を選び、プロの意見を聞くのも有効です。",
     fields: [
-      { 
-        id: 'deadlineDate', 
-        label: '希望納期', 
-        type: 'conditional-date', 
+      {
+        id: 'deadlineDate',
+        label: '希望納期',
+        type: 'conditional-date',
         required: true,
         helpText: '※無理のないスケジュール設定をおすすめします',
         options: [
@@ -160,20 +161,12 @@ export const JOB_POST_STEPS = [
         defaultType: 'date',
         dateInputId: 'date' // 日付入力を表示する選択肢のID
       },
-      { 
+      {
         id: 'budgetRange',
         label: '予算レンジ',
         type: 'select',
         required: true,
-        options: [
-          '相談して決めたい',
-          '5,000円 〜 30,000円',
-          '30,000円 〜 100,000円',
-          '100,000円 〜 300,000円',
-          '300,000円 〜 500,000円',
-          '500,000円 〜 1,000,000円',
-          '1,000,000円以上'
-        ]
+        options: BUDGET_RANGES
       },
       {
         id: 'contractType',
@@ -190,7 +183,7 @@ export const JOB_POST_STEPS = [
     title: '人物像',
     tips: "スキルだけでなく、「連絡の頻度」や「フィードバックへの姿勢」など、あなたが重視する価値観やスタンスを書くと、長く付き合えるパートナーと出会いやすくなります。",
     fields: [
-      { 
+      {
         id: 'persona',
         label: 'どんなパートナーを求めていますか？',
         type: 'textarea',

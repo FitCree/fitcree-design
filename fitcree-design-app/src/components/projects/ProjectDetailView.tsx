@@ -29,6 +29,8 @@ import {
   Eye,
   ShieldCheck
 } from 'lucide-react';
+import { BUDGET_RANGES, REQUEST_CATEGORIES } from '../../../docs/specs/master-data';
+import { PROJECT_STATUS_CONFIG } from '@/data/mock-data';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -63,13 +65,24 @@ export default function ProjectDetailView({ project, client, isClientView = fals
       {/* Header Section */}
       <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
         <div className="flex flex-wrap items-center gap-4 mb-4">
-          <p className={`text-xs font-bold px-2 py-0.5 rounded tracking-wider ${project.status === 'recruiting' ? 'bg-blue-100 text-blue-700' :
-            project.status === 'selection' ? 'bg-sky-100 text-sky-700' :
-              'bg-green-100 text-green-700'
-            }`}>
-            {project.statusLabel}
+          <p className={`text-xs font-bold px-2 py-0.5 rounded tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
+            {PROJECT_STATUS_CONFIG[project.status].label}
           </p>
-          <p className="text-sm font-bold text-neutral-500">掲載日:{project.postedDate}</p>
+          <p className="flex items-center gap-1 whitespace-nowrap">
+            <span className="text-sm text-neutral-700">掲載日</span>
+            <span className="text-sm text-neutral-700">{project.postedDate}</span>
+          </p>
+          {project.status === 'in_progress' ? (
+            <p className="flex items-center gap-1 whitespace-nowrap">
+              <span className="text-sm text-neutral-700">受注開始日</span>
+              <span className="text-sm text-neutral-700">{project.startDate || '---'}</span>
+            </p>
+          ) : (
+            <p className="flex items-center gap-1 whitespace-nowrap">
+              <span className="text-sm text-neutral-700">期限日</span>
+              <span className="text-sm text-neutral-700">{project.deadline}</span>
+            </p>
+          )}
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 mb-6">
@@ -77,18 +90,20 @@ export default function ProjectDetailView({ project, client, isClientView = fals
         </h1>
 
         <div className="flex flex-wrap items-center gap-2 mb-8">
-          <span className="bg-orange-100 text-neutral-700 px-3 py-1 rounded-full border border-orange-200 text-xs text-orange-600 font-bold flex items-center gap-1">
-            <Tag size={12} />
-            {project.category}
-          </span>
+          {/* 依頼分野 */}
+          <p className="bg-orange-50 text-neutral-700 px-3 py-1 rounded-full border border-orange-200 text-xs text-orange-500 font-bold">
+            {REQUEST_CATEGORIES[project.categoryId]}
+          </p>
+          {/* 業種 */}
           {details.industry?.map((ind, i) => (
-            <span key={i} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 text-xs font-bold flex items-center gap-1">
+            <p key={i} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 text-xs font-bold flex items-center gap-1">
               <Building2 size={12} />
               {ind}
-            </span>
+            </p>
           ))}
+          {/* 依頼形式 */}
           {details.requestType && (
-            <span className="bg-purple-50 text-purple-700 px-3 py-1 rounded-full border border-purple-100 text-xs font-bold flex items-center gap-1">
+            <p className="bg-purple-50 text-purple-700 px-3 py-1 rounded-full border border-purple-100 text-xs font-bold flex items-center gap-1">
               {details.requestType === 'proposal' ? <Lightbulb size={12} /> :
                 details.requestType === 'specified' ? <Target size={12} /> :
                   <Handshake size={12} />
@@ -96,7 +111,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
               {details.requestType === 'proposal' ? '提案型' :
                 details.requestType === 'specified' ? '指定型' :
                   '伴走型'}
-            </span>
+            </p>
           )}
         </div>
 
@@ -107,7 +122,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
             </div>
             <p>
               <span className="block text-xs text-neutral-500 font-bold">予算レンジ</span>
-              <span className="block font-bold text-neutral-900 text-lg">{project.budget}</span>
+              <span className="block font-bold text-neutral-900 text-lg">{BUDGET_RANGES[project.budgetRangeId]}</span>
             </p>
           </div>
 

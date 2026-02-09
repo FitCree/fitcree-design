@@ -1,4 +1,5 @@
 import { LucideIcon, Briefcase, Users, Clock, MessageSquare } from 'lucide-react';
+import { BUDGET_RANGES, REQUEST_CATEGORIES } from '../../docs/specs/master-data';
 import { PROJECT_DETAILS } from './mock-projects';
 
 // --- Interfaces ---
@@ -24,14 +25,15 @@ export interface StatItem {
 export interface Project {
   id: number;
   title: string;
-  status: 'recruiting' | 'selection' | 'in_progress' | 'completed';
+  status: 'recruiting' | 'selection' | 'in_progress' | 'completed' | 'closed';
   statusLabel: string;
-  category: string;
+  categoryId: number;
   postedDate: string;
   deadline: string;
+  startDate?: string;
   applicants?: number;
   newApplicants?: number;
-  budget: string;
+  budgetRangeId: number;
   partnerName?: string;
   progress?: number;
   hasUnreadMessage?: boolean;
@@ -62,13 +64,24 @@ export interface ProjectDetails {
   persona?: string;
 }
 
+export type ProjectStatus = Project['status'];
+
+export const PROJECT_STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string; bg: string; icon: LucideIcon }> = {
+  recruiting: { label: '募集中', color: 'text-blue-700', bg: 'bg-blue-100', icon: Briefcase },
+  selection: { label: '選定中', color: 'text-sky-700', bg: 'bg-sky-100', icon: Users },
+  in_progress: { label: '進行中', color: 'text-green-700', bg: 'bg-green-100', icon: Clock },
+  completed: { label: '完了', color: 'text-green-700', bg: 'bg-green-100', icon: Clock },
+  closed: { label: '終了', color: 'text-neutral-600', bg: 'bg-neutral-100', icon: MessageSquare },
+};
+
 // --- Mock Data ---
 
 // Common Stats Templates
-const CLIENT_STATS_TEMPLATE: Omit<StatItem, 'value'>[] = [
-  { label: '募集中', icon: Briefcase, color: 'text-blue-600', bg: 'bg-blue-50' },
-  { label: '選定中', icon: Users, color: 'text-sky-600', bg: 'bg-sky-50' },
-  { label: '進行中', icon: Clock, color: 'text-green-600', bg: 'bg-green-50' },
+export const CLIENT_STATS_TEMPLATE: Omit<StatItem, 'value'>[] = [
+  { ...PROJECT_STATUS_CONFIG.recruiting, color: 'text-blue-600', bg: 'bg-blue-50' },
+  { ...PROJECT_STATUS_CONFIG.selection, color: 'text-sky-600', bg: 'bg-sky-50' },
+  { ...PROJECT_STATUS_CONFIG.in_progress, color: 'text-green-600', bg: 'bg-green-50' },
+  { ...PROJECT_STATUS_CONFIG.closed, color: 'text-neutral-500', bg: 'bg-neutral-50' },
   { label: '未読メッセージ', icon: MessageSquare, color: 'text-red-500', bg: 'bg-red-50' },
 ];
 
@@ -87,44 +100,70 @@ export const MOCK_CLIENTS: User[] = [
     ],
     projects: [
       {
-        id: 1,
-        title: '【急募】新規オーガニックカフェのロゴデザイン・ショップカード制作',
+        id: 101,
+        title: '【項目全部入力パターン】新規オーガニックカフェのロゴデザイン・ショップカード制作',
         status: 'recruiting',
         statusLabel: CLIENT_STATS_TEMPLATE[0].label,
-        category: 'デザイン',
+        categoryId: 2, // グラフィック
         postedDate: '2026/02/20',
         deadline: '2026/03/05',
         applicants: 12,
         newApplicants: 3,
-        budget: '50,000 ~ 100,000円',
-        details: PROJECT_DETAILS[1]
+        budgetRangeId: 2, // 30,000 ~ 100,000円
+        details: PROJECT_DETAILS[101]
       },
       {
-        id: 2,
+        id: 102,
+        title: '【項目必須のみパターン】シンプルWebバナー制作の依頼',
+        status: 'recruiting',
+        statusLabel: CLIENT_STATS_TEMPLATE[0].label,
+        categoryId: 2, // グラフィック
+        postedDate: '2026/02/09',
+        deadline: '2026/02/25',
+        applicants: 0,
+        newApplicants: 0,
+        budgetRangeId: 2, // 30,000 ~ 100,000円
+        details: PROJECT_DETAILS[102]
+      },
+      {
+        id: 103,
         title: '自社ECサイトの商品撮影（アパレル・小物）',
         status: 'selection',
         statusLabel: CLIENT_STATS_TEMPLATE[1].label,
-        category: '写真撮影',
+        categoryId: 3, // 写真
         postedDate: '2026/02/15',
         deadline: '2026/02/28',
         applicants: 8,
         newApplicants: 0,
-        budget: '30,000 ~ 50,000円',
-        details: PROJECT_DETAILS[2]
+        budgetRangeId: 2, // 30,000 ~ 100,000円
+        details: PROJECT_DETAILS[103]
       },
       {
-        id: 3,
+        id: 104,
         title: '採用LPのライティング・インタビュー取材',
         status: 'in_progress',
         statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: '佐藤 ライター',
-        category: 'ライティング',
+        categoryId: 5, // ライティング・編集
         postedDate: '2026/01/10',
         deadline: '2026/02/25',
+        startDate: '2026/01/15',
         progress: 60,
-        budget: '100,000円',
+        budgetRangeId: 3, // 100,000 ~ 300,000円
         hasUnreadMessage: true,
-        details: PROJECT_DETAILS[3]
+        details: PROJECT_DETAILS[104]
+      },
+      {
+        id: 105,
+        title: '【終了パターン】市民健康フェスティバルの告知ポスター制作',
+        status: 'closed',
+        statusLabel: CLIENT_STATS_TEMPLATE[3].label,
+        categoryId: 2, // グラフィック
+        postedDate: '2025/11/10',
+        deadline: '2025/12/15',
+        startDate: '2025/11/20',
+        budgetRangeId: 2, // 30,000 ~ 100,000円
+        details: PROJECT_DETAILS[105]
       }
     ]
   },
@@ -142,30 +181,31 @@ export const MOCK_CLIENTS: User[] = [
     ],
     projects: [
       {
-        id: 101,
+        id: 201,
         title: 'コーポレートサイトのリニューアル（要件定義〜実装）',
         status: 'selection',
         statusLabel: CLIENT_STATS_TEMPLATE[1].label,
-        category: 'Web開発',
+        categoryId: 0, // Webサイト
         postedDate: '2026/02/10',
         deadline: '2026/03/10',
         applicants: 15,
         newApplicants: 2,
-        budget: '500,000 ~ 1,000,000円',
-        details: PROJECT_DETAILS[101]
+        budgetRangeId: 5, // 500,000 ~ 1,000,000円
+        details: PROJECT_DETAILS[201]
       },
       {
-        id: 102,
+        id: 202,
         title: '新卒採用向けパンフレットのデザイン',
         status: 'in_progress',
         statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: '山田 クリエイター',
-        category: 'デザイン',
+        categoryId: 2, // グラフィック
         postedDate: '2026/01/20',
         deadline: '2026/02/28',
+        startDate: '2026/01/25',
         progress: 80,
-        budget: '100,000 ~ 200,000円',
-        details: PROJECT_DETAILS[102]
+        budgetRangeId: 3, // 100,000 ~ 300,000円
+        details: PROJECT_DETAILS[202]
       }
     ]
   },
@@ -183,18 +223,19 @@ export const MOCK_CLIENTS: User[] = [
     ],
     projects: [
       {
-        id: 201,
+        id: 301,
         title: '海外向け製品カタログの翻訳（日→英）',
         status: 'in_progress',
         statusLabel: CLIENT_STATS_TEMPLATE[2].label,
         partnerName: 'John Translator',
-        category: '翻訳',
+        categoryId: 9, // その他
         postedDate: '2026/01/15',
         deadline: '2026/02/20',
+        startDate: '2026/01/20',
         progress: 30,
-        budget: '50,000 ~ 100,000円',
+        budgetRangeId: 2, // 50,000 ~ 100,000円
         hasUnreadMessage: true,
-        details: PROJECT_DETAILS[201]
+        details: PROJECT_DETAILS[301]
       }
     ]
   }

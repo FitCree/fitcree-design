@@ -27,8 +27,8 @@ export default function Home() {
                 </Link>
               </li>
               <li>
-                <Link className="link-blue" href="/projects/1">
-                  案件詳細ページサンプル : /projects/1
+                <Link className="link-blue" href="/projects/101">
+                  案件詳細ページサンプル : /projects/101
                 </Link>
               </li>
             </ul>
