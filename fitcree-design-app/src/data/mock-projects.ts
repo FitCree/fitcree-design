@@ -9,6 +9,7 @@ export const PROJECT_DETAILS: Record<number, ProjectDetails> = {
         target: '20代〜40代の健康志向の高い女性、近隣のオフィスワーカー',
         taste: ['ナチュラル', 'ミニマル', 'オーガニック', '洗練'],
         referenceUrls: ['https://example.com/cafe-ref1', 'https://example.com/branding-ref2'],
+        referenceFiles: ['ブランドガイドライン.pdf', 'ムードボード作成資料.zip'],
         conditions: ['nda', 'copyrightTransfer'],
         deliveryFormat: {
             mode: 'specified',

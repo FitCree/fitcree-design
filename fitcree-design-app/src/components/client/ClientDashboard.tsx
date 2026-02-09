@@ -47,7 +47,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
         </div>
         <Link
           href="/client/post-job"
-          className="inline-flex items-center justify-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition-all shadow-md hover:shadow-lg active:scale-95 gap-2"
+          className="inline-flex items-center justify-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition-all active:scale-95 gap-2"
         >
           <Plus size={18} />
           新規案件を作成する
