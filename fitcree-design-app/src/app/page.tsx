@@ -23,12 +23,12 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/creator">
-                  クリエイター用トップページ : /creator
+                  クリエイター用トップページ
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/projects/101">
-                  案件詳細ページサンプル : /projects/101
+                  案件詳細ページサンプル
                 </Link>
               </li>
             </ul>
@@ -41,39 +41,39 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/client">
-                  クライアントトップページ サンプル : /client
+                  クライアントトップページ サンプル
                 </Link>
                 <ul className="mt-2 flex flex-col gap-3 list-disc pl-5 text-neutral-800">
                   <li>
                     <Link className="link-blue" href="/client/client-1">
-                      クライアントユーザー 1 : /client/client-1
+                      クライアントユーザー 1
                     </Link>
                   </li>
                   <li>
                     <Link className="link-blue" href="/client/client-2">
-                      クライアントユーザー 2 : /client/client-2
+                      クライアントユーザー 2
                     </Link>
                   </li>
                   <li>
                     <Link className="link-blue" href="/client/client-3">
-                      クライアントユーザー 3 : /client/client-3
+                      クライアントユーザー 3
                     </Link>
                   </li>
                 </ul>
               </li>
               <li>
                 <Link className="link-blue" href="/client/post-job">
-                  案件投稿フォーム : /client/post-job
+                  案件投稿フォーム
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/client/post-job/specs">
-                  案件投稿フォーム 仕様書 (表) : /client/post-job/specs
+                  案件投稿フォーム 仕様書 (表)
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/client/post-job/preview">
-                  案件投稿フォーム プレビュー : /client/post-job/preview
+                  案件投稿フォーム プレビュー
                 </Link>
               </li>
             </ul>
@@ -86,7 +86,7 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/search/creators">
-                  クリエイター検索 (作成中) : /search/creators
+                  クリエイター検索 (作成中)
                 </Link>
               </li>
             </ul>
@@ -96,26 +96,25 @@ export default function Home() {
             <h2 className="mb-4 text-xl font-semibold text-neutral-800">
               スタイルガイド
             </h2>
-            <p className="text-neutral-500 mt-2">スタイルガイドのページです。</p>
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/styleguide">
-                  スタイルガイド : /styleguide
+                  スタイルガイド
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/styleguide/form">
-                  フォーム : /styleguide/form
+                  フォーム
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/styleguide/form/elements">
-                  フォーム要素 : /styleguide/form/elements
+                  フォーム要素
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/styleguide/form/layout">
-                  フォームレイアウト : /styleguide/form/layout
+                  フォームレイアウト
                 </Link>
               </li>
             </ul>

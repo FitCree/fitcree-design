@@ -114,19 +114,31 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                   <Link href={`/client/${user.id}/project/${project.id}`} className="p-6 block">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
-                            {PROJECT_STATUS_CONFIG[project.status].label}
+                        <div className='flex items-center gap-4'>
+                          {/* ステータス */}
+                          <div className="flex items-center gap-2">
+                            <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
+                              {PROJECT_STATUS_CONFIG[project.status].label}
+                            </p>
+                          </div>
+                          {/* 期限日 */}
+                          <p className="flex items-center gap-1 text-sm text-neutral-700">
+                            <Clock size={14} aria-hidden="true" />
+                            <span>期限日</span>
+                            <time dateTime={project.deadline} className="font-bold text-neutral-700 text-sm">{project.deadline}</time>
                           </p>
                         </div>
+                        {/* 案件タイトル */}
                         <h3 className="font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
                           {project.title}
                         </h3>
-                        <div className="flex items-center gap-2">
+                        {/* カテゴリ */}
+                        <p className="flex items-center gap-2">
                           <span className="bg-orange-50 text-neutral-700 px-3 py-0.5 rounded-full border border-orange-100 text-xs text-orange-500 font-bold">{REQUEST_CATEGORIES[project.categoryId]}</span>
-                        </div>
+                        </p>
                       </div>
-                      {project.status === 'in_progress' ? (
+                      {/* 未読メッセージ */}
+                      {project.status === 'in_progress' && (
                         <div className="flex items-center gap-2">
                           {project.hasUnreadMessage ? (
                             <div className="flex items-center gap-1 bg-red-50 text-red-600 px-2 py-1 rounded-lg text-xs font-bold animate-pulse">
@@ -140,12 +152,6 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                             </div>
                           )}
                         </div>
-                      ) : (
-                        <p className="flex items-center gap-1">
-                          <Clock size={14} className="text-neutral-700" />
-                          <span className="text-sm text-neutral-700 whitespace-nowrap">期限日</span>
-                          <span className="font-bold text-neutral-700 text-sm">{project.deadline}</span>
-                        </p>
                       )}
                     </div>
 
