@@ -61,7 +61,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
   );
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-10">
       {/* Header Section */}
       <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
         <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -305,11 +305,15 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                     <h3 className="font-bold text-neutral-900 mb-3 text-base">添付ファイル</h3>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {details.referenceFiles.map((file, i) => (
-                        <li key={i} className="flex items-center gap-3 p-3 rounded-lg border border-neutral-200 bg-neutral-50">
-                          <div className="bg-white p-2 rounded border border-neutral-200 text-neutral-400">
-                            <Paperclip size={18} />
-                          </div>
-                          <span className="text-sm font-bold text-neutral-800 truncate">{file}</span>
+                        <li key={i}>
+                          <button className="w-full block">
+                            <div className="flex items-center gap-3 p-3 rounded-lg border border-neutral-200 bg-neutral-50">
+                              <div className="bg-white p-2 rounded border border-neutral-200 text-neutral-400">
+                                <Paperclip size={18} />
+                              </div>
+                              <span className="text-sm font-bold text-neutral-800 truncate">{file}</span>
+                            </div>
+                          </button>
                         </li>
                       ))}
                     </ul>
@@ -374,33 +378,77 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                 </div>
               )}
 
-              <div>
-                <h2 className="font-bold text-neutral-900 mb-4">依頼者情報</h2>
-                <div className="flex items-center gap-4 mb-4">
-                  <img src={client.avatarUrl} alt="" className="w-14 h-14 rounded-full border border-neutral-100" />
-                  <div>
-                    <h3 className="font-bold text-neutral-900">{client.name}</h3>
-                    <p className="text-sm text-neutral-800">{client.company}</p>
+              {!isClientView && (
+                <div>
+                  <h2 className="font-bold text-neutral-900 mb-4">依頼者情報</h2>
+                  <div className="flex items-center gap-4 mb-4">
+                    <img src={client.avatarUrl} alt="" className="w-14 h-14 rounded-full border border-neutral-100" />
+                    <div>
+                      <h3 className="font-bold text-neutral-900">{client.name}</h3>
+                      <p className="text-sm text-neutral-800">{client.company}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                    <p className="flex justify-between text-sm">
+                      <span className="text-neutral-800">本人確認</span>
+                      <span className="text-green-500 font-bold flex items-center gap-1">
+                        <CheckCircle2 size={14} /> 済
+                      </span>
+                    </p>
                   </div>
                 </div>
+              )}
 
-                <div className="space-y-4 mb-8">
-                  <p className="flex justify-between text-sm">
-                    <span className="text-neutral-800">本人確認</span>
-                    <span className="text-green-500 font-bold flex items-center gap-1">
-                      <CheckCircle2 size={14} /> 済
-                    </span>
-                  </p>
-                  {/* <p className="flex justify-between text-sm">
-                    <span className="text-neutral-800">プロジェクト完了率</span>
-                    <span className="text-neutral-900 font-bold">90%</span>
-                  </p> */}
-                </div>
-              </div>
+              {/* クリエイターリスト表示 */}
+              {(() => {
+                const isRecruiting = project.status === 'recruiting';
+                const showApplicants = ['recruiting', 'selection'].includes(project.status);
+                const showAssigned = ['in_progress', 'completed', 'closed'].includes(project.status);
+                const creators = (showApplicants ? project.applicantUsers : showAssigned ? project.assignedUsers : []) || [];
+                const title = showApplicants ? '応募中のクリエイター' : '担当クリエイター';
+
+                // 募集中、またはクリエイターが存在する場合のみ表示
+                if (creators.length === 0 && !isRecruiting) return null;
+
+                return (
+                  <div className="">
+                    <h2 className="font-bold text-neutral-900 mb-4 px-1">{title}</h2>
+                    {creators.length > 0 ? (
+                      <div className="space-y-3">
+                        {creators.map((creator) => (
+                          <div key={creator.id} className="flex items-center gap-3 p-2 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 transition-colors cursor-pointer group">
+                            <img src={creator.avatarUrl} alt="" className="w-10 h-10 rounded-full border border-neutral-100" />
+                            <div className="flex-1 min-w-0">
+                              <p className="font-bold text-neutral-900 text-sm truncate">{creator.name}</p>
+                              {creator.company && <p className="text-xs text-neutral-500 truncate">{creator.company}</p>}
+                            </div>
+                            <ChevronRight size={16} className="text-neutral-400 group-hover:text-neutral-600 transition-colors" />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="bg-neutral-50 border border-dashed border-neutral-200 rounded-xl p-6 text-center">
+                        <Users size={24} className="mx-auto text-neutral-300 mb-2" />
+                        <p className="text-sm text-neutral-500 leading-relaxed">
+                          本案件にはまだ応募してきた<br />クリエイターがいません
+                        </p>
+                      </div>
+                    )}
+
+                    {showApplicants && isClientView && creators.length > 0 && (
+                      <button className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 group">
+                        <span>クリエイター選定へ進む</span>
+                        <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

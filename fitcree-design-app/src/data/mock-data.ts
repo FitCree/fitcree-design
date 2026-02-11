@@ -37,6 +37,8 @@ export interface Project {
   partnerName?: string;
   progress?: number;
   hasUnreadMessage?: boolean;
+  applicantUsers?: User[];
+  assignedUsers?: User[];
   // 詳細データ用（job-post-spec.tsに基づく）
   details?: ProjectDetails;
 }
@@ -85,6 +87,27 @@ export const CLIENT_STATS_TEMPLATE: Omit<StatItem, 'value'>[] = [
   { label: '未読メッセージ', icon: MessageSquare, color: 'text-red-500', bg: 'bg-red-50' },
 ];
 
+export const MOCK_CREATORS: User[] = [
+  {
+    id: 'creator-1',
+    name: '山田 イラストマン',
+    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jack',
+    mode: 'creator',
+  },
+  {
+    id: 'creator-2',
+    name: '佐藤 デザイン',
+    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Molly',
+    mode: 'creator',
+  },
+  {
+    id: 'creator-3',
+    name: '高橋 ライター',
+    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Simba',
+    mode: 'creator',
+  }
+];
+
 export const MOCK_CLIENTS: User[] = [
   {
     id: 'client-1',
@@ -110,7 +133,8 @@ export const MOCK_CLIENTS: User[] = [
         applicants: 12,
         newApplicants: 3,
         budgetRangeId: 2, // 30,000 ~ 100,000円
-        details: PROJECT_DETAILS[101]
+        details: PROJECT_DETAILS[101],
+        applicantUsers: [MOCK_CREATORS[0], MOCK_CREATORS[1]]
       },
       {
         id: 102,
@@ -136,7 +160,8 @@ export const MOCK_CLIENTS: User[] = [
         applicants: 8,
         newApplicants: 0,
         budgetRangeId: 2, // 30,000 ~ 100,000円
-        details: PROJECT_DETAILS[103]
+        details: PROJECT_DETAILS[103],
+        applicantUsers: [MOCK_CREATORS[1], MOCK_CREATORS[2]]
       },
       {
         id: 104,
@@ -151,7 +176,8 @@ export const MOCK_CLIENTS: User[] = [
         progress: 60,
         budgetRangeId: 3, // 100,000 ~ 300,000円
         hasUnreadMessage: true,
-        details: PROJECT_DETAILS[104]
+        details: PROJECT_DETAILS[104],
+        assignedUsers: [MOCK_CREATORS[2]]
       },
       {
         id: 105,
@@ -163,7 +189,8 @@ export const MOCK_CLIENTS: User[] = [
         deadline: '2025/12/15',
         startDate: '2025/11/20',
         budgetRangeId: 2, // 30,000 ~ 100,000円
-        details: PROJECT_DETAILS[105]
+        details: PROJECT_DETAILS[105],
+        assignedUsers: [MOCK_CREATORS[0]]
       }
     ]
   },
@@ -191,7 +218,8 @@ export const MOCK_CLIENTS: User[] = [
         applicants: 15,
         newApplicants: 2,
         budgetRangeId: 5, // 500,000 ~ 1,000,000円
-        details: PROJECT_DETAILS[201]
+        details: PROJECT_DETAILS[201],
+        applicantUsers: [MOCK_CREATORS[0], MOCK_CREATORS[1], MOCK_CREATORS[2]]
       },
       {
         id: 202,
@@ -205,7 +233,8 @@ export const MOCK_CLIENTS: User[] = [
         startDate: '2026/01/25',
         progress: 80,
         budgetRangeId: 3, // 100,000 ~ 300,000円
-        details: PROJECT_DETAILS[202]
+        details: PROJECT_DETAILS[202],
+        assignedUsers: [MOCK_CREATORS[0]]
       }
     ]
   },
@@ -238,27 +267,6 @@ export const MOCK_CLIENTS: User[] = [
         details: PROJECT_DETAILS[301]
       }
     ]
-  }
-];
-
-export const MOCK_CREATORS: User[] = [
-  {
-    id: 'creator-1',
-    name: '山田 イラストマン',
-    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jack',
-    mode: 'creator',
-  },
-  {
-    id: 'creator-2',
-    name: '佐藤 デザイン',
-    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Molly',
-    mode: 'creator',
-  },
-  {
-    id: 'creator-3',
-    name: '高橋 ライター',
-    avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Simba',
-    mode: 'creator',
   }
 ];
 
