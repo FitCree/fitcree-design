@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Project, User } from '@/data/mock-data';
 import {
   Calendar,
@@ -29,7 +30,7 @@ import {
   Eye,
   ShieldCheck
 } from 'lucide-react';
-import { BUDGET_RANGES, REQUEST_CATEGORIES } from '../../../docs/specs/master-data';
+import { BUDGET_RANGES, REQUEST_CATEGORIES } from '@/data/master-data';
 import { PROJECT_STATUS_CONFIG } from '@/data/mock-data';
 
 interface ProjectDetailViewProps {
@@ -39,6 +40,7 @@ interface ProjectDetailViewProps {
 }
 
 export default function ProjectDetailView({ project, client, isClientView = false }: ProjectDetailViewProps) {
+  const router = useRouter();
   const details = project.details;
 
   if (!details) {
@@ -335,7 +337,10 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
           {!isClientView && (
             <div className="mt-12 flex justify-center">
-              <button className="w-full max-w-xs px-8 bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2">
+              <button
+                onClick={() => router.push(`/creator/jobs/${project.id}/apply`)}
+                className="w-full max-w-xs px-8 bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2"
+              >
                 <Mail size={18} />
                 この案件に応募する
               </button>
@@ -350,7 +355,10 @@ export default function ProjectDetailView({ project, client, isClientView = fals
             <div>
               {!isClientView && (
                 <div className="mb-10">
-                  <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => router.push(`/creator/jobs/${project.id}/apply`)}
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2"
+                  >
                     <Mail size={18} />
                     この案件に応募する
                   </button>

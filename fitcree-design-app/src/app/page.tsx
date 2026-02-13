@@ -28,7 +28,12 @@ export default function Home() {
               </li>
               <li>
                 <Link className="link-blue" href="/creator/search">
-                  案件検索ページ
+                  案件検索一覧
+                </Link>
+              </li>
+              <li>
+                <Link className="link-blue" href="/creator/jobs/101/apply">
+                  案件応募フォーム
                 </Link>
               </li>
             </ul>

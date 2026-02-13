@@ -1,5 +1,5 @@
 import { LucideIcon, Briefcase, Users, Clock, MessageSquare } from 'lucide-react';
-import { BUDGET_RANGES, REQUEST_CATEGORIES } from '../../docs/specs/master-data';
+import { BUDGET_RANGES, REQUEST_CATEGORIES } from './master-data';
 import { PROJECT_DETAILS } from './mock-projects';
 
 // --- Interfaces ---

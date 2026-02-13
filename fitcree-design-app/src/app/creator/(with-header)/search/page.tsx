@@ -17,7 +17,7 @@ import {
   Users
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { INDUSTRIES, REQUEST_CATEGORIES } from '../../../../docs/specs/master-data';
+import { INDUSTRIES, REQUEST_CATEGORIES } from '@/data/master-data';
 import { MOCK_CLIENTS } from '@/data/mock-data';
 
 // --- Types & Adapters ---

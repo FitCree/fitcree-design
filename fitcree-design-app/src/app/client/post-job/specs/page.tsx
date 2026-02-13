@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { JOB_POST_STEPS } from '../../../../../docs/specs/job-post-spec';
-import { USAGE_PURPOSES } from '../../../../../docs/specs/master-data';
+import { USAGE_PURPOSES } from '@/data/master-data';
 
 export default function JobPostSpecPage() {
   const renderOptions = (field: any) => {

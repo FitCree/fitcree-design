@@ -10,7 +10,7 @@ import {
   Clock
 } from 'lucide-react';
 import { User, Project, PROJECT_STATUS_CONFIG } from '@/data/mock-data';
-import { REQUEST_CATEGORIES } from '@/../docs/specs/master-data';
+import { REQUEST_CATEGORIES } from '@/data/master-data';
 
 interface ClientDashboardProps {
   user: User;
