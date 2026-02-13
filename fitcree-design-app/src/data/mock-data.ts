@@ -210,7 +210,7 @@ export const MOCK_CLIENTS: User[] = [
       {
         id: 201,
         title: 'コーポレートサイトのリニューアル（要件定義〜実装）',
-        status: 'selection',
+        status: 'recruiting',
         statusLabel: CLIENT_STATS_TEMPLATE[1].label,
         categoryId: 0, // Webサイト
         postedDate: '2026/02/10',
