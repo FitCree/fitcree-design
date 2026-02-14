@@ -28,11 +28,11 @@ export default function HeaderGuest() {
       </nav>
 
       {/* Center: Navigation (Desktop) */}
-      <nav className="hidden md:flex items-center gap-4">
+      <nav className="hidden md:flex items-center gap-8">
         <Link href="#" className="text-sm font-bold text-neutral-600 hover:text-orange-600 transition-colors">
           クリエイターを探す
         </Link>
-        <Link href="#" className="text-sm font-bold text-neutral-600 hover:text-orange-600 transition-colors">
+        <Link href="/creator/search" className="text-sm font-bold text-neutral-600 hover:text-orange-600 transition-colors">
           案件を探す
         </Link>
       </nav>

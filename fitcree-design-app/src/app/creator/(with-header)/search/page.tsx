@@ -362,9 +362,9 @@ export default function SearchPage() {
             ))
           )}
 
-          <button className="w-full py-4 text-neutral-500 font-bold hover:bg-white hover rounded-xl transition-all border border-dashed border-neutral-300">
+          {/* <button className="w-full py-4 text-neutral-500 font-bold hover:bg-white hover rounded-xl transition-all border border-dashed border-neutral-300">
             さらに読み込む
-          </button>
+          </button> */}
         </section>
 
       </div >
