@@ -82,11 +82,11 @@ export default function HeaderCreator() {
 
       {/* Center: Navigation (Hidden on mobile) */}
       <div className="hidden lg:flex items-center gap-6">
-        <button onClick={() => alert("このページは作成中です")} className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
+        <Link href="/creator/search" className="flex items-center text-sm text-gray-600 font-bold hover:text-orange-600 transition-colors">
           <Search size={16} className="text-orange-500 mr-2" />
           案件を探す
-        </button>
-        <button className="flex items-center text-sm text-gray-600 font-bold hover:text-blue-600 transition-colors">
+        </Link>
+        <button onClick={() => alert("このページは作成中です")} className="flex items-center text-sm text-gray-600 font-bold hover:text-orange-600 transition-colors">
           <Plus size={16} className="text-orange-500 mr-2" />
           作品を追加
         </button>

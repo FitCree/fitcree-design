@@ -367,9 +367,17 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
               {/* Links for Creators (only if not client view) */}
               {!isClientView && (
-                <div className="border-b border-neutral-300 mb-6 pb-6">
+                <div className="mb-10">
                   <h2 className="font-bold text-neutral-900 mb-4 px-1">依頼を保存</h2>
-                  <div className="grid grid-cols-2 gap-2">
+
+                  <button
+                    onClick={() => alert('リンクをコピーしました')}
+                    className="bg-white w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-neutral-200 text-sm font-bold text-neutral-600 hover:bg-neutral-50 transition-colors"
+                  >
+                    <Link2 size={16} /> リンクコピー
+                  </button>
+
+                  {/* <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => alert('リンクをコピーしました')}
                       className="bg-white flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-neutral-200 text-sm font-bold text-neutral-600 hover:bg-neutral-50 transition-colors"
@@ -382,12 +390,12 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                     >
                       <Heart size={16} /> 保存
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               )}
 
               {!isClientView && (
-                <div>
+                <div className="mb-10">
                   <h2 className="font-bold text-neutral-900 mb-4">依頼者情報</h2>
                   <div className="flex items-center gap-4 mb-4">
                     <img src={client.avatarUrl} alt="" className="w-14 h-14 rounded-full border border-neutral-100" />
@@ -397,14 +405,14 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                     </div>
                   </div>
 
-                  <div className="space-y-4 mb-8">
+                  {/* <div className="space-y-4 mb-8">
                     <p className="flex justify-between text-sm">
                       <span className="text-neutral-800">本人確認</span>
                       <span className="text-green-500 font-bold flex items-center gap-1">
                         <CheckCircle2 size={14} /> 済
                       </span>
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               )}
 

@@ -11,6 +11,7 @@ import {
   Lightbulb,
   Target,
   Handshake,
+  Link,
   Timer,
   Eye,
   HelpCircle,
@@ -168,7 +169,7 @@ export default function SearchPage() {
         <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
           <h1 className="text-2xl font-bold text-neutral-900 mb-6">仕事を探す</h1>
 
-          <div className="relative">
+          {/* <div className="relative">
             <button
               onClick={() => setSortOpen(!sortOpen)}
               className="w-full flex items-center justify-between bg-white border border-neutral-200 rounded-lg px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
@@ -193,7 +194,7 @@ export default function SearchPage() {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
           <div className="hidden md:block">
             <h2 className="text-sm font-bold text-neutral-700 uppercase tracking-wider mb-3">業種フィルタ</h2>
@@ -212,7 +213,7 @@ export default function SearchPage() {
             </div>
           </div>
 
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-8 hidden md:block">
+          {/* <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-8 hidden md:block">
             <div className="flex items-start gap-3">
               <div className="text-orange-500 mt-0.5"><HelpCircle size={18} /></div>
               <p className="font-bold text-neutral-600 text-sm mb-3">ポートフォリオを作り込むほどマッチ度が高くなります！</p>
@@ -220,7 +221,7 @@ export default function SearchPage() {
             <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition-all transform active:scale-95 text-sm">
               ポートフォリオを作り込む
             </button>
-          </div>
+          </div> */}
 
         </aside>
 
@@ -235,7 +236,7 @@ export default function SearchPage() {
               <div
                 key={job.id}
                 onClick={() => handleCardClick(job.id)}
-                className="bg-white rounded-2xl border border-neutral-100 hover:border-orange-200 transition-all p-6 group cursor-pointer"
+                className="bg-white rounded-2xl border border-neutral-200 hover:border-orange-200 transition-all p-6 group cursor-pointer"
               >
                 <div className="md:flex justify-between gap-4">
                   <div>
@@ -250,9 +251,9 @@ export default function SearchPage() {
                       <div>
                         <div className="flex items-center gap-1">
                           <span className="font-bold text-neutral-900">{job.client.name}</span>
-                          {job.client.verified && (
+                          {/* {job.client.verified && (
                             <CheckCircle2 className="w-4 h-4 text-blue-500 fill-blue-500 text-white" />
-                          )}
+                          )} */}
                         </div>
                         <p className="flex items-center gap-2 text-xs text-neutral-500">
                           <span>{job.client.company}</span>
@@ -297,7 +298,7 @@ export default function SearchPage() {
                   </div>
 
                   {/* マッチ度と希望納期の表示 */}
-                  <div className="flex flex-col gap-2 md:items-end">
+                  {/* <div className="flex flex-col gap-2 md:items-end">
                     <div className="flex md:flex-col items-center justify-center bg-orange-50 border border-orange-100 rounded-lg p-2 gap-2 md:gap-0 md:min-w-[100px]">
                       <span className="text-sm md:text-xs text-orange-600 font-bold">マッチ度</span>
                       <span className="text-lg md:text-lg font-bold text-orange-600">{job.matchRate}%</span>
@@ -314,7 +315,7 @@ export default function SearchPage() {
                         {job.location}
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
                 </div>
 
@@ -323,12 +324,20 @@ export default function SearchPage() {
                 <div className="pt-4 border-t border-neutral-100 flex items-center justify-between">
                   <div className="flex items-center gap-6">
                     {/* お気に入り */}
-                    <button
+                    {/* <button
                       onClick={(e) => toggleLike(e, job.id)}
                       className="flex items-center gap-1.5 text-neutral-500 hover:text-pink-500 transition-colors group/btn"
                     >
                       <Heart className={`w-4 h-4 ${job.isLiked ? 'fill-pink-500 text-pink-500' : ''}`} />
                       <span className="text-xs font-bold hidden sm:inline">お気に入り</span>
+                    </button> */}
+
+                    <button
+                      onClick={() => alert("リンクをコピーしました！")}
+                      className="flex items-center gap-1.5 text-neutral-500 hover:text-blue-600 transition-colors group/btn"
+                    >
+                      <Link className={`w-4 h-4`} />
+                      <span className="text-xs font-bold hidden sm:inline">リンクコピー</span>
                     </button>
 
                     {/* 閲覧数 */}
