@@ -109,15 +109,9 @@ export default function JobApplyPage() {
   if (view === 'complete') {
     return (
       <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-4">
-        <div className="bg-white p-12 rounded-2xl  max-w-lg w-full text-center">
+        <div className="bg-white p-16 rounded-2xl  max-w-lg w-full text-center">
           <div className="flex justify-center mb-6">
-            <svg width="100" height="100" viewBox="0 0 100 100" className="text-orange-500">
-              <path d="M30 20 H70 V50 H30 Z" fill="currentColor" opacity="0.2" />
-              <path d="M45 15 H55 V25 H45 Z" fill="currentColor" />
-              <path d="M70 40 H80 V50 H70 Z" fill="currentColor" />
-              <path d="M20 40 H30 V50 H20 Z" fill="currentColor" />
-              <path d="M45 45 H55 V60 H45 Z" fill="currentColor" />
-            </svg>
+            <img src="/images/fitcree_logomark.svg" alt="FitCree" className="h-12 w-auto" width={48} height={48} />
           </div>
           <h1 className="text-neutral-800 text-3xl font-bold mb-4">応募完了！</h1>
           <p className="text-neutral-700 text-base mb-8 leading-relaxed">
