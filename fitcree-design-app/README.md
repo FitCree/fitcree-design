@@ -1,39 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FitCree (フィックリー)
+本プロジェクトは **「AI-First Design & Development」** を採用しており、Figma等のデザインツールを介さず、AIエディタ（Cursor/Windsurf等）とコードベースで直接デザインを構築しています。
 
-## Getting Started
+## 🚀 プロジェクトのビジョン
+デザインと実装の境界をなくし、AIの表現力とshadcn/uiの堅牢さを組み合わせることで、高速かつ一貫性のあるプロダクト開発を目指します。
+「デザインの正解」はFigmaではなく、プロジェクト内のドキュメント（docs/）に定義されています。
 
-First, run the development server:
+## 🛠 テクニカルスタック
+- Framework: Next.js (App Router)
+- Styling: Tailwind CSS
+- Components: shadcn/ui
+- Icons: Lucide React
+- AI Tooling: Cursor / Google Antigravity
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🤖 AIエディタでの開発ルール（重要）
+このプロジェクトをクローンした開発者（またはAI）が、デザインの一貫性を壊さないためのルールです。
+
+### 1. AIへの初回指示
+新しい機能開発やデザイン修正を行う際は、まずAIに以下の命令を与えてください。
+
+```
+docs/ フォルダ内のすべてのドキュメントを読み込み、FitCreeのデザイン規約、ディレクトリ構成、ワークフロー、アクセシビリティルールを完全に理解してください。それらのルールを「絶対的な正解」として扱い、コード生成を開始してください。
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+なお、`Google Antigravity`を利用する場合は、以下をGlobal設定（GMEINI.md）に記載してください。
+```
+# Global AI Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 基本方針
+- 特に指示がない限り、日本語で回答すること。
+- 日本語でのドキュメント生成（実装計画、Walkthrough等）を標準とする。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ドキュメント生成の抑制
+- 単純なタスクや情報取得の場合、`task.md` 等のドキュメントは生成せず、チャット内での回答のみで完結させること。
+- 「Fast」モデル使用時は、ユーザーから明示的な指示がない限りドキュメント生成をスキップせよ。
 
-## Learn More
+## プロジェクト・コンテキストの優先
+- ルートディレクトリに `.cursorrules` や `docs/` が存在する場合、それらの内容を最優先のローカルルールとして自動的に読み込み、遵守すること。
 
-To learn more about Next.js, take a look at the following resources:
+## コードスタイル
+- インデントはスペース2。
+- 不要なコメントは省き、クリーンなコードを生成せよ。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. コードベースの一貫性
+- shadcn/uiの使用: UIコンポーネントは components/ui にあるものを優先的に使い、必要に応じて npx shadcn@latest add で追加してください。
+- テーマトークンの遵守: 色や余白は globals.css の CSS Variables（--primary 等）を使用し、Tailwindの任意値（例: text-[#333]）は極力避けてください。
+- デザインの変更方法: デザインの基本ルールを変更したい場合は、先に docs/design-system.md を更新し、その後にAIにコードを修正させてください。
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ディレクトリ構成
+```
+.
+├── .cursorrules          # Cursor用：AIへの自動命令定義
+├── docs/                 # 【最重要】AIが参照する設計・デザインドキュメント
+│   ├── overview.md       # サービスの「目的」
+│   ├── design-system.md  # 見た目の「掟」（色・余白・シャドウ禁止・8pxルール）
+│   ├── rchitecture.md    # ファイルの「場所」
+│   └── accessibility.md  # 実装の「品質」（HTMLタグ・ARIA属性）
+├── public/               # 画像・ファイル
+├── src/                  # ソースコード
+│   ├── app/              # 実際のページ
+│   ├── components/       # コンポーネント
+│   └── data/             # 仮のユーザーや案件のデータ
+└── ...
+```
 
-## Deploy on Vercel
+## 📦 セットアップ
+1. リポジトリをクローン
+2. 依存関係のインストール: npm install
+3. 開発サーバーの起動: npm run dev
+4. http://localhost:3000 を開いて確認
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 プレビュー / デプロイ
+本プロジェクトは **Vercel** を利用して自動デプロイされています。現在の最新のデザイン・実装状況は以下のURLで確認できます。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Live Demo:** [https://fitcree-design.vercel.app/](https://fitcree-design.vercel.app/)
 
-## MEMO
-- comment for deployment 20260129
+> **Note:** `main` ブランチにプッシュされると、自動的にプレビュー環境が更新されます。
+
+## 📝 開発メモ
+- comment for deployment 20260129.
+- environment setup by Yuya Tanaka.

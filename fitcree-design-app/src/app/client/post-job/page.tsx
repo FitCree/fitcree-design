@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { JOB_POST_STEPS } from '../../../../docs/specs/job-post-spec';
+import { JOB_POST_STEPS } from '@/data/job-post-spec';
 import * as UI from '../../../components/forms/FormElements';
 import { FormHeader, FormFooter, FormStepper } from '../../../components/forms/FormLayout';
 
@@ -18,13 +18,13 @@ export default function MultiStepJobPost() {
 
     JOB_POST_STEPS.forEach(step => {
       step.fields.forEach((field: any) => {
-        if ((field.type === 'radio-list' || field.type === 'radio' || field.type === 'card-radio') && 
-            !newData[field.id] && 
-            field.options && 
-            field.options.length > 0) {
+        if ((field.type === 'radio-list' || field.type === 'radio' || field.type === 'card-radio') &&
+          !newData[field.id] &&
+          field.options &&
+          field.options.length > 0) {
           // 最初の選択肢をデフォルト値として設定
-          const firstOption = typeof field.options[0] === 'string' 
-            ? field.options[0] 
+          const firstOption = typeof field.options[0] === 'string'
+            ? field.options[0]
             : field.options[0].id;
           newData[field.id] = firstOption;
           hasChanges = true;
@@ -56,7 +56,7 @@ export default function MultiStepJobPost() {
   const updateData = (id: string, value: any) => {
     setFormData((prev: any) => {
       const newData = { ...prev, [id]: value };
-      
+
       // 依頼分野が変更された場合、用途フィールドの選択肢を更新
       if (id === 'category') {
         // 用途フィールドの選択肢を更新し、選択されていた値が新しい選択肢に含まれない場合はリセット
@@ -73,7 +73,7 @@ export default function MultiStepJobPost() {
           newData['usagePurpose'] = validSelected;
         }
       }
-      
+
       return newData;
     });
   };
@@ -116,7 +116,7 @@ export default function MultiStepJobPost() {
             options = field.categoryBasedOptions['default'] || [];
           }
         }
-        
+
         return (
           <UI.CheckboxGrid
             options={options}
@@ -280,7 +280,7 @@ export default function MultiStepJobPost() {
 
       {/* main */}
       <main className="max-w-3xl mx-auto pt-12 px-4">
-        
+
         <h2 className="text-xl font-bold text-white flex items-center gap-y-2 gap-x-4 mb-6 bg-slate-500 p-3 rounded-lg">
           <span className="text-white text-sm font-black">STEP {currentStep.id}</span>
           {currentStep.title}

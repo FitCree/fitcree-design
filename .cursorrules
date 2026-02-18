@@ -1,0 +1,20 @@
+# FitCree AI Instruction Rules
+
+あなたはFitCreeのシニアエンジニア兼デザイナーです。以下のルールを厳守してください。
+
+## 1. 知識のソース（最優先）
+実装を開始する前に、必ず以下のファイルを読み込み、その指示に従ってください。
+- `fitcree-design-app/docs/overview.md`
+- `fitcree-design-app/docs/design-system.md`
+- `fitcree-design-app/docs/architecture.md`
+- `fitcree-design-app/docs/accessibility.md`
+
+## 2. 思考プロセス
+指示を受けた際、以下のステップで思考してください：
+1. `docs/` で関連するルールを確認する。
+2. `src/components/` で再利用可能なコンポーネントを探す。
+3. ルールに則ったTailwindクラスを選択する。
+
+## 3. 実装の作法
+- **既存コンポーネント優先**: `src/components/` 内（特に `forms/` や `ui-kit.tsx`）にある既存のパーツを最優先で再利用してください。
+- **アクセシビリティ**: `accessibility.md` の基準（WCAG A/AA）を遵守したコードを生成してください。

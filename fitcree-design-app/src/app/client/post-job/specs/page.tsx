@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { JOB_POST_STEPS } from '../../../../../docs/specs/job-post-spec';
+import { JOB_POST_STEPS } from '@/data/job-post-spec';
 import { USAGE_PURPOSES } from '@/data/master-data';
 
 export default function JobPostSpecPage() {
@@ -64,7 +64,7 @@ export default function JobPostSpecPage() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-gray-900 text-3xl font-bold mb-2">案件投稿フォーム 仕様書</h1>
         <p className="text-gray-900 mb-8 text-base">
-          src/app/client/post-job/page.tsx で使用されているフォーム定義（docs/specs/job-post-spec.ts）を表示しています。
+          src/app/client/post-job/page.tsx で使用されているフォーム定義（src/data/job-post-spec.ts）を表示しています。
         </p>
         <div className="space-y-12">
           {JOB_POST_STEPS.map((step) => (

@@ -39,7 +39,7 @@ export interface Project {
   hasUnreadMessage?: boolean;
   applicantUsers?: User[];
   assignedUsers?: User[];
-  // 詳細データ用（job-post-spec.tsに基づく）
+  // 詳細データ用（src/data/job-post-spec.tsに基づく）
   details?: ProjectDetails;
 }
 

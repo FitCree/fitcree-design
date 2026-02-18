@@ -4,7 +4,7 @@
  * type の種類: 'text', 'textarea', 'checkbox-grid', 'card-radio', 'radio-list', 'url-list', 'file'
  */
 
-import { REQUEST_CATEGORIES, INDUSTRIES, USAGE_PURPOSES, BUDGET_RANGES } from '../../src/data/master-data';
+import { REQUEST_CATEGORIES, INDUSTRIES, USAGE_PURPOSES, BUDGET_RANGES } from './master-data';
 
 export const JOB_POST_STEPS = [
   {

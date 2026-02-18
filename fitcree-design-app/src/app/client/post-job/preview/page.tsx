@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, ChevronLeft, MapPin, Calendar, Clock, DollarSign, Tag, FileText, Link, Paperclip, Target, User, Edit2, PartyPopper, Home } from 'lucide-react';
-import { JOB_POST_STEPS } from '@/../docs/specs/job-post-spec';
+import { JOB_POST_STEPS } from '@/data/job-post-spec';
 
 export default function JobPostPreviewPage() {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function JobPostPreviewPage() {
 
   const renderValue = (field: any) => {
     const value = data[field.id];
-    
+
     if (field.type === 'conditional-date') {
       const type = data[`${field.id}Type`];
       if (type === 'date') return value || '-';
@@ -227,7 +227,7 @@ export default function JobPostPreviewPage() {
               >
                 内容を修正する
               </button>
-              <button 
+              <button
                 onClick={() => setIsSubmitted(true)}
                 className="flex-1 py-4 bg-blue-600 text-white rounded-xl font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
               >
