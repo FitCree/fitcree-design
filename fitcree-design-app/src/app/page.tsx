@@ -9,10 +9,10 @@ export default function Home() {
       <main className="min-h-screen w-full py-32 px-6 bg-white">
         <div className="m-auto max-w-3xl">
 
-          <h1 className="max-w-xs text-3xl font-bold leading-10 tracking-tight text-black">
+          <h1 className="text-3xl font-bold leading-10 tracking-tight text-neutral-800">
             FitCree Design Project
           </h1>
-          <p className="max-w-md text-lg leading-8 text-neutral-800">
+          <p className="text-lg leading-8 text-neutral-800">
             デザイン作成用のプロジェクトです!!!
           </p>
 
@@ -124,6 +124,18 @@ export default function Home() {
               </li>
             </ul>
           </div>
+
+          <h2 className="mt-12 text-3xl font-bold text-neutral-800">
+            本デザイン環境に関する情報
+          </h2>
+          <p className="mt-2 text-base text-neutral-800">
+            本デザインは、AIエディターを活用して構築しています。<br />詳しくは、GitHubの<code>README.md</code>を確認してください
+          </p>
+          <p className="mt-2 text-base text-neutral-800">
+            <Link className="link-blue" href="https://github.com/FitCree/fitcree-design" target="_blank">
+              https://github.com/FitCree/fitcree-design
+            </Link>
+          </p>
         </div>
       </main>
     </>
