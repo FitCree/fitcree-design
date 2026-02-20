@@ -69,11 +69,11 @@ export interface ProjectDetails {
 export type ProjectStatus = Project['status'];
 
 export const PROJECT_STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string; bg: string; icon: LucideIcon }> = {
-  recruiting: { label: '募集中', color: 'text-blue-700', bg: 'bg-blue-100', icon: Briefcase },
-  selection: { label: '選定中', color: 'text-sky-700', bg: 'bg-sky-100', icon: Users },
-  in_progress: { label: '進行中', color: 'text-green-700', bg: 'bg-green-100', icon: Clock },
+  recruiting: { label: '募集中', color: 'text-red-700', bg: 'bg-red-100', icon: Briefcase },
+  selection: { label: '選考中', color: 'text-red-700', bg: 'bg-red-100', icon: Users },
+  in_progress: { label: '進行中', color: 'text-blue-700', bg: 'bg-blue-100', icon: Clock },
   completed: { label: '完了', color: 'text-green-700', bg: 'bg-green-100', icon: Clock },
-  closed: { label: '終了', color: 'text-neutral-600', bg: 'bg-neutral-100', icon: MessageSquare },
+  closed: { label: '完了', color: 'text-green-700', bg: 'bg-green-100', icon: MessageSquare },
 };
 
 // --- Mock Data ---
@@ -210,7 +210,7 @@ export const MOCK_CLIENTS: User[] = [
       {
         id: 201,
         title: 'コーポレートサイトのリニューアル（要件定義〜実装）',
-        status: 'recruiting',
+        status: 'selection',
         statusLabel: CLIENT_STATS_TEMPLATE[1].label,
         categoryId: 0, // Webサイト
         postedDate: '2026/02/10',
@@ -226,7 +226,7 @@ export const MOCK_CLIENTS: User[] = [
         title: '新卒採用向けパンフレットのデザイン',
         status: 'in_progress',
         statusLabel: CLIENT_STATS_TEMPLATE[2].label,
-        partnerName: '山田 クリエイター',
+        partnerName: '山田 イラストマン',
         categoryId: 2, // グラフィック
         postedDate: '2026/01/20',
         deadline: '2026/02/28',

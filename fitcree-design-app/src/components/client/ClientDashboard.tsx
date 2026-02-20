@@ -17,15 +17,14 @@ interface ClientDashboardProps {
 }
 
 export default function ClientDashboard({ user }: ClientDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'all' | Project['status']>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'recruiting' | 'in_progress' | 'completed'>('all');
 
   // Stats for the tabs
   const tabConfig = [
     { label: 'すべて', id: 'all' as const },
-    { label: PROJECT_STATUS_CONFIG.recruiting.label, id: 'recruiting' as const },
-    { label: PROJECT_STATUS_CONFIG.selection.label, id: 'selection' as const },
-    { label: PROJECT_STATUS_CONFIG.in_progress.label, id: 'in_progress' as const },
-    { label: PROJECT_STATUS_CONFIG.closed.label, id: 'closed' as const },
+    { label: '募集中', id: 'recruiting' as const },
+    { label: '進行中', id: 'in_progress' as const },
+    { label: '完了', id: 'completed' as const },
   ];
 
   // Separate Unread Messages Stat
@@ -34,7 +33,12 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
   // Filter projects based on activeTab
   const filteredProjects = activeTab === 'all'
     ? user.projects
-    : user.projects?.filter(p => p.status === activeTab);
+    : user.projects?.filter(p => {
+      if (activeTab === 'recruiting') return p.status === 'recruiting' || p.status === 'selection';
+      if (activeTab === 'in_progress') return p.status === 'in_progress';
+      if (activeTab === 'completed') return p.status === 'completed' || p.status === 'closed';
+      return false;
+    });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-8">
@@ -84,21 +88,28 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
             <div className="flex items-center gap-2 border-b border-neutral-100 pb-px overflow-x-auto no-scrollbar">
               {tabConfig.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const count = tab.id === 'all'
-                  ? user.projects?.length
-                  : user.projects?.filter(p => p.status === tab.id).length;
+                let count = 0;
+                if (tab.id === 'all') count = user.projects?.length || 0;
+                else {
+                  count = user.projects?.filter(p => {
+                    if (tab.id === 'recruiting') return p.status === 'recruiting' || p.status === 'selection';
+                    if (tab.id === 'in_progress') return p.status === 'in_progress';
+                    if (tab.id === 'completed') return p.status === 'completed' || p.status === 'closed';
+                    return false;
+                  }).length || 0;
+                }
 
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${isActive
-                      ? 'border-blue-600 text-blue-600 bg-blue-50/50'
+                      ? tab.id === 'recruiting' ? 'border-red-600 text-red-600 bg-red-50/50' : tab.id === 'in_progress' ? 'border-blue-600 text-blue-600 bg-blue-50/50' : tab.id === 'completed' ? 'border-green-600 text-green-600 bg-green-50/50' : 'border-blue-600 text-blue-600 bg-blue-50/50'
                       : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:bg-neutral-50'
                       }`}
                   >
                     {tab.label}
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] ${isActive ? 'bg-blue-100 text-blue-700' : 'bg-neutral-100 text-neutral-500'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] ${isActive ? (tab.id === 'recruiting' ? 'bg-red-100 text-red-700' : tab.id === 'in_progress' ? 'bg-blue-100 text-blue-700' : tab.id === 'completed' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700') : 'bg-neutral-100 text-neutral-500'}`}>
                       {count}
                     </span>
                   </button>
@@ -117,8 +128,12 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                         <div className='flex items-center gap-4'>
                           {/* ステータス */}
                           <div className="flex items-center gap-2">
-                            <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
-                              {PROJECT_STATUS_CONFIG[project.status].label}
+                            <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.bg : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.bg : PROJECT_STATUS_CONFIG.completed.bg} ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.color : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.color : PROJECT_STATUS_CONFIG.completed.color}`}>
+                              {(project.status === 'recruiting' || project.status === 'selection')
+                                ? '募集中'
+                                : (project.status === 'completed' || project.status === 'closed')
+                                  ? '完了'
+                                  : PROJECT_STATUS_CONFIG[project.status].label}
                             </p>
                           </div>
                           {/* 期限日 */}

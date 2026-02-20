@@ -180,10 +180,10 @@ export default function JobApplyPage() {
             仕事を獲得していきましょう！
           </p>
           <Link
-            href="/creator/search"
+            href="/creator/applications"
             className="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-colors"
           >
-            仕事検索ページへ
+            応募状況ページへ
           </Link>
         </div>
       </div>
