@@ -162,7 +162,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="bg-neutral-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8">
 
         {/* 左サイドバー */}

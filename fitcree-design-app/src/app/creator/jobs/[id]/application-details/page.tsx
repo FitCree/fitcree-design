@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { MOCK_CLIENTS, Project } from '@/data/mock-data';
 import { BUDGET_RANGES, REQUEST_CATEGORIES } from '@/data/master-data';
 import HeaderCreator from '@/components/common/header-creator';
+import Footer from '@/components/common/footer';
 
 export default function ApplicationDetailPage() {
   const params = useParams();
@@ -296,6 +297,7 @@ export default function ApplicationDetailPage() {
           </div>
         </div>
       </main>
+      <Footer />
 
       {/* 取り下げ確認モーダル */}
       {showWithdrawModal && (

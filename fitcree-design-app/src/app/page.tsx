@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeaderGuest from "@/components/common/header-guest";
+import Footer from "@/components/common/footer";
 
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <HeaderGuest />
-      <main className="min-h-screen w-full py-32 px-6 bg-white">
+      <main className="flex-grow w-full py-32 px-6 bg-white">
         <div className="m-auto max-w-3xl">
+          {/* ... 内容は省略せず維持 ... */}
 
           <h1 className="text-3xl font-bold leading-10 tracking-tight text-neutral-800">
             FitCree Design Project
@@ -23,12 +25,7 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/creator">
-                  クリエイター用トップページ
-                </Link>
-              </li>
-              <li>
-                <Link className="link-blue" href="/creator/applications">
-                  応募状況一覧
+                  クリエイター用トップページ（未作成）
                 </Link>
               </li>
               <li>
@@ -37,8 +34,18 @@ export default function Home() {
                 </Link>
               </li>
               <li>
+                <Link className="link-blue" href="/creator/applications">
+                  案件への応募状況一覧
+                </Link>
+              </li>
+              <li>
                 <Link className="link-blue" href="/creator/jobs/101/apply">
                   案件応募フォーム
+                </Link>
+              </li>
+              <li>
+                <Link className="link-blue" href="/creator/jobs/101/application-details">
+                  応募中案件の内容確認
                 </Link>
               </li>
             </ul>
@@ -143,6 +150,7 @@ export default function Home() {
           </p>
         </div>
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }

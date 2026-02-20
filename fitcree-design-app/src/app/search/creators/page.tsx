@@ -17,7 +17,7 @@ export default function CreatorsPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div className="bg-gray-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="bg-neutral-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header & Search Area */}
       <div className="space-y-6">
         <div>

@@ -53,7 +53,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex items-center gap-4">
-          <img src={user.avatarUrl} alt={`${user.name}のアバター画像`} className="w-16 h-16 rounded-full border border-gray-200" />
+          <img src={user.avatarUrl} alt={`${user.name}のアバター画像`} className="w-16 h-16 rounded-full border border-neutral-200" />
           <div>
             <h1 className="text-2xl font-bold text-neutral-900">{user.name}</h1>
             <p className="text-neutral-700 mt-1">{user.company}</p>

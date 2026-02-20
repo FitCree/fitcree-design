@@ -6,7 +6,7 @@ import { LogIn, UserPlus, ExternalLink } from "lucide-react";
 
 export default function HeaderGuest() {
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 fixed top-0 w-full z-50 h-14 flex items-center justify-between px-6 sm:px-12 transition-all">
+    <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200 fixed top-0 w-full z-50 h-14 flex items-center justify-between px-6 sm:px-12 transition-all">
       {/* Left: Logo */}
       <div className="flex items-center">
         <Link href="/" className="flex items-center gap-2 group">
@@ -41,7 +41,7 @@ export default function HeaderGuest() {
       <div className="flex items-center gap-3 sm:gap-4">
         <Link
           href="/login"
-          className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-800 hover:bg-gray-50 rounded-full transition-all"
+          className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-800 hover:bg-neutral-50 rounded-full transition-all"
         >
           <LogIn size={18} />
           ログイン

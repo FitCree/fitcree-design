@@ -6,6 +6,7 @@ import { MOCK_CLIENTS, Project, User } from '@/data/mock-data';
 import ProjectDetailView from '@/components/projects/ProjectDetailView';
 import { ArrowLeft } from 'lucide-react';
 import HeaderCreator from '@/components/common/header-creator';
+import Footer from '@/components/common/footer';
 
 export default function CreatorProjectDetailPage() {
   const params = useParams();
@@ -49,9 +50,9 @@ export default function CreatorProjectDetailPage() {
     project.assignedUsers?.some(u => u.id === CURRENT_CREATOR_ID);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 flex flex-col">
       <HeaderCreator />
-      <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 flex-grow">
         <div className="max-w-5xl mx-auto mb-6">
           <button
             onClick={() => router.back()}
@@ -62,6 +63,7 @@ export default function CreatorProjectDetailPage() {
         </div>
         <ProjectDetailView project={project} client={client} isApplied={isApplied} />
       </main>
+      <Footer />
     </div>
   );
 }
