@@ -263,7 +263,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
             </div>
 
             <div className="mt-6 pt-6 border-t border-neutral-100">
-              <h3 className="font-bold text-neutral-900 mb-3 text-base">応募時に提出してほしいもの</h3>
+              <h3 className="font-bold text-neutral-900 mb-3 text-base">応募時に提出してほしいもの (必須ではありません)</h3>
               <ul className="flex flex-wrap gap-2">
                 {details.requirements?.map((req, i) => {
                   const label = {
@@ -273,7 +273,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                   }[req] || req;
                   return (
                     <li key={i} className="flex items-center gap-1.5 bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-base font-bold border border-sky-100">
-                      <CheckCircle2 size={12} />
+                      <CheckCircle2 size={14} />
                       {label}
                     </li>
                   );

@@ -8,7 +8,6 @@ export { RadioList } from './elements/RadioList';
 export { UrlListInput } from './elements/UrlListInput';
 export { FileUploader } from './elements/FileUploader';
 export { ReferenceUrlInput } from './elements/ReferenceUrlInput';
-export { ReferenceFileUploader } from './elements/ReferenceFileUploader';
 export { TipsBox } from './elements/TipsBox';
 export { ToggleSwitch } from './elements/ToggleSwitch';
 export { SelectInput } from './elements/SelectInput';

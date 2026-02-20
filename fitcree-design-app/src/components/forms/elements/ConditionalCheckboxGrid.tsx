@@ -1,4 +1,4 @@
-import React from 'react';
+import { getFormTheme } from './form-theme';
 
 interface ModeOption {
   id: 'consult' | 'specified';
@@ -15,6 +15,7 @@ interface ConditionalCheckboxGridProps {
   cols?: number;
   modeOptions?: ModeOption[];
   checkboxHelpText?: string;
+  variant?: 'client' | 'creator';
 }
 
 // --- 選択：条件付きチェックボックスグリッド（2段階方式） ---
@@ -30,13 +31,15 @@ export const ConditionalCheckboxGrid = ({
     { id: 'consult' as const, label: '相談して決める (推奨)' },
     { id: 'specified' as const, label: '形式を指定する' }
   ],
-  checkboxHelpText
+  checkboxHelpText,
+  variant = 'client'
 }: ConditionalCheckboxGridProps) => {
-  const gridClass = cols === 2 
-    ? 'grid-cols-1 sm:grid-cols-2' 
-    : cols === 4 
-    ? 'grid-cols-2 sm:grid-cols-4' 
-    : 'grid-cols-2 sm:grid-cols-3';
+  const theme = getFormTheme(variant);
+  const gridClass = cols === 2
+    ? 'grid-cols-1 sm:grid-cols-2'
+    : cols === 4
+      ? 'grid-cols-2 sm:grid-cols-4'
+      : 'grid-cols-2 sm:grid-cols-3';
 
   const handleCheckboxChange = (format: string) => {
     const next = selectedValues.includes(format)
@@ -50,21 +53,20 @@ export const ConditionalCheckboxGrid = ({
       {/* Toggle Mode */}
       <div className="flex gap-4 mb-4">
         {modeOptions.map((modeOption) => (
-          <label 
+          <label
             key={modeOption.id}
-            className={`flex-1 p-3 border rounded-lg cursor-pointer flex items-center transition-all ${
-              modeValue === modeOption.id 
-                ? 'bg-blue-50 border-blue-500 text-blue-700 ring-1 ring-blue-500' 
+            className={`flex-1 p-3 border rounded-lg cursor-pointer flex items-center transition-all ${modeValue === modeOption.id
+                ? `${theme.bgSelected} ${theme.border} ${theme.textSelected} ring-1 ${theme.ring}`
                 : 'bg-white border-neutral-300 hover:bg-neutral-50 text-neutral-800'
-            }`}
+              }`}
           >
-            <input 
-              type="radio" 
-              name="deliveryFormatType" 
+            <input
+              type="radio"
+              name="deliveryFormatType"
               value={modeOption.id}
               checked={modeValue === modeOption.id}
               onChange={() => onModeChange(modeOption.id)}
-              className="mr-4 w-4 h-4 text-blue-600"
+              className={`mr-4 w-4 h-4 ${theme.checkbox}`}
             />
             <span className="font-bold text-sm">{modeOption.label}</span>
           </label>
@@ -82,12 +84,12 @@ export const ConditionalCheckboxGrid = ({
               const isSelected = selectedValues.includes(format);
               return (
                 <li key={format} className="h-full">
-                  <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${isSelected ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
-                    <input 
-                      type="checkbox" 
+                  <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${isSelected ? `${theme.bgSelected} ${theme.border} ring-1 ${theme.ring}` : 'bg-white hover:bg-neutral-50'}`}>
+                    <input
+                      type="checkbox"
                       checked={isSelected}
                       onChange={() => handleCheckboxChange(format)}
-                      className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 mr-3 flex-shrink-0"
+                      className={`w-5 h-5 ${theme.checkbox} rounded ${theme.ring} mr-3 flex-shrink-0`}
                     />
                     <span className="text-sm text-neutral-800 font-medium">{format}</span>
                   </label>

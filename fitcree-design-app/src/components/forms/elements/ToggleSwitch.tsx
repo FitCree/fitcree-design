@@ -1,4 +1,4 @@
-import React from 'react';
+import { getFormTheme } from './form-theme';
 
 interface ToggleSwitchProps {
   checked?: boolean;
@@ -6,10 +6,12 @@ interface ToggleSwitchProps {
   desc?: string;
   title?: string;
   description?: string;
+  variant?: 'client' | 'creator';
 }
 
 // --- 切替：トグルスイッチ ---
-export const ToggleSwitch = ({ checked = false, onChange, desc, title, description }: ToggleSwitchProps) => {
+export const ToggleSwitch = ({ checked = false, onChange, desc, title, description, variant = 'client' }: ToggleSwitchProps) => {
+  const theme = getFormTheme(variant);
   // タイトルと説明文がある場合は、リッチなUIを表示
   if (title || description) {
     return (
@@ -21,7 +23,7 @@ export const ToggleSwitch = ({ checked = false, onChange, desc, title, descripti
             checked={checked}
             onChange={(e) => onChange(e.target.checked)}
           />
-          <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:bg-indigo-600 transition-colors" />
+          <div className={`w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 ${theme.ringLight} rounded-full peer ${checked ? (variant === 'creator' ? 'bg-orange-600' : 'bg-indigo-600') : ''} transition-colors`} />
           <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${checked ? 'translate-x-5' : ''}`} />
         </div>
         <div className="flex-1">
@@ -42,7 +44,7 @@ export const ToggleSwitch = ({ checked = false, onChange, desc, title, descripti
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
         />
-        <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:bg-blue-500 transition-colors" />
+        <div className={`w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 ${theme.ringLight} rounded-full peer ${checked ? (variant === 'creator' ? 'bg-orange-500' : 'bg-blue-500') : ''} transition-colors`} />
         <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${checked ? 'translate-x-5' : ''}`} />
       </div>
       {desc && <span className="text-sm text-neutral-600">{desc}</span>}

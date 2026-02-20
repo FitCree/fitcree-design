@@ -1,9 +1,10 @@
-import React from 'react';
+import { getFormTheme } from './form-theme';
 
 // --- 選択：標準ラジオボタン（リスト形式） ---
-export const RadioList = ({ options, name, selectedValue, onChange, cols }: any) => {
+export const RadioList = ({ options, name, selectedValue, onChange, cols, variant = 'client' }: any) => {
+  const theme = getFormTheme(variant);
   // 文字列配列とオブジェクト配列の両方に対応
-  const normalizedOptions = options.map((opt: any) => 
+  const normalizedOptions = options.map((opt: any) =>
     typeof opt === 'string' ? { id: opt, label: opt } : opt
   );
 
@@ -23,10 +24,10 @@ export const RadioList = ({ options, name, selectedValue, onChange, cols }: any)
     <ul className={getGridClass()}>
       {normalizedOptions.map((opt: any) => (
         <li key={opt.id}>
-          <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white border-neutral-300'}`}>
-            <input 
+          <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? `${theme.bgSelected} ${theme.border} ring-1 ${theme.ring}` : 'bg-white border-neutral-300'}`}>
+            <input
               type="radio" name={name} checked={selectedValue === opt.id} onChange={() => onChange(opt.id)}
-              className="w-4 h-4 text-blue-500 focus:ring-blue-500 mr-3 flex-shrink-0"
+              className={`w-4 h-4 mr-3 flex-shrink-0 ${theme.checkbox} ${theme.ring}`}
             />
             {opt.description ? (
               <div className="flex-1">

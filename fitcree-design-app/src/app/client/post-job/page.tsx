@@ -152,7 +152,11 @@ export default function MultiStepJobPost() {
           />
         );
       case 'file':
-        return <UI.FileUploader />;
+        return (
+          <UI.FileUploader
+            onChange={(e: any) => updateData(field.id, e.target.files?.[0])}
+          />
+        );
       case 'toggle':
         return (
           <UI.ToggleSwitch
@@ -225,9 +229,15 @@ export default function MultiStepJobPost() {
         );
       case 'reference-file-uploader':
         return (
-          <UI.ReferenceFileUploader
-            files={formData[field.id] || []}
-            onChange={(v: any) => updateData(field.id, v)}
+          <UI.FileUploader
+            multiple
+            label="クリックしてアップロード またはドラッグ＆ドロップ"
+            description="PDF, PNG, JPG, MP4 (最大 5MB)"
+            accept=".pdf,.png,.jpg,.jpeg,.mp4"
+            onFilesChange={(files: File[]) => {
+              const currentFiles = formData[field.id] || [];
+              updateData(field.id, [...currentFiles, ...files]);
+            }}
           />
         );
       case 'conditional-checkbox-grid':

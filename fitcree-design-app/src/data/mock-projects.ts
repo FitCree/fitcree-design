@@ -86,7 +86,7 @@ export const PROJECT_DETAILS: Record<number, ProjectDetails> = {
       values: ['HTML・CSS等ファイル', 'Figma / XD']
     },
     publicity: 'ok',
-    requirements: ['proposal', 'estimate'],
+    requirements: ['proposal'],
     deadlineDate: {
       type: 'asap'
     },

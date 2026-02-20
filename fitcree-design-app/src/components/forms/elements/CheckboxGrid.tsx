@@ -1,16 +1,17 @@
-import React from 'react';
+import { getFormTheme } from './form-theme';
 
 // --- 選択：チェックボックスグリッド（カラム数可変） ---
-export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3 }: any) => {
-  const gridClass = cols === 2 
-    ? 'grid-cols-1 sm:grid-cols-2' 
-    : cols === 4 
-    ? 'grid-cols-2 sm:grid-cols-4' 
-    : 'grid-cols-2 sm:grid-cols-3';
-  
+export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3, variant = 'client' }: any) => {
+  const theme = getFormTheme(variant);
+  const gridClass = cols === 2
+    ? 'grid-cols-1 sm:grid-cols-2'
+    : cols === 4
+      ? 'grid-cols-2 sm:grid-cols-4'
+      : 'grid-cols-2 sm:grid-cols-3';
+
   // オブジェクト形式の選択肢かどうかを判定
   const isObjectOptions = options.length > 0 && typeof options[0] === 'object' && options[0].id;
-  
+
   return (
     <ul className={`grid gap-2 items-stretch ${gridClass}`}>
       {options.map((opt: any) => {
@@ -18,18 +19,18 @@ export const CheckboxGrid = ({ options, selectedValues = [], onChange, cols = 3 
         const optTitle = typeof opt === 'string' ? opt : opt.title;
         const optDescription = typeof opt === 'object' ? opt.description : undefined;
         const isSelected = selectedValues.includes(optId);
-        
+
         return (
           <li key={optId} className="h-full">
-            <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${isSelected ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500' : 'bg-white hover:bg-neutral-50'}`}>
-              <input 
-                type="checkbox" 
+            <label className={`flex h-full items-center p-3 rounded-lg border cursor-pointer transition-all ${isSelected ? `${theme.bgSelected} ${theme.border} ring-1 ${theme.ring}` : 'bg-white hover:bg-neutral-50'}`}>
+              <input
+                type="checkbox"
                 checked={isSelected}
                 onChange={() => {
                   const next = isSelected ? selectedValues.filter((v: any) => v !== optId) : [...selectedValues, optId];
                   onChange(next);
                 }}
-                className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 flex-shrink-0"
+                className={`mr-4 w-5 h-5 rounded ${theme.checkbox} ${theme.ring}`}
               />
               {optDescription ? (
                 <div className="flex-1">

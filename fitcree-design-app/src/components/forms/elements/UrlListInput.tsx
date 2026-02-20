@@ -1,8 +1,11 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { getFormTheme } from './form-theme';
+import { AddButton } from './AddButton';
 
 // --- 特殊：URLリスト入力 ---
-export const UrlListInput = ({ urls = [], onChange }: any) => {
+export const UrlListInput = ({ urls = [], onChange, variant = 'client' }: any) => {
+  const theme = getFormTheme(variant);
   const addField = () => onChange([...urls, '']);
   const updateUrl = (idx: number, val: string) => {
     const next = [...urls];
@@ -12,15 +15,18 @@ export const UrlListInput = ({ urls = [], onChange }: any) => {
   return (
     <div className="space-y-3">
       {urls.map((url: string, idx: number) => (
-        <input 
+        <input
           key={idx} type="url" value={url} onChange={(e) => updateUrl(idx, e.target.value)}
-          placeholder="https://..." className="w-full p-2 border border-neutral-300 rounded text-base focus:ring-blue-500"
+          placeholder="https://..." className={`w-full p-2 border border-neutral-300 rounded text-base ${theme.ring}`}
         />
       ))}
-      <button onClick={addField} className="text-xs text-blue-600 font-bold flex items-center gap-1 hover:underline hover:text-blue-700">
-        <Plus size={14} /> 参考URLを追加
-      </button>
+      <AddButton
+        variant={variant}
+        label="参考URLを追加"
+        onClick={addField}
+        className="text-xs"
+        iconSize={14}
+      />
     </div>
   );
 };
-
