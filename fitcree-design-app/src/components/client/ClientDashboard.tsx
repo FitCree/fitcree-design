@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Plus,
   ChevronRight,
   Search,
   MessageSquare,
-  Clock
+  Clock,
+  Users
 } from 'lucide-react';
 import { User, Project, PROJECT_STATUS_CONFIG } from '@/data/mock-data';
 import { REQUEST_CATEGORIES } from '@/data/master-data';
@@ -30,15 +31,22 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
   // Separate Unread Messages Stat
   const unreadMessagesCount = user.stats?.find(s => s.label === '未読メッセージ')?.value || 0;
 
-  // Filter projects based on activeTab
-  const filteredProjects = activeTab === 'all'
-    ? user.projects
-    : user.projects?.filter(p => {
-      if (activeTab === 'recruiting') return p.status === 'recruiting' || p.status === 'selection';
-      if (activeTab === 'in_progress') return p.status === 'in_progress';
-      if (activeTab === 'completed') return p.status === 'completed' || p.status === 'closed';
-      return false;
-    });
+  // Filter and sort projects based on activeTab
+  const filteredProjects = useMemo(() => {
+    if (!user.projects) return [];
+
+    const projects = activeTab === 'all'
+      ? [...user.projects]
+      : user.projects.filter(p => {
+        if (activeTab === 'recruiting') return p.status === 'recruiting' || p.status === 'selection';
+        if (activeTab === 'in_progress') return p.status === 'in_progress';
+        if (activeTab === 'completed') return p.status === 'completed' || p.status === 'closed';
+        return false;
+      });
+
+    // Sort by postedDate descending (newest first)
+    return projects.sort((a, b) => b.postedDate.localeCompare(a.postedDate));
+  }, [user.projects, activeTab]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-8">
@@ -136,11 +144,11 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                                   : PROJECT_STATUS_CONFIG[project.status].label}
                             </p>
                           </div>
-                          {/* 期限日 */}
+                          {/* 投稿日 */}
                           <p className="flex items-center gap-1 text-sm text-neutral-700">
                             <Clock size={14} aria-hidden="true" />
-                            <span>期限日</span>
-                            <time dateTime={project.deadline} className="font-bold text-neutral-700 text-sm">{project.deadline}</time>
+                            <span>投稿日</span>
+                            <time dateTime={project.postedDate} className="font-bold text-neutral-700 text-sm">{project.postedDate}</time>
                           </p>
                         </div>
                         {/* 案件タイトル */}
@@ -174,8 +182,19 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                       <div className="flex items-center gap-6">
                         {project.status === 'in_progress' ? (
                           <div className="flex items-center gap-2">
-                            <p className="text-sm text-neutral-700">担当クリエイター</p>
-                            <span className="text-sm font-bold text-neutral-700">{project.partnerName}</span>
+                            <p className="text-sm text-neutral-500">担当クリエイター</p>
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-full overflow-hidden bg-neutral-100 flex-shrink-0">
+                                {project.assignedUsers && project.assignedUsers[0]?.avatarUrl ? (
+                                  <img src={project.assignedUsers[0].avatarUrl} alt={project.partnerName} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center bg-neutral-200">
+                                    <Users size={12} className="text-neutral-500" />
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-sm font-bold text-neutral-900">{project.partnerName}</span>
+                            </div>
                           </div>
                         ) : (
                           <div className="flex items-center gap-4">

@@ -56,8 +56,8 @@ export default function JobApplyPage() {
 
   // 初期表示用の選択済みポートフォリオ (Mock)
   const [selectedPortfolios, setSelectedPortfolios] = useState([
-    { id: 1, title: '気軽に訪れることのできるレストランのWebサイトのポートフォリオ', category: 'Webサイト', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=200', description: '説明テキスト' },
-    { id: 2, title: '高級レストランのWebサイトのポートフォリオ', category: 'Webサイト', image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=200', description: '説明テキスト' },
+    { id: 1, title: '気軽に訪れることのできるレストランのWebサイトのポートフォリオ', category: 'Webサイト', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=200', description: '気軽に訪れていただけるよう、お客さんに寄り添ったデザインを心がけました', url: 'https://example.com/work1' },
+    { id: 2, title: '高級レストランのWebサイトのポートフォリオ', category: 'Webサイト', image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=200', description: '高級感のあるデザインを心がけています', url: 'https://example.com/work2' },
   ]);
 
   // Portfolio Add Modal State
@@ -66,8 +66,10 @@ export default function JobApplyPage() {
     title: '',
     category: '',
     description: '',
+    url: '',
     image: null as string | null
   });
+  const [editingPortfolioId, setEditingPortfolioId] = useState<number | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   // クライアントからの要望設定 (Dynamic based on project details)
@@ -100,6 +102,19 @@ export default function JobApplyPage() {
     setSelectedPortfolios(selectedPortfolios.filter(p => p.id !== id));
   };
 
+  const openEditModal = (item: typeof selectedPortfolios[0]) => {
+    setEditingPortfolioId(item.id);
+    setNewPortfolio({
+      title: item.title,
+      category: item.category,
+      description: item.description,
+      url: item.url,
+      image: item.image
+    });
+    setPreviewImage(item.image);
+    setShowPortfolioModal(true);
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -115,24 +130,37 @@ export default function JobApplyPage() {
   const handleAddPortfolio = () => {
     if (!newPortfolio.title || !newPortfolio.image) return;
 
-    setSelectedPortfolios([
-      ...selectedPortfolios,
-      {
-        id: Date.now(),
-        title: newPortfolio.title,
-        category: newPortfolio.category,
-        image: newPortfolio.image,
-        description: newPortfolio.description
-      }
-    ]);
+    if (editingPortfolioId !== null) {
+      // Update existing
+      setSelectedPortfolios(selectedPortfolios.map(p =>
+        p.id === editingPortfolioId
+          ? { ...p, ...newPortfolio, image: newPortfolio.image as string }
+          : p
+      ));
+    } else {
+      // Add new
+      setSelectedPortfolios([
+        ...selectedPortfolios,
+        {
+          id: Date.now(),
+          title: newPortfolio.title,
+          category: newPortfolio.category,
+          image: newPortfolio.image as string,
+          description: newPortfolio.description,
+          url: newPortfolio.url
+        }
+      ]);
+    }
 
     // Reset and close
     setNewPortfolio({
       title: '',
       category: '',
       description: '',
+      url: '',
       image: null
     });
+    setEditingPortfolioId(null);
     setPreviewImage(null);
     setShowPortfolioModal(false);
   };
@@ -274,23 +302,43 @@ export default function JobApplyPage() {
 
               <div className="space-y-4 mb-6">
                 {selectedPortfolios.map(item => (
-                  <div key={item.id} className="flex gap-4 group">
-                    <div className="relative w-50 h-30 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-100 ">
+                  <div
+                    key={item.id}
+                    onClick={() => openEditModal(item)}
+                    className="flex gap-6 group p-4 border border-neutral-200 rounded-xl relative hover:bg-neutral-50 transition-colors cursor-pointer"
+                  >
+                    <div className="relative w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-100">
                       <img src={item.image} alt="" className="w-full h-full object-cover" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <div className="flex items-center gap-2">
                         <span className="bg-orange-50 text-neutral-800 px-2 py-0.5 rounded-full border border-orange-200 text-xs text-orange-500 font-bold">
                           {item.category}
                         </span>
                       </div>
-                      <p className="text-sm text-neutral-800 line-clamp-2 leading-snug">
+                      <h4 className="font-bold text-neutral-800 text-base leading-snug">
                         {item.title}
-                      </p>
+                      </h4>
+                      {item.description && (
+                        <p className="text-sm text-neutral-600 line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
+                      {item.url && (
+                        <div className="flex items-center gap-1.5 text-blue-500 text-sm font-bold truncate">
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            {item.url}
+                          </a>
+                        </div>
+                      )}
                     </div>
                     <button
-                      onClick={() => removePortfolio(item.id)}
-                      className="p-2 text-neutral-500 hover:text-red-500 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removePortfolio(item.id);
+                      }}
+                      className="absolute top-2 right-2 p-2 text-neutral-400 hover:text-red-500 transition-colors"
                     >
                       <Trash2 size={20} />
                     </button>
@@ -491,12 +539,7 @@ export default function JobApplyPage() {
               <div className="px-2 space-y-2">
                 <ul className="text-sm text-neutral-600 leading-relaxed space-y-1 list-disc pl-4">
                   <li>クライアントには「見積もり合計額」のみ送信されます。「受取り想定額」は送信されません。</li>
-                  <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、
-                    <a href="#" className="text-blue-500 font-bold hover:underline gap-1 group">
-                      システム手数料について
-                    </a>
-                    をご覧ください。
-                  </li>
+                  <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、<a href="#" target="_blank" className="text-blue-500 font-bold hover:underline gap-1 group">システム手数料について</a>をご覧ください。</li>
                 </ul>
               </div>
             </div>
@@ -512,18 +555,25 @@ export default function JobApplyPage() {
 
       </main>
 
-      {/* モーダル：ポートフォリオの追加 */}
+      {/* モーダル：作品の追加・編集 */}
       {showPortfolioModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-8 pb-12 relative animate-in fade-in zoom-in duration-200 shadow-xl">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-8 pb-12 relative animate-in fade-in zoom-in duration-200 shadow-xl">
             <button
-              onClick={() => setShowPortfolioModal(false)}
+              onClick={() => {
+                setShowPortfolioModal(false);
+                setEditingPortfolioId(null);
+                setNewPortfolio({ title: '', category: '', description: '', url: '', image: null });
+                setPreviewImage(null);
+              }}
               className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 transition-colors"
             >
               <X size={24} />
             </button>
 
-            <h2 className="text-neutral-800 text-xl font-bold mb-6">ポートフォリオの追加</h2>
+            <h2 className="text-neutral-800 text-xl font-bold mb-6">
+              {editingPortfolioId ? '作品の編集' : '作品の追加'}
+            </h2>
 
             <div className="space-y-6 overflow-y-auto max-h-[80vh]">
               {/* Image Upload */}
@@ -532,7 +582,7 @@ export default function JobApplyPage() {
                   作品の画像 <span className="text-red-500">*</span>
                 </label>
                 <div className="relative group">
-                  <div className={`border-2 border-dashed rounded-xl flex flex-col items-center justify-center overflow-hidden transition-all ${previewImage ? 'border-orange-500 aspect-video' : 'border-neutral-300 py-10 hover:border-neutral-400'}`}>
+                  <div className={`border-2 border-dashed rounded-xl flex flex-col items-center justify-center overflow-hidden transition-all ${previewImage ? 'border-1 border-solid border-neutral-300 aspect-video' : 'border-neutral-300 py-10 hover:border-neutral-400'}`}>
                     {previewImage ? (
                       <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
@@ -578,6 +628,19 @@ export default function JobApplyPage() {
                 />
               </div>
 
+              {/* URL */}
+              <div>
+                <label className="block text-sm font-bold text-neutral-700 mb-2">
+                  作品のURL
+                </label>
+                <TextInput
+                  variant="creator"
+                  placeholder="https://example.com/your-work"
+                  value={newPortfolio.url}
+                  onChange={(val: string) => setNewPortfolio({ ...newPortfolio, url: val })}
+                />
+              </div>
+
               {/* Details */}
               <div>
                 <label className="block text-sm font-bold text-neutral-700 mb-2">
@@ -594,7 +657,12 @@ export default function JobApplyPage() {
 
               <div className="flex gap-4 pt-4">
                 <button
-                  onClick={() => setShowPortfolioModal(false)}
+                  onClick={() => {
+                    setShowPortfolioModal(false);
+                    setEditingPortfolioId(null);
+                    setNewPortfolio({ title: '', category: '', description: '', url: '', image: null });
+                    setPreviewImage(null);
+                  }}
                   className="flex-1 py-3 border border-neutral-300 rounded-lg font-bold text-neutral-600 hover:bg-neutral-50 transition-colors"
                 >
                   キャンセル
@@ -604,7 +672,7 @@ export default function JobApplyPage() {
                   disabled={!newPortfolio.title || !newPortfolio.image || !newPortfolio.category}
                   className="flex-1 py-3 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed"
                 >
-                  登録する
+                  {editingPortfolioId ? '更新する' : '登録する'}
                 </button>
               </div>
             </div>
@@ -616,7 +684,7 @@ export default function JobApplyPage() {
       {view === 'confirm' && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6">
           <div className="bg-white rounded-2xl max-w-md w-full p-8 relative animate-in fade-in zoom-in duration-200 shadow-xl">
-            <h2 className="text-neutral-800 text-2xl font-bold text-center mb-8 mt-4">応募しますか？</h2>
+            <h2 className="text-neutral-800 text-2xl font-bold text-center mb-8 mt-4">この内容で応募しますか？</h2>
             <div className="flex gap-4 mb-6">
               <button
                 onClick={() => setView('form')}
@@ -632,7 +700,8 @@ export default function JobApplyPage() {
               </button>
             </div>
             <p className="text-center text-base text-neutral-600">
-              応募後の応募取り下げは可能です。
+              応募後の内容訂正はできません。<br />
+              取り下げは可能です。
             </p>
           </div>
         </div>

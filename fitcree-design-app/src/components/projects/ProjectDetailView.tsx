@@ -37,9 +37,10 @@ interface ProjectDetailViewProps {
   project: Project;
   client?: User;
   isClientView?: boolean;
+  isApplied?: boolean;
 }
 
-export default function ProjectDetailView({ project, client, isClientView = false }: ProjectDetailViewProps) {
+export default function ProjectDetailView({ project, client, isClientView = false, isApplied = false }: ProjectDetailViewProps) {
   const router = useRouter();
   const details = project.details;
 
@@ -54,18 +55,18 @@ export default function ProjectDetailView({ project, client, isClientView = fals
   }
 
   const renderSectionTitle = (title: string, icon: React.ReactNode) => (
-    <div className="flex items-center gap-2 mb-4 border-b border-neutral-200 pb-2">
-      <div className="text-blue-600">
-        {icon}
+    <div className="bg-slate-500 p-4 flex items-center gap-2 text-white">
+      <div className="text-white">
+        {React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { size: 20 }) : icon}
       </div>
-      <h2 className="text-lg font-bold text-neutral-900">{title}</h2>
+      <h2 className="font-bold">{title}</h2>
     </div>
   );
 
   return (
     <div className="max-w-5xl mx-auto space-y-10">
       {/* Header Section */}
-      <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
+      <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8 shadow-sm">
         <div className="flex flex-wrap items-center gap-4 mb-4">
           {/* ステータス */}
           <p className={`text-sm font-bold px-2 py-0.5 rounded tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
@@ -162,10 +163,9 @@ export default function ProjectDetailView({ project, client, isClientView = fals
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           {/* Detailed Info */}
-          <section className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
-            {renderSectionTitle('案件概要', <FileText size={20} />)}
-
-            <div className="space-y-8">
+          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+            {renderSectionTitle('案件概要', <FileText />)}
+            <div className="p-6 sm:p-8 space-y-8">
               <div>
                 <h3 className="font-bold text-neutral-900 mb-2">依頼背景・目的</h3>
                 <p className="text-neutral-800 leading-relaxed whitespace-pre-wrap">
@@ -209,85 +209,82 @@ export default function ProjectDetailView({ project, client, isClientView = fals
           </section>
 
           {/* Conditions & Requirements */}
-          <section className="bg-white rounded-xl border border-neutral-300 px-4 py-8 sm:p-8">
-            {renderSectionTitle('募集条件・制約', <CheckCircle2 size={20} />)}
+          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+            {renderSectionTitle('募集条件・制約', <CheckCircle2 />)}
+            <div className="p-6 sm:p-8 space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-bold text-neutral-900 mb-3 text-base">必須条件・制約</h3>
+                  <ul className="space-y-2">
+                    {details.conditions?.map((cond, i) => {
+                      const label = {
+                        nda: 'NDA（秘密保持契約）締結',
+                        residence: '居住地・対面指定あり',
+                        invoiceIssuer: 'インボイス発行事業者',
+                        copyrightTransfer: '著作権の譲渡',
+                        onlineMeeting: 'オンライン会議可能'
+                      }[cond] || cond;
+                      return (
+                        <li key={i} className="flex items-center gap-2 text-base text-neutral-800">
+                          <CheckCircle2 size={16} className="text-green-500" />
+                          {label}
+                        </li>
+                      );
+                    })}
+                    {!details.conditions?.length && <li className="text-base text-neutral-800">特になし</li>}
+                  </ul>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="font-bold text-neutral-900 mb-3 text-base">必須条件・制約</h3>
-                <ul className="space-y-2">
-                  {details.conditions?.map((cond, i) => {
+                <div>
+                  <h3 className="font-bold text-neutral-900 mb-3 text-base">納品形式</h3>
+                  {details.deliveryFormat?.mode === 'consult' ? (
+                    <p className="text-base text-neutral-800">相談して決定</p>
+                  ) : (
+                    <ul className="flex flex-wrap gap-2">
+                      {details.deliveryFormat?.values.map((v, i) => (
+                        <li key={i} className="bg-neutral-100 text-neutral-600 px-3 py-1 rounded-full text-sm font-bold">
+                          {v}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-neutral-100">
+                <h3 className="font-bold text-neutral-900 mb-3 text-base">実績公開</h3>
+                <p className="text-base text-neutral-800">
+                  {details.publicity === 'ok' ? '公開OK' : details.publicity === 'partial' ? '一部相談' : '完全非公開'}
+                </p>
+              </div>
+
+              <div className="pt-6 border-t border-neutral-100">
+                <h3 className="font-bold text-neutral-900 mb-3 text-base">応募時に提出してほしいもの (必須ではありません)</h3>
+                <ul className="flex flex-wrap gap-2">
+                  {details.requirements?.map((req, i) => {
                     const label = {
-                      nda: 'NDA（秘密保持契約）締結',
-                      residence: '居住地・対面指定あり',
-                      invoiceIssuer: 'インボイス発行事業者',
-                      copyrightTransfer: '著作権の譲渡',
-                      onlineMeeting: 'オンライン会議可能'
-                    }[cond] || cond;
+                      proposal: '提案メッセージ',
+                      rough: 'ラフ案・構成案',
+                      estimate: '概算見積もり'
+                    }[req] || req;
                     return (
-                      <li key={i} className="flex items-center gap-2 text-base text-neutral-800">
-                        <CheckCircle2 size={16} className="text-green-500" />
+                      <li key={i} className="flex items-center gap-1.5 bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-base font-bold border border-sky-100">
+                        <CheckCircle2 size={14} />
                         {label}
                       </li>
                     );
                   })}
-                  {!details.conditions?.length && <li className="text-base text-neutral-800">特になし</li>}
                 </ul>
+                {!details.requirements?.length && <p className="text-base text-neutral-800">特になし</p>}
               </div>
-
-              <div>
-                <h3 className="font-bold text-neutral-900 mb-3 text-base">納品形式</h3>
-                {details.deliveryFormat?.mode === 'consult' ? (
-                  <p className="text-base text-neutral-800">相談して決定</p>
-                ) : (
-                  <ul className="flex flex-wrap gap-2">
-                    {details.deliveryFormat?.values.map((v, i) => (
-                      <li key={i} className="bg-neutral-100 text-neutral-600 px-3 py-1 rounded-full text-sm font-bold">
-                        {v}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-neutral-100">
-              <h3 className="font-bold text-neutral-900 mb-3 text-base">実績公開</h3>
-              <div className="flex flex-wrap gap-6">
-                <div className="flex items-center gap-2">
-                  <p className="text-base text-neutral-800">
-                    {details.publicity === 'ok' ? '公開OK' : details.publicity === 'partial' ? '一部相談' : '完全非公開'}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-neutral-100">
-              <h3 className="font-bold text-neutral-900 mb-3 text-base">応募時に提出してほしいもの (必須ではありません)</h3>
-              <ul className="flex flex-wrap gap-2">
-                {details.requirements?.map((req, i) => {
-                  const label = {
-                    proposal: '提案メッセージ',
-                    rough: 'ラフ案・構成案',
-                    estimate: '概算見積もり'
-                  }[req] || req;
-                  return (
-                    <li key={i} className="flex items-center gap-1.5 bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-base font-bold border border-sky-100">
-                      <CheckCircle2 size={14} />
-                      {label}
-                    </li>
-                  );
-                })}
-              </ul>
-              {!details.requirements?.length && <p className="text-base text-neutral-800">特になし</p>}
             </div>
           </section>
 
           {/* Reference Materials */}
           {(details.referenceUrls?.length || details.referenceFiles?.length) ? (
-            <section className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
-              {renderSectionTitle('参考資料', <Link2 size={20} />)}
-              <div className="space-y-6">
+            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+              {renderSectionTitle('参考資料', <Link2 />)}
+              <div className="p-6 sm:p-8 space-y-8">
                 {details.referenceUrls && details.referenceUrls.length > 0 && (
                   <div>
                     <h3 className="font-bold text-neutral-900 mb-3 text-base">参考URL</h3>
@@ -327,22 +324,36 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
           {/* Persona */}
           {details.persona && (
-            <section className="bg-white rounded-xl border border-neutral-300 px-4 py-8 sm:p-8">
-              {renderSectionTitle('求めるパートナー像', <Users size={20} />)}
-              <p className="text-neutral-900 leading-relaxed">
-                {details.persona}
-              </p>
+            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+              {renderSectionTitle('求めるパートナー像', <Users />)}
+              <div className="p-6 sm:p-8">
+                <p className="text-neutral-900 leading-relaxed">
+                  {details.persona}
+                </p>
+              </div>
             </section>
           )}
 
           {!isClientView && (
             <div className="mt-12 flex justify-center">
               <button
-                onClick={() => router.push(`/creator/jobs/${project.id}/apply`)}
-                className="w-full max-w-xs px-8 bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2"
+                onClick={() => router.push(isApplied ? `/creator/jobs/${project.id}/application-details` : `/creator/jobs/${project.id}/apply`)}
+                className={`w-full max-w-xs px-8 font-black py-4 rounded-full transition-all flex items-center justify-center gap-2 ${isApplied
+                    ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
+                    : "bg-orange-500 hover:bg-orange-600 text-white"
+                  }`}
               >
-                <Mail size={18} />
-                この案件に応募する
+                {isApplied ? (
+                  <>
+                    <FileText size={18} />
+                    応募内容を確認する
+                  </>
+                ) : (
+                  <>
+                    <Mail size={18} />
+                    この案件に応募する
+                  </>
+                )}
               </button>
             </div>
           )}
@@ -356,11 +367,23 @@ export default function ProjectDetailView({ project, client, isClientView = fals
               {!isClientView && (
                 <div className="mb-10">
                   <button
-                    onClick={() => router.push(`/creator/jobs/${project.id}/apply`)}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-full transition-all flex items-center justify-center gap-2"
+                    onClick={() => router.push(isApplied ? `/creator/jobs/${project.id}/application-details` : `/creator/jobs/${project.id}/apply`)}
+                    className={`w-full font-black py-4 rounded-full transition-all flex items-center justify-center gap-2 ${isApplied
+                        ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
+                        : "bg-orange-500 hover:bg-orange-600 text-white"
+                      }`}
                   >
-                    <Mail size={18} />
-                    この案件に応募する
+                    {isApplied ? (
+                      <>
+                        <FileText size={18} />
+                        応募内容を確認する
+                      </>
+                    ) : (
+                      <>
+                        <Mail size={18} />
+                        この案件に応募する
+                      </>
+                    )}
                   </button>
                 </div>
               )}
@@ -376,27 +399,12 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                   >
                     <Link2 size={16} /> リンクコピー
                   </button>
-
-                  {/* <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => alert('リンクをコピーしました')}
-                      className="bg-white flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-neutral-200 text-sm font-bold text-neutral-600 hover:bg-neutral-50 transition-colors"
-                    >
-                      <Link2 size={16} /> リンクコピー
-                    </button>
-                    <button
-                      onClick={() => alert('案件を保存しました')}
-                      className="bg-white flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-neutral-200 text-sm font-bold text-neutral-600 hover:bg-neutral-50 transition-colors"
-                    >
-                      <Heart size={16} /> 保存
-                    </button>
-                  </div> */}
                 </div>
               )}
 
               {!isClientView && (
                 <div className="mb-10">
-                  <h2 className="font-bold text-neutral-900 mb-4">依頼者情報</h2>
+                  <h2 className="font-bold text-neutral-900 mb-4 px-1">依頼者情報</h2>
                   <div className="flex items-center gap-4 mb-4">
                     <img src={client.avatarUrl} alt="" className="w-14 h-14 rounded-full border border-neutral-100" />
                     <div>
@@ -404,15 +412,6 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                       <p className="text-sm text-neutral-800">{client.company}</p>
                     </div>
                   </div>
-
-                  {/* <div className="space-y-4 mb-8">
-                    <p className="flex justify-between text-sm">
-                      <span className="text-neutral-800">本人確認</span>
-                      <span className="text-green-500 font-bold flex items-center gap-1">
-                        <CheckCircle2 size={14} /> 済
-                      </span>
-                    </p>
-                  </div> */}
                 </div>
               )}
 

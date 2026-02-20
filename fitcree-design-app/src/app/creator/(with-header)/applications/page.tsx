@@ -24,7 +24,7 @@ export default function CreatorApplicationsPage() {
 
   // 自分が応募した案件を抽出
   const allApplications = useMemo(() => {
-    const apps: { project: Project; clientName: string }[] = [];
+    const apps: { project: Project; clientName: string; clientCompany?: string; avatarUrl?: string }[] = [];
 
     MOCK_CLIENTS.forEach(client => {
       if (client.projects) {
@@ -33,7 +33,12 @@ export default function CreatorApplicationsPage() {
           const isAssigned = project.assignedUsers?.some(u => u.id === CURRENT_CREATOR_ID);
 
           if (isApplicant || isAssigned) {
-            apps.push({ project, clientName: client.company || client.name });
+            apps.push({
+              project,
+              clientName: client.name,
+              clientCompany: client.company,
+              avatarUrl: client.avatarUrl
+            });
           }
         });
       }
@@ -73,7 +78,7 @@ export default function CreatorApplicationsPage() {
         </div>
         <div>
           <h1 className="text-2xl font-black text-neutral-900">応募状況</h1>
-          <p className="text-sm text-neutral-500 mt-1">あなたがこれまでに提案・応募した案件の現在のステータスを確認できます。</p>
+          <p className="text-sm text-neutral-700 mt-1">これまでに提案・応募した案件の現在のステータスを確認できます。</p>
         </div>
       </div>
 
@@ -108,39 +113,44 @@ export default function CreatorApplicationsPage() {
 
         <ul className="space-y-4">
           {filteredApps.length > 0 ? (
-            filteredApps.map(({ project, clientName }) => (
+            filteredApps.map(({ project, clientName, clientCompany, avatarUrl }) => (
               <li key={project.id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:border-orange-300 transition-colors group">
                 <Link href={`/projects/${project.id}`} className="p-6 block">
                   <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="space-y-2">
-                      <div className='flex items-center gap-4'>
-                        {/* ステータス */}
-                        <div className="flex items-center gap-2">
-                          <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.bg : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.bg : PROJECT_STATUS_CONFIG.completed.bg} ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.color : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.color : PROJECT_STATUS_CONFIG.completed.color}`}>
-                            {(project.status === 'recruiting' || project.status === 'selection')
-                              ? '応募中'
-                              : (project.status === 'completed' || project.status === 'closed')
-                                ? '完了'
-                                : PROJECT_STATUS_CONFIG[project.status].label}
-                          </p>
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap items-center gap-4">
+                        <div className='flex items-center gap-4'>
+                          {/* ステータス */}
+                          <div className="flex items-center gap-2">
+                            <p className={`text-sm font-bold px-2 py-0.5 rounded uppercase tracking-wider ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.bg : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.bg : PROJECT_STATUS_CONFIG.completed.bg} ${(project.status === 'recruiting' || project.status === 'selection') ? PROJECT_STATUS_CONFIG.recruiting.color : project.status === 'in_progress' ? PROJECT_STATUS_CONFIG.in_progress.color : PROJECT_STATUS_CONFIG.completed.color}`}>
+                              {(project.status === 'recruiting' || project.status === 'selection')
+                                ? '応募中'
+                                : (project.status === 'completed' || project.status === 'closed')
+                                  ? '完了'
+                                  : PROJECT_STATUS_CONFIG[project.status].label}
+                            </p>
+                          </div>
                         </div>
-                        {/* 期限日 */}
-                        <p className="flex items-center gap-1 text-sm text-neutral-700">
-                          <Clock size={14} aria-hidden="true" />
-                          <span>締切日</span>
-                          <time dateTime={project.deadline} className="font-bold text-neutral-700 text-sm">{project.deadline}</time>
-                        </p>
+                        <div className="flex items-center gap-6">
+                          <div className="flex items-center gap-4 text-sm text-neutral-500">
+                            <span className="flex items-center gap-1">
+                              <Calendar size={14} />
+                              応募日: {project.postedDate}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      {/* 案件タイトル */}
-                      <h3 className="text-lg font-bold text-neutral-900 group-hover:text-orange-600 transition-colors">
-                        {project.title}
-                      </h3>
-                      {/* クライアント & カテゴリ */}
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-neutral-600 font-medium">{clientName}</span>
-                        <span className="bg-neutral-50 text-neutral-700 px-3 py-0.5 rounded-full border border-neutral-200 text-[10px] font-bold">
-                          {REQUEST_CATEGORIES[project.categoryId]}
-                        </span>
+                      <div>
+                        {/* 案件タイトル */}
+                        <h3 className="text-lg font-bold text-neutral-900 group-hover:text-orange-600 transition-colors">
+                          {project.title}
+                        </h3>
+                        {/* カテゴリ */}
+                        <p>
+                          <span className="bg-orange-50 text-neutral-700 px-3 py-0.5 rounded-full border border-orange-100 text-xs text-orange-500 font-bold">
+                            {REQUEST_CATEGORIES[project.categoryId]}
+                          </span>
+                        </p>
                       </div>
                     </div>
 
@@ -153,7 +163,7 @@ export default function CreatorApplicationsPage() {
                             メッセージあり
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1 text-neutral-400 text-xs font-medium">
+                          <div className="flex items-center gap-1 text-neutral-500 text-xs font-medium">
                             <MessageSquare size={14} />
                             連絡なし
                           </div>
@@ -162,20 +172,24 @@ export default function CreatorApplicationsPage() {
                     )}
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-50 pt-4">
-                    <div className="flex items-center gap-6">
-                      <div className="flex items-center gap-4 text-sm text-neutral-500">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={14} />
-                          応募日: {project.postedDate}
-                        </span>
-                        <span className="font-bold text-neutral-800">
-                          {BUDGET_RANGES[project.budgetRangeId]}
-                        </span>
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    {/* クライアント名 */}
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full overflow-hidden bg-neutral-100 flex-shrink-0">
+                        {avatarUrl ? (
+                          <img src={avatarUrl} alt={clientName} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-neutral-200">
+                            <Users size={12} className="text-neutral-500" />
+                          </div>
+                        )}
                       </div>
+                      <p className="text-sm text-neutral-600 font-medium">
+                        <span className="text-neutral-900">{clientName}</span>
+                        {clientCompany && `（${clientCompany}）`}
+                      </p>
                     </div>
-
-                    <p className="text-sm font-bold text-orange-600 hover:text-orange-800 transition-colors flex items-center gap-1">
+                    <p className="text-sm text-neutral-500 hover:text-orange-800 group-hover:text-orange-600 transition-colors flex items-center gap-1">
                       詳細を確認 <ChevronRight size={14} />
                     </p>
                   </div>

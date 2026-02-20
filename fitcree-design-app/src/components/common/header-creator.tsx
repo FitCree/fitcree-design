@@ -30,18 +30,18 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
           <User size={16} className="text-gray-400" /> プロフィール編集
         </button>
-        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
-          <Settings size={16} className="text-gray-400" /> 設定
-        </button>
+        <Link href="/creator/applications" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
+          <Activity size={16} className="text-gray-400" /> 応募状況
+        </Link>
       </div>
 
       <div className="border-t border-gray-100 py-2">
         <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
           <Heart size={16} className="text-gray-400" /> 気になる案件
         </button>
-        <Link href="/creator/applications" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
-          <Activity size={16} className="text-gray-400" /> 応募状況
-        </Link>
+        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3">
+          <Settings size={16} className="text-gray-400" /> 設定
+        </button>
       </div>
 
       <div className="border-t border-gray-100 pt-2 pb-1">

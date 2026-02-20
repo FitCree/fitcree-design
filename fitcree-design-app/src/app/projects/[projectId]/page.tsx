@@ -41,6 +41,13 @@ export default function CreatorProjectDetailPage() {
     );
   }
 
+  // 山田 イラストマン を現在のユーザーとする
+  const CURRENT_CREATOR_ID = 'creator-1';
+
+  // 応募状況または担当状況を確認
+  const isApplied = project.applicantUsers?.some(u => u.id === CURRENT_CREATOR_ID) ||
+    project.assignedUsers?.some(u => u.id === CURRENT_CREATOR_ID);
+
   return (
     <div className="min-h-screen bg-neutral-50">
       <HeaderCreator />
@@ -53,7 +60,7 @@ export default function CreatorProjectDetailPage() {
             <ArrowLeft size={16} /> 案件一覧へ戻る
           </button>
         </div>
-        <ProjectDetailView project={project} client={client} />
+        <ProjectDetailView project={project} client={client} isApplied={isApplied} />
       </main>
     </div>
   );

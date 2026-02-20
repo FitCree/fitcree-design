@@ -40,7 +40,8 @@ AIは、globals.css で定義された変数、または以下のTailwindクラ�
   - `h2`: `text-xl font-semibold`
   - `Body`: `text-base` (16px)
   - `Small`: `text-sm` (14px)
-- 原則: 見出しには text-neutral-800 を使用し、本文とのコントラストを明確にすること。
+- 見出しには text-neutral-800 を使用し、本文とのコントラストを明確にすること。
+- 最小文字は `text-xs` (12px) を使用すること（`text-[10px]`といった利用は禁止）。
 
 ## 4. スペーシング & レイアウト（重要）
 - **セクション間余白**: `p-6` (24px) または `p-8` (32px) を標準とする。
