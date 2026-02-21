@@ -4,10 +4,10 @@
 
 ## 1. 知識のソース（最優先）
 実装を開始する前に、必ず以下のファイルを読み込み、その指示に従ってください。
-- `fitcree-design-app/docs/overview.md`
-- `fitcree-design-app/docs/design-system.md`
-- `fitcree-design-app/docs/architecture.md`
-- `fitcree-design-app/docs/accessibility.md`
+- `docs/overview.md`
+- `docs/design-system.md`
+- `docs/architecture.md`
+- `docs/accessibility.md`
 
 ## 2. 思考プロセス
 指示を受けた際、以下のステップで思考してください：
