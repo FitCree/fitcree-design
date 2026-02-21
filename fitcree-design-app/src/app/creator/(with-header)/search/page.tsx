@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Heart,
   MapPin,
@@ -15,7 +15,8 @@ import {
   Timer,
   Eye,
   HelpCircle,
-  Users
+  Users,
+  Search
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { INDUSTRIES, REQUEST_CATEGORIES } from '@/data/master-data';
@@ -114,22 +115,43 @@ const createJobData = (): JobCardData[] => {
 
 export default function SearchPage() {
   const router = useRouter();
-  // 初期データを生成（本来はuseEffectやServer Componentで取得）
-  const [jobs, setJobs] = useState<JobCardData[]>(() => createJobData());
+  // 初期データを空で初期化
+  const [jobs, setJobs] = useState<JobCardData[]>([]);
+
+  // マウント後にデータを生成してセット（hydration error対策）
+  useEffect(() => {
+    setJobs(createJobData());
+  }, []);
 
   const [sortOpen, setSortOpen] = useState(false);
   const [activeSort, setActiveSort] = useState("新着順");
 
   // フィルタ状態
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
 
   // フィルタリング処理
   const filteredJobs = useMemo(() => {
-    if (selectedIndustries.length === 0) return jobs;
-    return jobs.filter(job =>
-      job.industries.some(ind => selectedIndustries.includes(ind))
-    );
-  }, [jobs, selectedIndustries]);
+    let filtered = jobs;
+
+    // 業種フィルタ
+    if (selectedIndustries.length > 0) {
+      filtered = filtered.filter(job =>
+        job.industries.some(ind => selectedIndustries.includes(ind))
+      );
+    }
+
+    // キーワード検索
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(job =>
+        job.title.toLowerCase().includes(query) ||
+        job.description.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [jobs, selectedIndustries, searchQuery]);
 
   // ソート処理
   const sortedJobs = useMemo(() => {
@@ -168,8 +190,22 @@ export default function SearchPage() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8">
 
         {/* 左サイドバー */}
-        <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
+        <aside className="w-full md:w-64 flex-shrink-0 md:sticky md:top-20 h-fit space-y-6">
           <h1 className="text-2xl font-bold text-neutral-900 mb-6">仕事を探す</h1>
+
+          {/* 検索窓 */}
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-neutral-400 group-focus-within:text-orange-500 transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="フリーワードで検索"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-10 pr-3 py-2.5 bg-white border border-neutral-200 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm placeholder-neutral-400 transition-all outline-none"
+            />
+          </div>
 
           {/* <div className="relative">
             <button
@@ -350,16 +386,16 @@ export default function SearchPage() {
                     </button>
 
                     {/* 閲覧数 */}
-                    <div className="flex items-center gap-1.5 text-neutral-500">
+                    <p className="flex items-center gap-1.5 text-neutral-500">
                       <Eye className="w-4 h-4" />
                       <span className="text-xs font-medium">{job.views} <span className="hidden sm:inline">views</span></span>
-                    </div>
+                    </p>
 
                     {/* 検討中 */}
-                    <div className="flex items-center gap-1.5 text-neutral-500">
+                    <p className="flex items-center gap-1.5 text-neutral-500">
                       <Users className="w-4 h-4" />
                       <span className="text-xs font-medium">{job.considering} <span className="hidden sm:inline">人が検討中</span></span>
-                    </div>
+                    </p>
                   </div>
 
                   <div className="flex items-center gap-1 text-xs font-bold text-neutral-500 group-hover:text-orange-500 transition-colors">
