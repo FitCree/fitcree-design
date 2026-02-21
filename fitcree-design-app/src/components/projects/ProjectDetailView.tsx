@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Project, User } from '@/data/mock-data';
+import { Project, User } from '@/types/data';
 import {
   Calendar,
   Clock,
@@ -30,8 +30,7 @@ import {
   Eye,
   ShieldCheck
 } from 'lucide-react';
-import { BUDGET_RANGES, REQUEST_CATEGORIES } from '@/data/master-data';
-import { PROJECT_STATUS_CONFIG } from '@/data/mock-data';
+import { BUDGET_RANGES, REQUEST_CATEGORIES, PROJECT_STATUS_CONFIG } from '@/data/master-data';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -66,7 +65,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
   return (
     <div className="max-w-5xl mx-auto space-y-10">
       {/* Header Section */}
-      <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8 shadow-sm">
+      <div className="bg-white rounded-xl border border-neutral-200 px-4 py-8 sm:p-8">
         <div className="flex flex-wrap items-center gap-4 mb-4">
           {/* ステータス */}
           <p className={`text-sm font-bold px-2 py-0.5 rounded tracking-wider ${PROJECT_STATUS_CONFIG[project.status].bg} ${PROJECT_STATUS_CONFIG[project.status].color}`}>
@@ -163,7 +162,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           {/* Detailed Info */}
-          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
             {renderSectionTitle('案件概要', <FileText />)}
             <div className="p-6 sm:p-8 space-y-8">
               <div>
@@ -209,7 +208,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
           </section>
 
           {/* Conditions & Requirements */}
-          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+          <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
             {renderSectionTitle('募集条件・制約', <CheckCircle2 />)}
             <div className="p-6 sm:p-8 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -282,7 +281,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
           {/* Reference Materials */}
           {(details.referenceUrls?.length || details.referenceFiles?.length) ? (
-            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
               {renderSectionTitle('参考資料', <Link2 />)}
               <div className="p-6 sm:p-8 space-y-8">
                 {details.referenceUrls && details.referenceUrls.length > 0 && (
@@ -324,7 +323,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
           {/* Persona */}
           {details.persona && (
-            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden shadow-sm">
+            <section className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
               {renderSectionTitle('求めるパートナー像', <Users />)}
               <div className="p-6 sm:p-8">
                 <p className="text-neutral-900 leading-relaxed">
@@ -339,8 +338,8 @@ export default function ProjectDetailView({ project, client, isClientView = fals
               <button
                 onClick={() => router.push(isApplied ? `/creator/jobs/${project.id}/application-details` : `/creator/jobs/${project.id}/apply`)}
                 className={`w-full max-w-xs px-8 font-black py-4 rounded-full transition-all flex items-center justify-center gap-2 ${isApplied
-                    ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
-                    : "bg-orange-500 hover:bg-orange-600 text-white"
+                  ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
+                  : "bg-orange-500 hover:bg-orange-600 text-white"
                   }`}
               >
                 {isApplied ? (
@@ -369,8 +368,8 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                   <button
                     onClick={() => router.push(isApplied ? `/creator/jobs/${project.id}/application-details` : `/creator/jobs/${project.id}/apply`)}
                     className={`w-full font-black py-4 rounded-full transition-all flex items-center justify-center gap-2 ${isApplied
-                        ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
-                        : "bg-orange-500 hover:bg-orange-600 text-white"
+                      ? "border-2 border-orange-500 text-orange-500 bg-white hover:bg-orange-50"
+                      : "bg-orange-500 hover:bg-orange-600 text-white"
                       }`}
                   >
                     {isApplied ? (
@@ -391,7 +390,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
               {/* Links for Creators (only if not client view) */}
               {!isClientView && (
                 <div className="mb-10">
-                  <h2 className="font-bold text-neutral-900 mb-4 px-1">依頼を保存</h2>
+                  <h2 className="font-bold text-neutral-900 mb-2 px-1">依頼を保存</h2>
 
                   <button
                     onClick={() => alert('リンクをコピーしました')}
@@ -404,7 +403,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
               {!isClientView && (
                 <div className="mb-10">
-                  <h2 className="font-bold text-neutral-900 mb-4 px-1">依頼者情報</h2>
+                  <h2 className="font-bold text-neutral-900 mb-2 px-1">依頼者情報</h2>
                   <div className="flex items-center gap-4 mb-4">
                     <img src={client.avatarUrl} alt="" className="w-14 h-14 rounded-full border border-neutral-100" />
                     <div>
@@ -428,11 +427,11 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
                 return (
                   <div className="">
-                    <h2 className="font-bold text-neutral-900 mb-4 px-1">{title}</h2>
+                    <h2 className="font-bold text-neutral-900 mb-2 px-1">{title}</h2>
                     {creators.length > 0 ? (
-                      <div className="space-y-3">
+                      <div className="space-y-4">
                         {creators.map((creator) => (
-                          <div key={creator.id} className="flex items-center gap-3 p-2 rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 transition-colors cursor-pointer group">
+                          <div key={creator.id} className="flex items-center gap-4 transition-colors cursor-pointer group">
                             <img src={creator.avatarUrl} alt="" className="w-10 h-10 rounded-full border border-neutral-100" />
                             <div className="flex-1 min-w-0">
                               <p className="font-bold text-neutral-900 text-sm truncate">{creator.name}</p>

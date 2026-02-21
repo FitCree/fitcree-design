@@ -13,8 +13,8 @@ import {
   CheckCircle2,
   Activity
 } from 'lucide-react';
-import { MOCK_CLIENTS, PROJECT_STATUS_CONFIG, Project, MOCK_CREATORS } from '@/data/mock-data';
-import { BUDGET_RANGES, REQUEST_CATEGORIES } from '@/data/master-data';
+import { MOCK_CLIENTS, Project, MOCK_CREATORS } from '@/data/mock-data';
+import { BUDGET_RANGES, REQUEST_CATEGORIES, PROJECT_STATUS_CONFIG } from '@/data/master-data';
 
 // 山田 イラストマン を現在のユーザーとする
 const CURRENT_CREATOR_ID = MOCK_CREATORS[0].id;

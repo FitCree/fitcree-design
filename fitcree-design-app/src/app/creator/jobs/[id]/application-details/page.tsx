@@ -20,6 +20,7 @@ import { MOCK_CLIENTS, Project } from '@/data/mock-data';
 import { BUDGET_RANGES, REQUEST_CATEGORIES } from '@/data/master-data';
 import HeaderCreator from '@/components/common/header-creator';
 import Footer from '@/components/common/footer';
+import { DetailSection } from '@/components/common/DetailSection';
 
 export default function ApplicationDetailPage() {
   const params = useParams();
@@ -75,7 +76,7 @@ export default function ApplicationDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 pb-20">
+    <div className="min-h-screen bg-neutral-50">
       <HeaderCreator />
 
       <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
@@ -106,129 +107,101 @@ export default function ApplicationDetailPage() {
               </section>
 
               {/* 提案メッセージ */}
-              <section className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
-                <div className="bg-slate-500 p-4 text-white flex items-center gap-2">
-                  <MessageSquare size={18} />
-                  <h2 className="font-bold">提案メッセージ</h2>
-                </div>
-                <div className="p-6">
-                  <p className="text-neutral-800 leading-relaxed whitespace-pre-wrap text-base">
-                    {applicationData.message}
-                  </p>
-                </div>
-              </section>
+              <DetailSection title="提案メッセージ" icon={MessageSquare}>
+                <p className="text-neutral-800 leading-relaxed whitespace-pre-wrap text-base">
+                  {applicationData.message}
+                </p>
+              </DetailSection>
 
               {/* 見せたい作品 */}
-              <section className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
-                <div className="bg-slate-500 p-4 text-white flex items-center gap-2">
-                  <ImageIcon size={18} />
-                  <h2 className="font-bold">特に見せたい作品</h2>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-4">
-                    {applicationData.portfolios.map(item => (
-                      <div key={item.id} className="flex gap-6 p-4 border border-neutral-200 rounded-xl bg-white">
-                        <div className="relative w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-100">
-                          <img src={item.image} alt="" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 min-w-0 space-y-2">
-                          <div className="flex items-center gap-2">
-                            <span className="bg-orange-50 text-neutral-800 px-2 py-0.5 rounded-full border border-orange-200 text-xs text-orange-500 font-bold">
-                              {item.category}
-                            </span>
-                          </div>
-                          <h4 className="font-bold text-neutral-800 text-base leading-snug">
-                            {item.title}
-                          </h4>
-                          {item.description && (
-                            <p className="text-sm text-neutral-600 line-clamp-2">
-                              {item.description}
-                            </p>
-                          )}
-                          {item.url && (
-                            <div className="flex items-center gap-1.5 text-blue-500 text-sm font-bold truncate">
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                {item.url}
-                              </a>
-                            </div>
-                          )}
-                        </div>
+              <DetailSection title="特に見せたい作品" icon={ImageIcon}>
+                <div className="space-y-4">
+                  {applicationData.portfolios.map(item => (
+                    <div key={item.id} className="flex gap-6 p-4 border border-neutral-200 rounded-xl bg-white">
+                      <div className="relative w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-100">
+                        <img src={item.image} alt="" className="w-full h-full object-cover" />
                       </div>
-                    ))}
-                  </div>
+                      <div className="flex-1 min-w-0 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="bg-orange-50 text-neutral-800 px-2 py-0.5 rounded-full border border-orange-200 text-xs text-orange-500 font-bold">
+                            {item.category}
+                          </span>
+                        </div>
+                        <h4 className="font-bold text-neutral-800 text-base leading-snug">
+                          {item.title}
+                        </h4>
+                        {item.description && (
+                          <p className="text-sm text-neutral-600 line-clamp-2">
+                            {item.description}
+                          </p>
+                        )}
+                        {item.url && (
+                          <div className="flex items-center gap-1.5 text-blue-500 text-sm font-bold truncate">
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                              {item.url}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </section>
+              </DetailSection>
 
               {/* ラフ案・構成案 */}
-              <section className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
-                <div className="bg-slate-500 p-4 text-white flex items-center gap-2">
-                  <FileText size={18} />
-                  <h2 className="font-bold">ラフ案・構成案</h2>
-                </div>
-                <div className="p-6 space-y-4">
-                  <div className="flex items-center gap-3 p-3 border border-neutral-200 rounded-xl bg-neutral-50">
-                    <div className="bg-white p-2 rounded-lg border border-neutral-100 text-neutral-400">
-                      <FileText size={20} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-neutral-800">rough_draft_concept.pdf</p>
-                      <p className="text-[10px] text-neutral-500 font-medium">1.2 MB</p>
-                    </div>
+              <DetailSection title="ラフ案・構成案" icon={FileText} bodyClassName="p-6 space-y-4">
+                <div className="flex items-center gap-3 p-3 border border-neutral-200 rounded-xl bg-neutral-50">
+                  <div className="bg-white p-2 rounded-lg border border-neutral-100 text-neutral-400">
+                    <FileText size={20} />
                   </div>
-                  <p className="text-neutral-800 leading-relaxed text-base">
-                    {applicationData.roughDraft}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-neutral-800">rough_draft_concept.pdf</p>
+                    <p className="text-[10px] text-neutral-500 font-medium">1.2 MB</p>
+                  </div>
                 </div>
-              </section>
+                <p className="text-neutral-800 leading-relaxed text-base">
+                  {applicationData.roughDraft}
+                </p>
+              </DetailSection>
 
               {/* 概算見積もり */}
-              <section className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
-                <div className="bg-slate-500 p-4 text-white flex items-center gap-2">
-                  <CircleDollarSign size={18} />
-                  <h2 className="font-bold">概算見積もり</h2>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-3 mb-8">
-                    {applicationData.quotes.map((q) => (
-                      <div key={q.id} className="flex justify-between items-center py-2 border-b border-neutral-50">
-                        <span className="text-neutral-700 font-medium">{q.item}</span>
-                        <span className="text-neutral-900 font-bold">{q.price.toLocaleString()} 円</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="bg-orange-50 rounded-2xl p-6">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-bold text-neutral-600">見積もり合計額</span>
-                      <span className="text-lg font-black text-neutral-900">{subtotal.toLocaleString()} 円</span>
+              <DetailSection title="概算見積もり" icon={CircleDollarSign}>
+                <div className="space-y-3 mb-8">
+                  {applicationData.quotes.map((q) => (
+                    <div key={q.id} className="flex justify-between items-center py-2 border-b border-neutral-50">
+                      <span className="text-neutral-700 font-medium">{q.item}</span>
+                      <span className="text-neutral-900 font-bold">{q.price.toLocaleString()} 円</span>
                     </div>
-                    <div className="flex justify-between pt-4 border-t border-orange-200">
-                      <span className="text-sm font-black text-neutral-800">受取り想定額</span>
-                      <div className="text-right">
-                        <span className="text-2xl text-orange-600 font-black">{totalPayout.toLocaleString()}</span>
-                        <span className="text-xs font-bold text-orange-600 ml-1">円</span>
-                        <p className="text-sm text-neutral-500 font-medium">※システム利用料（10%）を差し引いた金額</p>
-                      </div>
+                  ))}
+                </div>
+
+                <div className="bg-orange-50 rounded-2xl p-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-bold text-neutral-600">見積もり合計額</span>
+                    <span className="text-lg font-black text-neutral-900">{subtotal.toLocaleString()} 円</span>
+                  </div>
+                  <div className="flex justify-between pt-4 border-t border-orange-200">
+                    <span className="text-sm font-black text-neutral-800">受取り想定額</span>
+                    <div className="text-right">
+                      <span className="text-2xl text-orange-600 font-black">{totalPayout.toLocaleString()}</span>
+                      <span className="text-xs font-bold text-orange-600 ml-1">円</span>
+                      <p className="text-sm text-neutral-500 font-medium">※システム利用料（10%）を差し引いた金額</p>
                     </div>
                   </div>
-
-                  <ul className="text-sm text-neutral-600 leading-relaxed space-y-1 list-disc pl-4 mt-4">
-                    <li>クライアントには「見積もり合計額」のみ送信されています。「受取り想定額」は送信されません。</li>
-                    <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、<a href="#" target="_blank" className="text-blue-500 font-bold hover:underline gap-1 group">システム手数料について</a>をご覧ください。</li>
-                  </ul>
                 </div>
-              </section>
+
+                <ul className="text-sm text-neutral-600 leading-relaxed space-y-1 list-disc pl-4 mt-4">
+                  <li>クライアントには「見積もり合計額」のみ送信されています。「受取り想定額」は送信されません。</li>
+                  <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、<a href="#" target="_blank" className="text-blue-500 font-bold hover:underline gap-1 group">システム手数料について</a>をご覧ください。</li>
+                </ul>
+              </DetailSection>
             </div>
 
             {/* 右カラム: アクション & ステータス */}
             <div className="space-y-6">
               {/* ステータスカード */}
-              <section className="bg-white border border-neutral-200 rounded-2xl p-6">
-                <h2 className="text-sm font-bold text-neutral-700 mb-4 flex items-center gap-2">
-                  <Clock size={16} />
-                  現在の状況
-                </h2>
+              <DetailSection title="現在の状況" icon={Clock} variant="simple">
                 <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 mb-6 flex flex-col items-center text-center gap-3">
                   <div className="bg-blue-600 p-3 rounded-full text-white">
                     <Clock size={24} />
@@ -254,14 +227,10 @@ export default function ApplicationDetailPage() {
                     応募を取り下げる
                   </button>
                 </div>
-              </section>
+              </DetailSection>
 
               {/* 注意事項 */}
-              <section className="bg-white border border-neutral-200 rounded-2xl p-6">
-                <h2 className="text-sm font-bold text-neutral-700 mb-4 flex items-center gap-2">
-                  <AlertTriangle size={16} />
-                  応募に関するご注意
-                </h2>
+              <DetailSection title="応募に関するご注意" icon={AlertTriangle} variant="simple">
                 <ul className="space-y-2 list-disc pl-4 text-sm text-neutral-800 leading-relaxed">
                   <li>
                     修正をしたい場合は、運営までご相談ください。
@@ -273,14 +242,10 @@ export default function ApplicationDetailPage() {
                     選定状況についてはお答えできません。
                   </li>
                 </ul>
-              </section>
+              </DetailSection>
 
               {/* ヘルプ */}
-              <section className="bg-neutral-800 text-white border border-neutral-700 rounded-2xl p-6">
-                <h2 className="text-sm font-bold text-neutral-500 mb-4 flex items-center gap-2 text-white">
-                  <HelpCircle size={16} />
-                  お困りですか？
-                </h2>
+              <DetailSection title="お困りですか？" icon={HelpCircle} variant="dark">
                 <div className="flex items-start gap-4">
                   <div>
                     <p className="text-sm text-white leading-relaxed mb-4">
@@ -291,7 +256,7 @@ export default function ApplicationDetailPage() {
                     </button>
                   </div>
                 </div>
-              </section>
+              </DetailSection>
             </div>
 
           </div>

@@ -110,18 +110,25 @@ export default function CreatorsPage() {
                   <div className="flex-1 space-y-4">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
-                        <h3 className="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
-                          {creator.name}
-                        </h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
+                            {creator.name}
+                          </h3>
+                          {creator.role && (
+                            <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
+                              {creator.role}
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-center gap-4 mt-2 text-sm text-neutral-500">
                           <span className="flex items-center gap-1">
                             <Star size={16} className="text-yellow-400 fill-yellow-400" />
-                            <span className="font-bold text-neutral-700">4.9</span>
-                            <span>(48)</span>
+                            <span className="font-bold text-neutral-700">{creator.rating || '4.0'}</span>
+                            <span>({creator.reviewCount || '0'})</span>
                           </span>
                           <span className="flex items-center gap-1">
                             <MapPin size={16} />
-                            東京都
+                            {creator.location || '東京都'}
                           </span>
                         </div>
                       </div>
@@ -136,11 +143,11 @@ export default function CreatorsPage() {
                     </div>
 
                     <p className="text-neutral-600 text-sm leading-relaxed line-clamp-2">
-                      UI/UXデザインを中心に、ブランド構築からデジタルの実装まで幅広くサポートします。クライアントの課題の本質を捉え、持続可能な価値を生み出すデザインを提供することが得意です。
+                      {creator.description || 'UI/UXデザインを中心に、ブランド構築からデジタルの実装まで幅広くサポートします。クライアントの課題の本質を捉え、持続可能な価値を生み出すデザインを提供することが得意です。'}
                     </p>
 
                     <div className="flex flex-wrap gap-2">
-                      {['UI/UX', 'Figma', 'React', 'Branding'].map(tag => (
+                      {(creator.skills || ['UI/UX', 'Figma', 'React', 'Branding']).map(tag => (
                         <span key={tag} className="text-xs font-bold text-neutral-500 bg-neutral-100 px-3 py-1 rounded-full">
                           {tag}
                         </span>

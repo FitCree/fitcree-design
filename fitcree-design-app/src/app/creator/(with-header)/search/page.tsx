@@ -42,6 +42,7 @@ interface JobCardData {
   industries: string[];
   requestType: 'proposal' | 'specified' | 'partner' | undefined;
   isLiked: boolean; // ローカル状態
+  isApplied: boolean;
   views: number;    // ランダム生成
   considering: number; // ランダム生成
 }
@@ -100,13 +101,14 @@ const createJobData = (): JobCardData[] => {
         industries: project.details?.industry || [],
         requestType: project.details?.requestType,
         isLiked: false,
+        isApplied: project.applicantUsers?.some(u => u.id === 'creator-1') || false,
         views,
         considering
       });
     });
   });
 
-  return jobs.sort((a, b) => b.matchRate - a.matchRate); // デフォルトはマッチ度順
+  return jobs.sort((a, b) => b.postedAt.localeCompare(a.postedAt)); // デフォルトは新着順
 };
 
 
@@ -116,7 +118,7 @@ export default function SearchPage() {
   const [jobs, setJobs] = useState<JobCardData[]>(() => createJobData());
 
   const [sortOpen, setSortOpen] = useState(false);
-  const [activeSort, setActiveSort] = useState("マッチ度順");
+  const [activeSort, setActiveSort] = useState("新着順");
 
   // フィルタ状態
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
@@ -236,7 +238,7 @@ export default function SearchPage() {
               <div
                 key={job.id}
                 onClick={() => handleCardClick(job.id)}
-                className="bg-white rounded-2xl border border-neutral-200 hover:border-orange-200 transition-all p-6 group cursor-pointer"
+                className="bg-white rounded-2xl border border-neutral-200 hover:border-orange-200 transition-all p-6 group cursor-pointer relative"
               >
                 <div className="md:flex justify-between gap-4">
                   <div>
@@ -267,6 +269,13 @@ export default function SearchPage() {
                     <h2 className="text-lg font-bold text-neutral-900 leading-snug mb-2 group-hover:text-orange-600 transition-colors">
                       {job.title}
                     </h2>
+                    {job.isApplied && (
+                      <div className="absolute top-6 right-6">
+                        <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[10px] font-bold border border-blue-100">
+                          応募済
+                        </span>
+                      </div>
+                    )}
                     <p className="md:block hidden text-sm text-neutral-600 mb-5 line-clamp-2">
                       {job.description}
                     </p>

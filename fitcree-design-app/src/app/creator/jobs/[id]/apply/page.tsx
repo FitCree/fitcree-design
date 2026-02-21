@@ -28,6 +28,7 @@ import { TextArea } from '@/components/forms/elements/TextArea';
 import { TipsBox } from '@/components/forms/elements/TipsBox';
 import { AddButton } from '@/components/forms/elements/AddButton';
 import { FileUploader } from '@/components/forms/elements/FileUploader';
+import { DetailSection } from '@/components/common/DetailSection';
 
 export default function JobApplyPage() {
   const params = useParams();
@@ -220,7 +221,7 @@ export default function JobApplyPage() {
 
   return (
     <div>
-      <header className="bg-white border-b sticky top-0 z-10 px-4 py-3">
+      <header className="bg-white border-b border-neutral-200 sticky top-0 z-10 px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex-1">
             <button
@@ -249,12 +250,11 @@ export default function JobApplyPage() {
         <div className="max-w-3xl mx-auto p-8 pb-20 space-y-8">
 
           {/* 応募する案件 */}
-          <section className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-            <div className="bg-neutral-100 border-b border-neutral-100 p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-neutral-700">
-                <Info size={20} className="text-neutral-400" />
-                <h2 className="font-bold">応募する案件</h2>
-              </div>
+          <DetailSection
+            title="応募する案件"
+            icon={Info}
+            variant="info"
+            headerRight={
               <Link
                 href={`/projects/${projectId}`}
                 target="_blank"
@@ -262,8 +262,9 @@ export default function JobApplyPage() {
               >
                 案件詳細を別タブで開く <ExternalLink className="w-3 h-3" />
               </Link>
-            </div>
-            <div className="p-6 space-y-4">
+            }
+          >
+            <div className="space-y-4">
               <div>
                 <h3 className="text-lg font-bold text-neutral-800 leading-snug">{jobInfo.title}</h3>
               </div>
@@ -280,34 +281,29 @@ export default function JobApplyPage() {
                 </ul>
               </div>
             </div>
-          </section>
+          </DetailSection>
 
           {/* Section: Portfolios */}
-          <section className="bg-white rounded-xl  overflow-hidden">
-            <div className="bg-slate-500 p-4 flex items-center gap-2 text-white">
-              <ImageIcon size={20} className="" />
-              <h2 className="font-bold">特に見せたい作品の選択 (必須)</h2>
-            </div>
-            <div className="p-6">
-              <div className="mb-6 space-y-3">
-                <p className="text-base font-medium text-neutral-700">
-                  クライアントに特に見てほしい作品を選択してください（最低1つ、最大6つ）。
-                </p>
-                <TipsBox
-                  variant="creator"
-                  title="作品選びのアドバイス"
-                  content="本案件に関連のある作品を掲載しましょう。関連性が高いほど受注率がアップします。"
-                />
-              </div>
+          <DetailSection title="特に見せたい作品の選択 (必須)" icon={ImageIcon}>
+            <p className="text-base font-medium text-neutral-700 mb-4">
+              クライアントに特に見てほしい作品を選択してください（最低1つ、最大6つ）。
+            </p>
 
-              <div className="space-y-4 mb-6">
-                {selectedPortfolios.map(item => (
-                  <div
-                    key={item.id}
-                    onClick={() => openEditModal(item)}
-                    className="flex gap-6 group p-4 border border-neutral-200 rounded-xl relative hover:bg-neutral-50 transition-colors cursor-pointer"
-                  >
-                    <div className="relative w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-100">
+            <TipsBox
+              variant="creator"
+              title="作品選びのアドバイス"
+              content="本案件に関連のある作品を掲載しましょう。関連性が高いほど受注率がアップします。"
+            />
+
+            <div className="space-y-2 mb-6">
+              {selectedPortfolios.map(item => (
+                <div
+                  key={item.id}
+                  onClick={() => openEditModal(item)}
+                  className="flex justify-between w-full"
+                >
+                  <div className="flex gap-4 hover:bg-neutral-100 py-2 px-2 cursor-pointer transition-colors group rounded w-full">
+                    <div className="relative w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden border bg-neutral-50">
                       <img src={item.image} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0 space-y-2">
@@ -333,217 +329,152 @@ export default function JobApplyPage() {
                         </div>
                       )}
                     </div>
+                  </div>
+                  <div>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         removePortfolio(item.id);
                       }}
-                      className="absolute top-2 right-2 p-2 text-neutral-400 hover:text-red-500 transition-colors"
+                      className="px-1 py-2 text-neutral-400 hover:text-red-500 transition-colors"
                     >
                       <Trash2 size={20} />
                     </button>
                   </div>
-                ))}
-              </div>
-
-              {selectedPortfolios.length < 6 && (
-                <AddButton
-                  label="作品を追加する"
-                  onClick={() => setShowPortfolioModal(true)}
-                  variant="creator"
-                />
-              )}
+                </div>
+              ))}
             </div>
-          </section>
+
+            {selectedPortfolios.length < 6 && (
+              <AddButton
+                label="作品を追加する"
+                onClick={() => setShowPortfolioModal(true)}
+                variant="creator"
+              />
+            )}
+          </DetailSection>
 
           {/* Section: Proposal Message */}
-          <section className="bg-white rounded-xl overflow-hidden">
-            <div className="bg-slate-500 p-4 flex items-center gap-2 text-white">
-              <MessageSquare className="w-5 h-5" />
-              <h2 className="font-bold flex items-center justify-between w-full">
-                提案メッセージ
-                {clientRequirements.message && <RequestedBadge />}
-              </h2>
-            </div>
-            <div className="p-6">
-              <p className="text-base text-neutral-700 mb-4">
-                案件へのアプローチや、課題解決に向けた意気込みを記載してください。
-              </p>
-              <TextArea
-                variant="creator"
-                rows={8}
-                placeholder="例：これまでの経験を活かし、ユーザーに刺さるデザインをご提案します..."
-                value={message}
-                onChange={(val: string) => setMessage(val)}
-              />
-            </div>
-          </section>
+          <DetailSection
+            title="提案メッセージ"
+            icon={MessageSquare}
+            headerRight={clientRequirements.message && <RequestedBadge />}
+          >
+            <p className="text-base text-neutral-700 mb-4">
+              案件へのアプローチや、課題解決に向けた意気込みを記載してください。
+            </p>
+            <TextArea
+              variant="creator"
+              rows={8}
+              placeholder="例：これまでの経験を活かし、ユーザーに刺さるデザインをご提案します..."
+              value={message}
+              onChange={(val: string) => setMessage(val)}
+            />
+          </DetailSection>
 
           {/* Section: Rough Draft */}
-          <section className="bg-white rounded-xl  overflow-hidden">
-            <div className="bg-slate-500 p-4 flex items-center gap-2 text-white">
-              <FileText className="w-5 h-5" />
-              <h2 className="font-bold flex items-center justify-between w-full">
-                ラフ案・構成案
-                {clientRequirements.draft && <RequestedBadge />}
-              </h2>
-            </div>
-            <div className="p-6">
-              <p className="text-base text-neutral-700 mb-4">
-                具体的な完成イメージや構成案の説明があれば、添付または記載してください。
-              </p>
-              <FileUploader
-                variant="creator"
-                label="ラフ案・構成案ファイルをアップロードする"
-                description="PDF, PNG, JPG (1ファイル、合計5MBまで)"
-                onChange={handleImageUpload}
-                accept="image/jpeg,image/png,application/pdf"
-                previewImage={previewImage}
-                className="mb-4"
-              />
-              <TextArea
-                variant="creator"
-                rows={8}
-                placeholder="ラフ案の補足説明など..."
-                value={roughDraft}
-                onChange={(val: string) => setRoughDraft(val)}
-              />
-            </div>
-          </section>
+          <DetailSection
+            title="ラフ案・構成案"
+            icon={FileText}
+            headerRight={clientRequirements.draft && <RequestedBadge />}
+          >
+            <p className="text-base text-neutral-700 mb-4">
+              具体的な完成イメージや構成案の説明があれば、添付または記載してください。
+            </p>
+            <FileUploader
+              variant="creator"
+              label="ラフ案・構成案ファイルをアップロードする"
+              description="PDF, PNG, JPG (1ファイル、合計5MBまで)"
+              onChange={handleImageUpload}
+              accept="image/jpeg,image/png,application/pdf"
+              previewImage={previewImage}
+              className="mb-4"
+            />
+            <TextArea
+              variant="creator"
+              rows={8}
+              placeholder="ラフ案の補足説明など..."
+              value={roughDraft}
+              onChange={(val: string) => setRoughDraft(val)}
+            />
+          </DetailSection>
 
           {/* Section: Quotation */}
-          <section className="bg-white rounded-xl overflow-hidden">
-            <div className="bg-slate-500 p-4 flex items-center gap-2 text-white">
-              <CircleDollarSign className="w-5 h-5" />
-              <h2 className="font-bold flex items-center justify-between w-full">
-                概算見積もり
-                {clientRequirements.quote && <RequestedBadge />}
-              </h2>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4 mb-6">
-                {/* <div className="grid grid-cols-11 gap-2 text-sm font-bold text-neutral-700 px-2 uppercase tracking-wider">
-                  <div className="col-span-5">項目</div>
-                  <div className="col-span-1">数量</div>
-                  <div className="col-span-2">単価</div>
-                  <div className="col-span-2 text-right">小計</div>
-                  <div className="col-span-1"></div>
-                </div> */}
-                <div className="grid grid-cols-12 gap-2 text-sm font-bold text-neutral-700 uppercase tracking-wider">
-                  <div className="col-span-8 pl-2">項目</div>
-                  <div className="col-span-3 pl-2">金額</div>
-                  <div className="col-span-1"></div>
-                </div>
-                {quotes.map((q) => (
-                  <div key={q.id} className="grid grid-cols-12 gap-2 items-center">
-                    {/* 項目 */}
-                    <div className="col-span-8">
-                      <TextInput
-                        variant="creator"
-                        placeholder="作業工程など"
-                        value={q.item}
-                        onChange={(val: string) => updateQuote(q.id, 'item', val)}
-                      />
-                    </div>
-                    {/* 金額 */}
-                    <div className="col-span-3 flex items-end">
-                      <TextInput
-                        variant="creator"
-                        value={q.price}
-                        onChange={(val: string) => updateQuote(q.id, 'price', val)}
-                      />
-                      <span className="text-sm text-neutral-500 ml-1">円</span>
-                    </div>
-                    {/* 削除 */}
-                    <div className="col-span-1 flex justify-center">
-                      <button
-                        onClick={() => handleRemoveQuote(q.id)}
-                        className="text-neutral-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </div>
+          <DetailSection
+            title="概算見積もり"
+            icon={CircleDollarSign}
+            headerRight={clientRequirements.quote && <RequestedBadge />}
+          >
+            <div className="space-y-4 mb-6">
+              <div className="grid grid-cols-12 gap-2 text-sm font-bold text-neutral-700 uppercase tracking-wider">
+                <div className="col-span-8 pl-2">項目</div>
+                <div className="col-span-3 pl-2">金額</div>
+                <div className="col-span-1"></div>
+              </div>
+              {quotes.map((q) => (
+                <div key={q.id} className="grid grid-cols-12 gap-2 items-center">
+                  {/* 項目 */}
+                  <div className="col-span-8">
+                    <TextInput
+                      variant="creator"
+                      placeholder="作業工程など"
+                      value={q.item}
+                      onChange={(val: string) => updateQuote(q.id, 'item', val)}
+                    />
                   </div>
-                  // <div key={q.id} className="grid grid-cols-11 gap-2 items-center">
-                  //   {/* 項目 */}
-                  //   <div className="col-span-5">
-                  //     <input
-                  //       type="text"
-                  //       className="text-neutral-700 w-full py-3 px-2 border border-neutral-300 rounded-lg bg-neutral-50 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
-                  //       placeholder="作業工程など"
-                  //       value={q.item}
-                  //       onChange={(e) => updateQuote(q.id, 'item', e.target.value)}
-                  //     />
-                  //   </div>
-                  //   {/* 数量 */}
-                  //   <div className="col-span-1">
-                  //     <input
-                  //       type="number"
-                  //       className="text-neutral-700 w-full py-3 px-2 border border-neutral-300 rounded-lg bg-neutral-50 text-sm focus:ring-2 focus:ring-orange-500 outline-none text-center"
-                  //       value={q.unit}
-                  //       onChange={(e) => updateQuote(q.id, 'unit', e.target.value)}
-                  //     />
-                  //   </div>
-                  //   {/* 単価 */}
-                  //   <div className="col-span-2">
-                  //     <input
-                  //       type="number"
-                  //       className="text-neutral-700 w-full py-3 px-2 border border-neutral-300 rounded-lg bg-neutral-50 text-sm focus:ring-2 focus:ring-orange-500 outline-none text-right"
-                  //       value={q.price}
-                  //       onChange={(e) => updateQuote(q.id, 'price', e.target.value)}
-                  //     />
-                  //   </div>
-                  //   {/* 小計 */}
-                  //   <div className="col-span-2 text-right pr-2">
-                  //     <span className="text-base font-bold text-neutral-700">
-                  //       {(Number(q.unit) * Number(q.price)).toLocaleString()} 円
-                  //     </span>
-                  //   </div>
-                  //   {/* 削除 */}
-                  //   <div className="col-span-1 flex justify-center">
-                  //     <button
-                  //       onClick={() => handleRemoveQuote(q.id)}
-                  //       className="text-neutral-400 hover:text-red-500 transition-colors"
-                  //     >
-                  //       <Trash2 size={20} />
-                  //     </button>
-                  //   </div>
-                  // </div>
-                ))}
-              </div>
-              <AddButton
-                variant="creator"
-                label="見積もり内訳を追加する"
-                onClick={handleAddQuote}
-              />
-
-              <div className="bg-orange-50 rounded-sm p-6 mt-12 mb-6">
-                <h3 className="text-neutral-800 text-center font-bold text-lg mb-6">あなたの受取り想定</h3>
-                <p className="flex justify-between text-neutral-900">
-                  <span className="text-base font-bold">見積もり合計額</span>
-                  <span className="font-bold text-neutral-900 text-lg">{subtotal.toLocaleString()} 円</span>
-                </p>
-                <p className="flex justify-between text-neutral-900 text-sm mt-2">
-                  <span>システム利用料（10%）</span>
-                  <span className="text-red-500 text-lg">-{fee.toLocaleString()} 円</span>
-                </p>
-                <p className="flex justify-between items-end mt-6">
-                  <span className="text-neutral-800 font-bold">受取り想定額</span>
-                  <span className="text-right text-neutral-800">
-                    <span className="text-3xl text-orange-500 font-black">{totalPayout.toLocaleString()}</span>
-                    <span className="text-base ml-1 font-bold">円</span>
-                  </span>
-                </p>
-              </div>
-
-              <div className="px-2 space-y-2">
-                <ul className="text-sm text-neutral-600 leading-relaxed space-y-1 list-disc pl-4">
-                  <li>クライアントには「見積もり合計額」のみ送信されます。「受取り想定額」は送信されません。</li>
-                  <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、<a href="#" target="_blank" className="text-blue-500 font-bold hover:underline gap-1 group">システム手数料について</a>をご覧ください。</li>
-                </ul>
-              </div>
+                  {/* 金額 */}
+                  <div className="col-span-3 flex items-end">
+                    <TextInput
+                      variant="creator"
+                      value={q.price}
+                      onChange={(val: string) => updateQuote(q.id, 'price', val)}
+                    />
+                    <span className="text-sm text-neutral-500 ml-1">円</span>
+                  </div>
+                  {/* 削除 */}
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleRemoveQuote(q.id)}
+                      className="text-neutral-400 hover:text-red-500 transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </section>
+            <AddButton
+              variant="creator"
+              label="見積もり内訳を追加する"
+              onClick={handleAddQuote}
+            />
+
+            <div className="bg-orange-50 rounded-sm p-6 mt-12 mb-6">
+              <h3 className="text-neutral-800 text-center font-bold text-lg mb-6">あなたの受取り想定</h3>
+              <p className="flex justify-between text-neutral-900">
+                <span className="text-base font-bold">見積もり合計額</span>
+                <span className="font-bold text-neutral-900 text-lg">{subtotal.toLocaleString()} 円</span>
+              </p>
+              <p className="flex justify-between text-neutral-900 text-sm mt-2">
+                <span>システム利用料（10%）</span>
+                <span className="text-red-500 text-lg">-{fee.toLocaleString()} 円</span>
+              </p>
+              <p className="flex justify-between items-end mt-6">
+                <span className="text-neutral-800 font-bold">受取り想定額</span>
+                <span className="text-right text-neutral-800">
+                  <span className="text-3xl text-orange-500 font-black">{totalPayout.toLocaleString()}</span>
+                  <span className="text-base ml-1 font-bold">円</span>
+                </span>
+              </p>
+            </div>
+
+            <div className="px-2 space-y-2">
+              <ul className="text-sm text-neutral-600 leading-relaxed space-y-1 list-disc pl-4">
+                <li>クライアントには「見積もり合計額」のみ送信されています。「受取り想定額」は送信されません。</li>
+                <li>クリエイター・クライアント双方に別々のシステム手数料がかかります。詳しくは、<a href="#" target="_blank" className="text-blue-500 font-bold hover:underline gap-1 group">システム手数料について</a>をご覧ください。</li>
+              </ul>
+            </div>
+          </DetailSection>
 
           <button
             onClick={() => setView('confirm')}

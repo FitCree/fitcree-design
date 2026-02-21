@@ -85,6 +85,7 @@ export const USAGE_PURPOSES: Record<string, string[]> = {
   ]
 };
 
+
 /**
  * 予算レンジのマスターデータ
  */
@@ -96,4 +97,27 @@ export const BUDGET_RANGES: string[] = [
   '300,000円 〜 500,000円',
   '500,000円 〜 1,000,000円',
   '1,000,000円以上'
+];
+
+/**
+ * プロジェクトステータスの設定
+ * ラベル、色、アイコンを集中管理します。
+ */
+import { LucideIcon, Briefcase, Users, Clock, MessageSquare } from 'lucide-react';
+import { ProjectStatus, StatItem } from '@/types/data';
+
+export const PROJECT_STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string; bg: string; icon: LucideIcon }> = {
+  recruiting: { label: '募集中', color: 'text-red-700', bg: 'bg-red-100', icon: Briefcase },
+  selection: { label: '選考中', color: 'text-red-700', bg: 'bg-red-100', icon: Users },
+  in_progress: { label: '進行中', color: 'text-blue-700', bg: 'bg-blue-100', icon: Clock },
+  completed: { label: '完了', color: 'text-green-700', bg: 'bg-green-100', icon: Clock },
+  closed: { label: '完了', color: 'text-green-700', bg: 'bg-green-100', icon: MessageSquare },
+};
+
+export const CLIENT_STATS_TEMPLATE: Omit<StatItem, 'value'>[] = [
+  { ...PROJECT_STATUS_CONFIG.recruiting, color: 'text-blue-600', bg: 'bg-blue-50' },
+  { ...PROJECT_STATUS_CONFIG.selection, color: 'text-sky-600', bg: 'bg-sky-50' },
+  { ...PROJECT_STATUS_CONFIG.in_progress, color: 'text-green-600', bg: 'bg-green-50' },
+  { ...PROJECT_STATUS_CONFIG.closed, color: 'text-neutral-500', bg: 'bg-neutral-50' },
+  { label: '未読メッセージ', icon: MessageSquare, color: 'text-red-500', bg: 'bg-red-50' },
 ];
