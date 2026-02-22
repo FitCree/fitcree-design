@@ -48,6 +48,11 @@ export default function Home() {
                   応募中案件の内容確認
                 </Link>
               </li>
+              <li>
+                <Link className="link-blue" href="/creator/profile">
+                  プロフィール編集 - スキル・ツールの登録
+                </Link>
+              </li>
             </ul>
           </div>
 
