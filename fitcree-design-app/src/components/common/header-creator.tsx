@@ -27,9 +27,9 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       </div>
 
       <div className="py-2">
-        <button className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
+        <Link href="/creator/profile/skills" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
           <User size={16} className="text-neutral-400" /> プロフィール編集
-        </button>
+        </Link>
         <Link href="/creator/applications" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
           <Activity size={16} className="text-neutral-400" /> 応募状況
         </Link>

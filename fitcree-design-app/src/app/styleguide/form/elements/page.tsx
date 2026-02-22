@@ -40,11 +40,11 @@ export default function StyleguidePage() {
             <div id="textinput">
               <h2 className="text-indigo-600 text-sm font-bold mb-3">TextInput</h2>
               <FormElements.FormSection label="テキスト入力（必須）" required helpText="最大80文字まで入力可能です。">
-                <FormElements.TextInput 
-                  value={text} 
-                  onChange={setText} 
-                  placeholder="入力してください..." 
-                  maxLength={80} 
+                <FormElements.TextInput
+                  value={text}
+                  onChange={setText}
+                  placeholder="入力してください..."
+                  maxLength={80}
                 />
               </FormElements.FormSection>
             </div>
@@ -52,10 +52,10 @@ export default function StyleguidePage() {
             <div id="textarea">
               <h2 className="text-indigo-600 text-sm font-bold mb-3">TextArea</h2>
               <FormElements.FormSection label="長文入力">
-                <FormElements.TextArea 
-                  value={textArea} 
-                  onChange={setTextArea} 
-                  placeholder="詳細を記載してください..." 
+                <FormElements.TextArea
+                  value={textArea}
+                  onChange={setTextArea}
+                  placeholder="詳細を記載してください..."
                   rows={5}
                 />
               </FormElements.FormSection>
@@ -64,9 +64,9 @@ export default function StyleguidePage() {
             <div id="checkboxgrid">
               <h2 className="text-indigo-600 text-sm font-bold mb-3">CheckboxGrid (3列)</h2>
               <FormElements.FormSection label="チェックボックスグリッド（3列表示）">
-                <FormElements.CheckboxGrid 
-                  options={['テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト']} 
-                  selectedValues={checks} 
+                <FormElements.CheckboxGrid
+                  options={['テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト']}
+                  selectedValues={checks}
                   cols={3}
                 />
               </FormElements.FormSection>
@@ -75,9 +75,9 @@ export default function StyleguidePage() {
             <div>
               <h2 className="text-indigo-600 text-sm font-bold mb-3">CheckboxGrid (4列)</h2>
               <FormElements.FormSection label="チェックボックスグリッド（4列表示）">
-                <FormElements.CheckboxGrid 
-                  options={['テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト']} 
-                  selectedValues={checks} 
+                <FormElements.CheckboxGrid
+                  options={['テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト', 'テキスト']}
+                  selectedValues={checks}
                   cols={4}
                 />
               </FormElements.FormSection>
@@ -86,7 +86,7 @@ export default function StyleguidePage() {
             <div id="radiocard">
               <h2 className="text-indigo-600 text-sm font-bold mb-3">RadioCard</h2>
               <FormElements.FormSection label="ラジオカード（依頼タイプ等）">
-                <FormElements.RadioCard 
+                <FormElements.RadioCard
                   selectedValue={radio}
                   onChange={setRadio}
                   options={[
@@ -101,7 +101,7 @@ export default function StyleguidePage() {
             <div id="radiolist">
               <h2 className="text-indigo-600 text-sm font-bold mb-3">RadioList</h2>
               <FormElements.FormSection label="ラジオリスト（標準ラジオボタン）">
-                <FormElements.RadioList 
+                <FormElements.RadioList
                   name="radioList"
                   selectedValue={radioList}
                   onChange={setRadioList}

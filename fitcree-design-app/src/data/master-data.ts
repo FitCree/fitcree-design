@@ -103,7 +103,7 @@ export const BUDGET_RANGES: string[] = [
  * プロジェクトステータスの設定
  * ラベル、色、アイコンを集中管理します。
  */
-import { LucideIcon, Briefcase, Users, Clock, MessageSquare } from 'lucide-react';
+import { LucideIcon, Briefcase, Users, Clock, MessageSquare, LayoutGrid, PenTool, Database, Video, BarChart3, Cpu, Coffee } from 'lucide-react';
 import { ProjectStatus, StatItem } from '@/types/data';
 
 export const PROJECT_STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string; bg: string; icon: LucideIcon }> = {
@@ -121,3 +121,34 @@ export const CLIENT_STATS_TEMPLATE: Omit<StatItem, 'value'>[] = [
   { ...PROJECT_STATUS_CONFIG.closed, color: 'text-neutral-500', bg: 'bg-neutral-50' },
   { label: '未読メッセージ', icon: MessageSquare, color: 'text-red-500', bg: 'bg-red-50' },
 ];
+
+export const SKILL_CATEGORIES: Array<{ id: string; label: string; icon: LucideIcon }> = [
+  { id: 'all', label: 'すべて', icon: LayoutGrid },
+  { id: 'Design', label: 'デザイン', icon: PenTool },
+  { id: 'Development', label: '開発', icon: Database },
+  { id: 'Video & Audio', label: '映像・音声', icon: Video },
+  { id: 'Marketing', label: 'マーケティング', icon: BarChart3 },
+  { id: 'Business & PM', label: 'ビジネス・PM', icon: Briefcase },
+  { id: 'AI & Automation', label: 'AI・自動化', icon: Cpu },
+  { id: 'Others', label: 'その他', icon: Coffee },
+];
+
+export const SKILL_MASTER: Array<{ name: string; cat: string }> = [
+  { name: 'Adobe Illustrator', cat: 'Design' },
+  { name: 'Adobe Photoshop', cat: 'Design' },
+  { name: 'Figma', cat: 'Design' },
+  { name: 'After Effects', cat: 'Video & Audio' },
+  { name: 'Premiere Pro', cat: 'Video & Audio' },
+  { name: 'React', cat: 'Development' },
+  { name: 'TypeScript', cat: 'Development' },
+  { name: 'Python', cat: 'Development' },
+  { name: 'Google Analytics', cat: 'Marketing' },
+  { name: 'Notion', cat: 'Business & PM' },
+  { name: 'ChatGPT', cat: 'AI & Automation' },
+];
+
+export const SKILL_LEVEL_LABELS: Record<number, { label: string; color: string; desc: string }> = {
+  1: { label: '軽く知ってる程度', color: 'bg-neutral-100 text-neutral-600 border-neutral-200', desc: 'ツールを触れる、または現在習得中。' },
+  2: { label: '実務可能・実務経験あり', color: 'bg-sky-50 text-sky-600 border-sky-100', desc: '標準的な成果物を一人で作成できる。' },
+  3: { label: '主力スキル（得意）', color: 'bg-orange-50 text-orange-600 border-orange-100', desc: '専門知識が豊富で、現場をリードできる。' }
+};
