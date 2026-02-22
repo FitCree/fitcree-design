@@ -148,7 +148,7 @@ export const SKILL_MASTER: Array<{ name: string; cat: string }> = [
 ];
 
 export const SKILL_LEVEL_LABELS: Record<number, { label: string; color: string; desc: string }> = {
-  1: { label: '軽く知ってる程度', color: 'bg-neutral-100 text-neutral-600 border-neutral-200', desc: 'ツールを触れる、または現在習得中。' },
-  2: { label: '実務可能・実務経験あり', color: 'bg-sky-50 text-sky-600 border-sky-100', desc: '標準的な成果物を一人で作成できる。' },
-  3: { label: '主力スキル（得意）', color: 'bg-orange-50 text-orange-600 border-orange-100', desc: '専門知識が豊富で、現場をリードできる。' }
+  1: { label: '軽く知ってる程度', color: 'bg-neutral-100 text-neutral-600 border-neutral-200', desc: 'ツールを触れる、または現在習得中' },
+  2: { label: '実務可能・実務経験あり', color: 'bg-sky-50 text-sky-600 border-sky-100', desc: '標準的な成果物を一人で作成できる' },
+  3: { label: '主力スキル（得意）', color: 'bg-orange-50 text-orange-600 border-orange-100', desc: '専門知識が豊富で、現場をリードできる' }
 };
