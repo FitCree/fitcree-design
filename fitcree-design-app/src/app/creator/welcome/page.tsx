@@ -54,7 +54,7 @@ export default function CreatorWelcomePage() {
           </p>
 
           {/* 開発中メッセージ */}
-          <div className="bg-orange-50 border border-orange-100 rounded-xl p-6 mb-10 text-left">
+          <div className="bg-orange-50 border border-orange-100 rounded-xl p-6 mb-6 text-left">
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-5 h-5 text-orange-500" aria-hidden="true" />
               <p className="text-neutral-800 font-bold text-base">
@@ -68,6 +68,16 @@ export default function CreatorWelcomePage() {
             </p>
             <p className="text-neutral-600 text-sm leading-relaxed mt-3">
               あなたの「好き」が仕事につながる世界を、一緒に作っていきましょう。
+            </p>
+          </div>
+
+          {/* 登録内容確認・変更について */}
+          <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6 mb-10 text-left">
+            <p className="text-neutral-800 font-bold text-base mb-3">
+              登録内容の確認・変更について
+            </p>
+            <p className="text-neutral-600 text-sm leading-relaxed">
+              現在、マイページからの編集機能を準備中です。入力いただいた内容の確認や修正を希望される場合は、お手数ですが<a href="https://fitcree.com/support/registration" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold hover:underline">専用の受付フォーム</a>よりお知らせください。
             </p>
           </div>
 
