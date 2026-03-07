@@ -40,7 +40,7 @@ export default function Home() {
               </li>
               <li>
                 <Link className="link-blue" href="/creator/jobs/101/apply">
-                  案件応募フォーム
+                  案件への応募フォーム
                 </Link>
               </li>
               <li>
@@ -49,8 +49,13 @@ export default function Home() {
                 </Link>
               </li>
               <li>
-                <Link className="link-blue" href="/creator/profile">
-                  プロフィール編集 - スキル・ツールの登録
+                <Link className="link-blue" href="/creator/profile/skills">
+                  プロフィール編集 - スキル・ツールの登録（）
+                </Link>
+              </li>
+              <li>
+                <Link className="link-blue" href="/creator/welcome">
+                  登録完了（仮）
                 </Link>
               </li>
             </ul>
