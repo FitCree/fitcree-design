@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npx next build --no-lint)",
-      "Bash(npx next build)"
+      "Bash(npx next build)",
+      "mcp__figma__generate_figma_design",
+      "Bash(lsof -i :3000 | head -5)",
+      "Bash(open \"http://localhost:3000/creator/welcome#figmacapture=23cd6505-b462-4465-b4d1-131a0f5e68da&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F23cd6505-b462-4465-b4d1-131a0f5e68da%2Fsubmit&figmadelay=1000\")"
     ]
   }
 }

@@ -78,12 +78,12 @@ export default function ProjectDetailView({ project, client, isClientView = fals
             <time dateTime={project.postedDate} className="font-bold">{project.postedDate}</time>
           </p>
 
-          {/* 受注開始日 or 期限日 */}
+          {/* 受注開始日 or 掲載終了日時 */}
           <p className="flex items-center gap-1 text-sm text-neutral-800 whitespace-nowrap">
             {project.status === 'in_progress' ? (
               <span>受注開始日</span>
             ) : (
-              <span>期限日</span>
+              <span>掲載終了日時</span>
             )}
             <span className="font-bold">{project.status === 'in_progress' ? project.startDate || '---' : project.deadline}</span>
           </p>
