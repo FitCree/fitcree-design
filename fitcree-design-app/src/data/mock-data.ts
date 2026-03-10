@@ -8,6 +8,7 @@ export * from '@/types/data';
 export * from './mock-creators';
 export * from './mock-clients';
 export * from './mock-projects';
+export * from './mock-works';
 
 // 互換性のための結合データ
 import { MOCK_CLIENTS } from './mock-clients';

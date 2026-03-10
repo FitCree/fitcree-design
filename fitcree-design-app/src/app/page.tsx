@@ -25,7 +25,7 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/creator">
-                  クリエイター用トップページ（未作成）
+                  クリエイター用トップページ
                 </Link>
               </li>
               <li>

@@ -70,3 +70,17 @@ export interface Project {
 }
 
 export type ProjectStatus = Project['status'];
+
+// ── クリエイター作品（ポートフォリオ）──
+export type WorkCategory = 'web' | 'photo' | 'video' | 'graphic';
+
+export interface PortfolioWork {
+    id: string;
+    creatorId: string;
+    title: string;
+    thumbnailUrl: string;
+    category: WorkCategory;
+    categoryLabel: string;
+    isLiked: boolean;
+    createdDate: string;
+}
