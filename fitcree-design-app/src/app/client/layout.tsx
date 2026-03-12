@@ -12,7 +12,8 @@ export default function ClientLayout({
   const pathname = usePathname();
   const isPostJob = pathname?.startsWith('/client/post-job');
   const isEditJob = /\/client\/[^/]+\/project\/[^/]+\/edit/.test(pathname || '');
-  const isFormPage = isPostJob || isEditJob;
+  const isCancelPage = /\/client\/[^/]+\/project\/[^/]+\/cancel/.test(pathname || '');
+  const isFormPage = isPostJob || isEditJob || isCancelPage;
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">

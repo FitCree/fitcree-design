@@ -50,12 +50,12 @@ export default function Home() {
               </li>
               <li>
                 <Link className="link-blue" href="/creator/profile/skills">
-                  プロフィール編集 - スキル・ツールの登録（）
+                  プロフィール編集 - スキル・ツールの登録（作成中）
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/creator/welcome">
-                  登録完了（仮）
+                  登録完了（テストマーケ用の仮バージョン）
                 </Link>
               </li>
             </ul>

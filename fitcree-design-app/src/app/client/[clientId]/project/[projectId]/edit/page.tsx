@@ -309,7 +309,7 @@ export default function EditJobPage() {
     <div className="min-h-screen bg-slate-100 pb-24">
 
       {/* Header */}
-      <FormHeader title="案件編集" onPreview={goPreview} />
+      <FormHeader title="案件編集" onPreview={goPreview} previewLabel="確認する" />
 
       {/* Stepper */}
       <FormStepper
@@ -357,6 +357,7 @@ export default function EditJobPage() {
         onNext={next}
         isFirst={isFirstStep}
         isLast={isLastStep}
+        lastLabel="確認する"
       />
     </div>
   );
