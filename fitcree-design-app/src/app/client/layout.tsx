@@ -11,14 +11,16 @@ export default function ClientLayout({
 }) {
   const pathname = usePathname();
   const isPostJob = pathname?.startsWith('/client/post-job');
+  const isEditJob = /\/client\/[^/]+\/project\/[^/]+\/edit/.test(pathname || '');
+  const isFormPage = isPostJob || isEditJob;
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">
-      <HeaderClient />
-      <main className={`${isPostJob ? "" : "pt-14"} flex-grow`}>
+      {!isFormPage && <HeaderClient />}
+      <main className={`${isFormPage ? "" : "pt-14"} flex-grow`}>
         {children}
       </main>
-      {!isPostJob && <Footer />}
+      {!isFormPage && <Footer />}
     </div>
   );
 }

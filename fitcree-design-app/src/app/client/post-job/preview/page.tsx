@@ -236,7 +236,7 @@ export default function JobPostPreviewPage() {
               </button>
             </div>
             <p className="text-center text-sm text-neutral-400 font-medium">
-              投稿後も、募集開始前であれば内容の編集が可能です。
+              内容の編集は投稿後も可能です。
             </p>
           </div>
         )}

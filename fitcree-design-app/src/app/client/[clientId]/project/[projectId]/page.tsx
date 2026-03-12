@@ -53,7 +53,10 @@ export default function ClientProjectDetailPage() {
             <ArrowLeft size={16} /> ダッシュボードへ戻る
           </button>
 
-          <button className="bg-white border border-neutral-200 hover:border-neutral-300 text-neutral-800 text-sm font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+          <button
+            onClick={() => router.push(`/client/${params.clientId}/project/${projectId}/edit`)}
+            className="bg-white border border-neutral-200 hover:border-neutral-300 text-neutral-800 text-sm font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2"
+          >
             <Pencil size={14} />
             この仕事を編集する
           </button>
