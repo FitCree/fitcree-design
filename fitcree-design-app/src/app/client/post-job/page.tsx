@@ -11,8 +11,19 @@ export default function MultiStepJobPost() {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [formData, setFormData] = useState<any>({});
 
-  // ラジオボタンフィールドのデフォルト値を設定
+  // 複製データの読み込み、またはラジオボタンフィールドのデフォルト値を設定
   useEffect(() => {
+    // 複製データがある場合はプリフィル
+    const prefill = typeof window !== 'undefined' ? localStorage.getItem('jobPostPrefillData') : null;
+    if (prefill) {
+      try {
+        const prefillData = JSON.parse(prefill);
+        setFormData(prefillData);
+      } catch { /* ignore */ }
+      localStorage.removeItem('jobPostPrefillData');
+      return;
+    }
+
     const newData: any = { ...formData };
     let hasChanges = false;
 
