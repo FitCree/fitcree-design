@@ -61,7 +61,12 @@ export default function CreatorProjectDetailPage() {
             <ArrowLeft size={16} /> 案件一覧へ戻る
           </button>
         </div>
-        <ProjectDetailView project={project} client={client} isApplied={isApplied} />
+        <ProjectDetailView
+          project={project}
+          client={client}
+          isApplied={isApplied}
+          onCreatorClick={(creator) => router.push(`/creator`)}
+        />
       </main>
       <Footer />
     </div>

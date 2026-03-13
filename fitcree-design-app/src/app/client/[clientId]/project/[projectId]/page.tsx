@@ -8,6 +8,8 @@ import { projectToFormData } from '@/lib/project-to-form';
 import ProjectDetailView from '@/components/projects/ProjectDetailView';
 import { ArrowLeft, Pencil, MoreVertical, Copy, XCircle, Archive, X, Info, BarChart3 } from 'lucide-react';
 import HeaderClient from '@/components/common/header-client';
+import ApplicationDetailModal from '@/components/projects/ApplicationDetailModal';
+import { getApplicationByCreatorId } from '@/data/mock-applications';
 
 const CLOSE_REASONS = [
   '良いクリエイターが見つかった',
@@ -24,6 +26,7 @@ export default function ClientProjectDetailPage() {
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [closeReason, setCloseReason] = useState('');
   const [closeReasonOther, setCloseReasonOther] = useState('');
+  const [selectedCreator, setSelectedCreator] = useState<User | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // メニュー外クリックで閉じる
@@ -157,7 +160,12 @@ export default function ClientProjectDetailPage() {
             </div>
           </div>
         </div>
-        <ProjectDetailView project={project} client={client} isClientView={true} />
+        <ProjectDetailView
+          project={project}
+          client={client}
+          isClientView={true}
+          onCreatorClick={(creator) => setSelectedCreator(creator)}
+        />
       </main>
 
       {/* ===== 依頼を複製モーダル ===== */}
@@ -295,6 +303,27 @@ export default function ClientProjectDetailPage() {
           </div>
         </div>
       )}
+
+      {/* ===== 応募内容モーダル ===== */}
+      {selectedCreator && (() => {
+        const app = getApplicationByCreatorId(selectedCreator.id);
+        if (!app) return null;
+        return (
+          <ApplicationDetailModal
+            creator={selectedCreator}
+            application={app}
+            onClose={() => setSelectedCreator(null)}
+            onViewProfile={(id) => {
+              setSelectedCreator(null);
+              router.push(`/creator`);
+            }}
+            onHire={(id) => {
+              setSelectedCreator(null);
+              alert(`${selectedCreator.name}さんへの発注手続きに進みます（未実装）`);
+            }}
+          />
+        );
+      })()}
     </div>
   );
 }

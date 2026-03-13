@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { MOCK_CLIENTS, Project, User } from '@/data/mock-data';
 import { PROJECT_STATUS_CONFIG } from '@/data/master-data';
 import { MOCK_CREATORS } from '@/data/mock-creators';
+import ApplicationDetailModal from '@/components/projects/ApplicationDetailModal';
+import { getApplicationByCreatorId } from '@/data/mock-applications';
 import {
   ArrowLeft,
   BarChart3,
@@ -58,6 +60,7 @@ export default function ProjectAnalyticsPage() {
   const params = useParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabId>('applicants');
+  const [selectedCreator, setSelectedCreator] = useState<User | null>(null);
 
   const projectId = parseInt(params.projectId as string);
   const clientId = params.clientId as string;
@@ -191,12 +194,33 @@ export default function ProjectAnalyticsPage() {
       {/* タブコンテンツ */}
       <div className="bg-white rounded-xl border border-neutral-200 p-6 md:p-8">
         {activeTab === 'applicants' && (
-          <ApplicantsTab applicants={applicants} project={project} clientId={clientId} />
+          <ApplicantsTab applicants={applicants} project={project} clientId={clientId} onCreatorClick={(creator) => setSelectedCreator(creator)} />
         )}
         {activeTab === 'views' && (
           <ViewsTab />
         )}
       </div>
+
+      {/* ===== 応募内容モーダル ===== */}
+      {selectedCreator && (() => {
+        const app = getApplicationByCreatorId(selectedCreator.id);
+        if (!app) return null;
+        return (
+          <ApplicationDetailModal
+            creator={selectedCreator}
+            application={app}
+            onClose={() => setSelectedCreator(null)}
+            onViewProfile={(id) => {
+              setSelectedCreator(null);
+              router.push(`/creator`);
+            }}
+            onHire={(id) => {
+              setSelectedCreator(null);
+              alert(`${selectedCreator.name}さんへの発注手続きに進みます（未実装）`);
+            }}
+          />
+        );
+      })()}
     </div>
   );
 }
@@ -206,10 +230,12 @@ function ApplicantsTab({
   applicants,
   project,
   clientId,
+  onCreatorClick,
 }: {
   applicants: User[];
   project: Project;
   clientId: string;
+  onCreatorClick?: (creator: User) => void;
 }) {
   if (applicants.length === 0) {
     return (
@@ -232,6 +258,7 @@ function ApplicantsTab({
         {applicants.map((creator, idx) => (
           <div
             key={creator.id}
+            onClick={() => onCreatorClick?.(creator)}
             className="flex items-start gap-4 p-4 rounded-lg border border-neutral-200 hover:border-blue-200 hover:bg-blue-50/30 transition-all cursor-pointer"
           >
             {/* アバター */}

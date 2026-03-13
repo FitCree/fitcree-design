@@ -37,9 +37,10 @@ interface ProjectDetailViewProps {
   client?: User;
   isClientView?: boolean;
   isApplied?: boolean;
+  onCreatorClick?: (creator: User) => void;
 }
 
-export default function ProjectDetailView({ project, client, isClientView = false, isApplied = false }: ProjectDetailViewProps) {
+export default function ProjectDetailView({ project, client, isClientView = false, isApplied = false, onCreatorClick }: ProjectDetailViewProps) {
   const router = useRouter();
   const details = project.details;
 
@@ -431,7 +432,11 @@ export default function ProjectDetailView({ project, client, isClientView = fals
                     {creators.length > 0 ? (
                       <div className="space-y-4">
                         {creators.map((creator) => (
-                          <div key={creator.id} className="flex items-center gap-4 transition-colors cursor-pointer group">
+                          <div
+                            key={creator.id}
+                            onClick={() => onCreatorClick?.(creator)}
+                            className="flex items-center gap-4 transition-colors cursor-pointer group hover:bg-neutral-50 rounded-lg p-1 -m-1"
+                          >
                             <img src={creator.avatarUrl} alt="" className="w-10 h-10 rounded-full border border-neutral-100" />
                             <div className="flex-1 min-w-0">
                               <p className="font-bold text-neutral-900 text-sm truncate">{creator.name}</p>
