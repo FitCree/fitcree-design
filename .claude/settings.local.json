@@ -8,7 +8,8 @@
       "Bash(open \"http://localhost:3000/creator/welcome#figmacapture=23cd6505-b462-4465-b4d1-131a0f5e68da&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F23cd6505-b462-4465-b4d1-131a0f5e68da%2Fsubmit&figmadelay=1000\")",
       "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/client/[clientId]/project/[projectId]/)",
       "Bash(grep -n \"isModalOpen\\\\|setIsModalOpen\\\\|Modal\\\\|Dialog\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)",
-      "Bash(grep -n \"fixed inset-0\\\\|backdrop-blur\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)"
+      "Bash(grep -n \"fixed inset-0\\\\|backdrop-blur\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)",
+      "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)"
     ]
   }
 }
