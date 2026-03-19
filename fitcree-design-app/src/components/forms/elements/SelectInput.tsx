@@ -7,7 +7,7 @@ export const SelectInput = ({ value, onChange, options = [], placeholder, varian
     <select
       value={value || ''}
       onChange={(e) => onChange(e.target.value)}
-      className={`w-full p-3 border border-neutral-300 rounded-lg bg-white text-base focus:ring-2 ${theme.ring} ${value ? 'text-neutral-800 font-medium' : 'text-neutral-600'}`}
+      className={`w-full p-3 border border-neutral-300 rounded-lg bg-white text-base focus:outline-none focus:ring-0 focus:border-neutral-300 ${value ? 'text-neutral-800 font-medium' : 'text-neutral-600'}`}
     >
       <option value="">{placeholder || '選択'}</option>
       {options.map((opt: string) => (

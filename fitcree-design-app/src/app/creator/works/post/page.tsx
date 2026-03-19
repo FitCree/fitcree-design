@@ -33,9 +33,10 @@ import { DetailSection } from '@/components/common/DetailSection';
 const SUGGESTED_TAGS = {
   target: ['若年層', '高齢者', '女性', '男性'],
   purpose: ['UX向上', 'コンバージョン促進', '集客施策'],
-  duration: ['デザイン', 'STUDIOの構築', '素材選定'],
+
   tools: ['Figma', 'Adobe Photoshop', 'Adobe XD', 'Illustrator', 'Sketch'],
   siteTags: ['ページ', 'オーシャンブルー', '近代的リッチ', '軽快'],
+  responsibilities: ['ディレクション', 'デザイン', 'コーディング', 'ライティング', '撮影', '企画・構成'],
 };
 
 // ===== 業種一覧 =====
@@ -56,35 +57,53 @@ const INDUSTRIES = [
 
 // ===== サイト種別 =====
 const SITE_TYPES = [
-  'LP',
-  'コーポレート',
-  'ECなど',
-  'WEBサイトの部品やUIに関する制作',
+  'コーポレートサイト',
+  'サービスサイト',
+  '採用サイト',
+  'ブランドサイト',
+  'LP（ランディングページ）',
+  'ECサイト',
+  'キャンペーンサイト',
+  '予約サイト',
+  'オウンドメディア',
+  'ニュースサイト',
+  'ブログサイト',
+  'ポータルサイト',
+  'マッチングサイト',
+  'コミュニティサイト',
+  '会員制サイト',
+  'サブスクリプションサイト',
+  'ポートフォリオサイト',
+  'ギャラリーサイト',
+  '学校サイト',
+  '自治体サイト',
+  'NPOサイト',
+  'マニュアルサイト',
+  'その他',
 ];
 
 // ===== 概算期間の単位 =====
-const DURATION_UNITS = ['日間', '週間', 'ヶ月'];
+const DURATION_UNITS = ['時間', '日', '週間', 'ヶ月'];
 
 // ===== 年齢制限 =====
 const AGE_RESTRICTION_OPTIONS = [
-  { id: 'all', label: '全年齢' },
-  { id: 'r15', label: 'R-15' },
-  { id: 'r18', label: 'R-18（グロテスク）' },
+  { id: 'all', label: '全年齢', description: '誰でも閲覧可能な作品です。' },
+  { id: 'r15', label: 'R-15', description: '15歳未満の方の閲覧に適さない表現を含みます。' },
+  { id: 'r18', label: 'R-18（成人向け）', description: '18歳未満の方の閲覧に適さない表現（グロテスク・性的表現等）を含みます。' },
 ];
 
 // ===== 生成AI =====
 const AI_OPTIONS = [
-  { id: 'none', label: '利用なし' },
-  { id: 'process_only', label: '制作過程のみで利用', description: 'アイデア出しや中間成果物にのみ利用し、最終成果物には使用していません。' },
-  { id: 'idea_only', label: 'アイデア出しのみで利用', description: '下書き・画像合成・レイアウト生成などにAIを利用しています。' },
-  { id: 'full', label: '全面利用', description: '主要・個別など、作品の主要な部分にAIで生成したコンテンツを利用しています。' },
+  { id: 'none', label: '非AI / 制作補助のみ（AI生成物なし）', description: 'AIを全く使わない、またはアイデア出し・構成・デバッグ等の「表に出ない工程」のみで使用。'},
+  { id: 'part', label: '部分利用 / ハイブリッド（AI生成物あり）', description: '背景、テクスチャ、一部の文章、特定のコードモジュールなどにAI生成物をそのまま活用。' },
+  { id: 'full', label: 'AI主体（プロンプト・ディレクション）', description: '作品の根幹（メインビジュアル、全体の構成、主要なコンテンツ）をAIが生成。' },
 ];
 
 // ===== 公開範囲 =====
 const VISIBILITY_OPTIONS = [
   { id: 'public', label: 'だれでも', description: '誰でも閲覧することができます。' },
-  { id: 'fitcree_only', label: 'FitCreeユーザーのみ', sub: 'NEW' },
-  { id: 'limited', label: '限定公開', description: '作品URLを知っている方のみ閲覧できるようになります。非公開にしたい場合は「下書き」をご活用ください。' },
+  { id: 'fitcree_only', label: 'FitCreeユーザーのみ', description: 'FitCreeアカウントを持っているユーザーにのみ表示されます。'},
+  { id: 'limited', label: '限定公開', description: '作品は非公開になり、専用リンクでのみ閲覧可能になります。' },
 ];
 
 // ===== モック入力済みデータ =====
@@ -100,18 +119,17 @@ const PREFILLED_DATA = {
   description: `お客様の課題解決を目的に、コーポレートサイトをリニューアルしました。ユーザビリティと視覚的訴求力の両立を目指し、モダンでクリーンなデザインに仕上げています。\n\nデニーネストでオポーネントスペースをメインシューアルにし、プランを確認しつつサービス内容を理解しやすい導線設計を行いました。\n\n特にCTAの配置やフォームのUX改善に注力しています。`,
   siteName: '業務コード「Bakery」',
   industry: '飲食',
-  siteType: 'コーポレート',
+  siteType: 'コーポレートサイト',
   target: ['#若年層', '#女性'],
   purpose: ['#UX向上', '#コンバージョン促進', '#集客施策'],
   durationValue: '1',
   durationUnit: 'ヶ月',
-  durationBreakdown: ['#デザイン', '#STUDIOの構築', '#素材選定'],
+
   tools: ['#Figma', '#Adobe Photoshop', '#Adobe XD'],
   siteTags: ['#ページ', '#オーシャンブルー', '#近代的リッチ', '#軽快'],
+  responsibilities: ['#ディレクション', '#デザイン', '#コーディング'],
   clientType: 'client_anonymous',
   clientName: '',
-  cost: '800,000',
-  isAdult: false,
   aiUsage: 'none',
   ageRestriction: 'all',
   visibility: 'public',
@@ -137,7 +155,7 @@ function SuggestedTags({
           key={tag}
           type="button"
           onClick={() => onAdd(tag)}
-          className="px-2.5 py-1 text-xs font-medium rounded-md bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition-colors"
+          className="px-2.5 py-1 text-xs font-medium rounded-md bg-orange-50 text-orange-500 border border-orange-100 hover:bg-orange-100 transition-colors"
         >
           {tag}
         </button>
@@ -173,16 +191,13 @@ function PostWorkPage() {
   const [target, setTarget] = useState<string[]>(prefilled ? PREFILLED_DATA.target : []);
   const [purpose, setPurpose] = useState<string[]>(prefilled ? PREFILLED_DATA.purpose : []);
   const [durationValue, setDurationValue] = useState(prefilled ? PREFILLED_DATA.durationValue : '');
-  const [durationUnit, setDurationUnit] = useState(prefilled ? PREFILLED_DATA.durationUnit : 'ヶ月');
-  const [durationBreakdown, setDurationBreakdown] = useState<string[]>(
-    prefilled ? PREFILLED_DATA.durationBreakdown : []
-  );
+  const [durationUnit, setDurationUnit] = useState(prefilled ? PREFILLED_DATA.durationUnit : '');
+
   const [tools, setTools] = useState<string[]>(prefilled ? PREFILLED_DATA.tools : []);
   const [siteTags, setSiteTags] = useState<string[]>(prefilled ? PREFILLED_DATA.siteTags : []);
+  const [responsibilities, setResponsibilities] = useState<string[]>(prefilled ? PREFILLED_DATA.responsibilities : []);
   const [clientType, setClientType] = useState(prefilled ? PREFILLED_DATA.clientType : 'self');
   const [clientName, setClientName] = useState('');
-  const [cost, setCost] = useState(prefilled ? PREFILLED_DATA.cost : '');
-  const [isAdult, setIsAdult] = useState(false);
   const [aiUsage, setAiUsage] = useState(prefilled ? PREFILLED_DATA.aiUsage : 'none');
   const [ageRestriction, setAgeRestriction] = useState(prefilled ? PREFILLED_DATA.ageRestriction : 'all');
   const [visibility, setVisibility] = useState(prefilled ? PREFILLED_DATA.visibility : 'public');
@@ -208,7 +223,7 @@ function PostWorkPage() {
           >
             投稿キャンセル
           </button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-6">
             <button className="text-neutral-500 text-sm font-bold hover:text-neutral-700 transition-colors flex items-center gap-1.5">
               <Save size={15} />
               下書き保存
@@ -217,7 +232,7 @@ function PostWorkPage() {
               onClick={() => router.push('/creator/works/post/preview')}
               className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all"
             >
-              公開に進む！
+              公開に進む
             </button>
           </div>
         </div>
@@ -311,7 +326,7 @@ function PostWorkPage() {
                   label="サムネイル画像"
                   required
                   variant="creator"
-                  description="この作品を一覧で表示する際のサムネイルをアップロードしてください。最も魅力的な全景を使いましょう。"
+                  description="この作品を一覧で表示する際のサムネイルをアップロードしてください。最も魅力が伝わる部分にしましょう。"
                 >
                   <FileUploader
                     variant="creator"
@@ -339,7 +354,7 @@ function PostWorkPage() {
                   <FileUploader
                     variant="creator"
                     label="ファイルをアップロード"
-                    description="またはドラッグ＆ドロップ（最大6枚まで）JPG"
+                    description="またはドラッグ＆ドロップ"
                     accept="image/jpeg,image/png"
                     multiple
                   />
@@ -348,10 +363,11 @@ function PostWorkPage() {
                 <FormSection
                   label="作品説明文"
                   variant="creator"
-                  description="この作品の目的や背景、制作で工夫した点、あなたの作品への想いなどを自由にご入力してください。発注者はここから制作の意図が読み取れ、この分野の仕事は実績があるかどうかの識別ができる重要なポイントです。"
+                  description="この作品の目的や背景、制作で工夫した点、あなたの想いなどを自由に記入してください。 発注者はここから制作の意図やあなたの強みを読み取ります。"
                   examples={[
-                    '法人向けBtoBサイトのリニューアル。ユーザビリティ改善とSEO対策を両立させました。',
-                    '新メニューのプロモーションのため、メニューページの改善と新規LP制作を実施しました。',
+                    '企業の採用強化を目的に、コーポレートサイトをリニューアルしました。学生が理解しやすいように情報を整理し、写真を多く取り入れています。',
+                    '新しい飲食店ブランドの立ち上げに伴い、予約導線を意識したUI設計を行いました。ユーザーが直感的に操作できるよう、ボタン配置に工夫しています。',
+                    '自主制作作品です。自分が得意とするシンプルなデザインを活かし、架空の美容室のサイトを想定して制作しました。',
                   ]}
                 >
                   <TextArea
@@ -454,43 +470,6 @@ function PostWorkPage() {
                 </FormSection>
 
                 <FormSection
-                  label="概算期間"
-                  required
-                  variant="creator"
-                  description=""
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-24">
-                      <TextInput
-                        value={durationValue}
-                        onChange={setDurationValue}
-                        placeholder=""
-                        variant="creator"
-                      />
-                    </div>
-                    <SelectInput
-                      value={durationUnit}
-                      onChange={setDurationUnit}
-                      options={DURATION_UNITS}
-                      variant="creator"
-                    />
-                  </div>
-                  <p className="text-xs text-neutral-500 mb-2">期間に含まれたことをタグにしましょう</p>
-                  <TagInput
-                    value={durationBreakdown}
-                    onChange={setDurationBreakdown}
-                    placeholder="タグを追加"
-                    maxTags={10}
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.duration}
-                    currentValues={durationBreakdown}
-                    onAdd={(tag) => handleAddTag(tag, durationBreakdown, setDurationBreakdown)}
-                  />
-                </FormSection>
-
-                <FormSection
                   label="ツール／スキル"
                   variant="creator"
                   description="制作に使用したツールやスキルを追加しましょう。"
@@ -510,9 +489,9 @@ function PostWorkPage() {
                 </FormSection>
 
                 <FormSection
-                  label="サイトタグ"
+                  label="自由タグ"
                   variant="creator"
-                  description="カラーやテイストなど、このサイトの特徴的な雰囲気を追記しましょう。"
+                  description="カラーやテイストなど、このサイトの特徴的な雰囲気を自由に追記しましょう。"
                 >
                   <TagInput
                     value={siteTags}
@@ -530,11 +509,52 @@ function PostWorkPage() {
             </DetailSection>
 
             {/* ────── 業務情報 ────── */}
-            <DetailSection title="業務情報" icon={Briefcase} bodyClassName="px-6 pb-6">
+            <DetailSection title="業務情報" icon={Briefcase} bodyClassName="p-6">
+                <FormSection
+                  label="担当範囲"
+                  variant="creator"
+                  description="この作品であなたが担当した範囲をタグで入力してください。"
+                >
+                  <TagInput
+                    value={responsibilities}
+                    onChange={setResponsibilities}
+                    placeholder="例：#ディレクション、#デザイン、#コーディング"
+                    variant="creator"
+                  />
+                  <SuggestedTags
+                    tags={SUGGESTED_TAGS.responsibilities}
+                    currentValues={responsibilities}
+                    onAdd={(tag) => handleAddTag(tag, responsibilities, setResponsibilities)}
+                  />
+                </FormSection>
+
+                <FormSection
+                  label="概算期間"
+                  variant="creator"
+                  description="担当範囲においてかかった時間を入力してください。"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-24">
+                      <TextInput
+                        value={durationValue}
+                        onChange={setDurationValue}
+                        placeholder=""
+                        variant="creator"
+                      />
+                    </div>
+                    <SelectInput
+                      value={durationUnit}
+                      onChange={setDurationUnit}
+                      options={DURATION_UNITS}
+                      variant="creator"
+                    />
+                  </div>
+                </FormSection>
+
                 <FormSection
                   label="クライアント情報"
                   variant="creator"
-                  description="この作品の制作を依頼してください。"
+                  description="この作品の相手を選択してください。"
                 >
                   <RadioList
                     name="clientType"
@@ -542,7 +562,7 @@ function PostWorkPage() {
                     onChange={setClientType}
                     variant="creator"
                     options={[
-                      { id: 'self', label: '自主制作' },
+                      { id: 'self', label: 'クライアントなし（自主制作／仮想制作）' },
                       {
                         id: 'client_anonymous',
                         label: 'クライアントあり（名前は非公開）',
@@ -561,60 +581,19 @@ function PostWorkPage() {
                       <TextInput
                         value={clientName}
                         onChange={setClientName}
-                        placeholder="クライアント名を入力してください（最小3文字）"
+                        placeholder="クライアント名を入力"
                         variant="creator"
                       />
                     </div>
                   )}
                 </FormSection>
 
-                <FormSection
-                  label="費用感"
-                  variant="creator"
-                  description='案件の費用（税別可）、または自主制作の場合は「FitCreeで仕事された仕事もしてもらうとしたらどれくらい？」の想定費用を入力してください。'
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <TextInput
-                        value={cost}
-                        onChange={setCost}
-                        placeholder=""
-                        variant="creator"
-                      />
-                    </div>
-                    <span className="text-sm text-neutral-500 font-medium">円</span>
-                  </div>
-                </FormSection>
             </DetailSection>
 
             {/* ────── 公開設定 ────── */}
-            <DetailSection title="公開設定" icon={Shield} bodyClassName="px-6 pb-6">
+            <DetailSection title="公開設定" icon={Shield} bodyClassName="p-6">
                 <FormSection
-                  label="成人向けコンテンツ"
-                  variant="creator"
-                  description=""
-                >
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <div
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        isAdult ? 'bg-orange-500' : 'bg-neutral-300'
-                      }`}
-                      onClick={() => setIsAdult(!isAdult)}
-                    >
-                      <span
-                        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform ${
-                          isAdult ? 'translate-x-5' : 'translate-x-0.5'
-                        }`}
-                      />
-                    </div>
-                    <span className="text-sm text-neutral-700">
-                      成人向けの作品の場合、チェックをしてください。
-                    </span>
-                  </label>
-                </FormSection>
-
-                <FormSection
-                  label="生成AI"
+                  label="生成AIの利用状況"
                   variant="creator"
                   description="この作品における生成AIの利用状況を教えてください。"
                 >
@@ -630,7 +609,7 @@ function PostWorkPage() {
                 <FormSection
                   label="年齢制限"
                   variant="creator"
-                  description="見る側の方の作品なら、年齢制限をする必要があれば、選択してください。"
+                  description="成人向けコンテンツを含む場合は、適切な年齢制限を選択してください。"
                 >
                   <RadioList
                     name="ageRestriction"

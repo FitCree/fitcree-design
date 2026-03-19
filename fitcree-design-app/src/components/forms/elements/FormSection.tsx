@@ -6,13 +6,13 @@ import { AlertCircle } from 'lucide-react';
 export const FormSection = ({ label, required, children, helpText, examples, description, variant = 'client' }: any) => {
   const theme = getFormTheme(variant);
   return (
-    <section className="mt-10">
+    <section className="mt-10 first:mt-0">
       <div className="flex items-center gap-2 mb-2">
         <label className="text-base font-bold text-neutral-800">
           {label}
         </label>
         {required && (
-          <span className={`border ${variant === 'creator' ? 'border-orange-600 text-orange-600' : 'border-red-600 text-red-600'} bg-white text-xs px-2 py-0.5 rounded-full`}>必須</span>
+          <span className={`border border-red-700 text-red-700 bg-red-50 text-xs font-bold px-2 py-0.5 rounded-full`}>必須</span>
         )}
       </div>
       {description && (

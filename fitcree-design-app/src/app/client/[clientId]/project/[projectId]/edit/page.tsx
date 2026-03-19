@@ -335,7 +335,7 @@ export default function EditJobPage() {
           <UI.TipsBox title="このステップのポイント" content={currentStep.tips} />
         )}
 
-        <div className="bg-white rounded-xl border border-neutral-200 pr-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">
+        <div className="bg-white rounded-xl border border-neutral-200 p-6 sm:pr-8 pl-6 sm:pl-8 pb-6 sm:pb-8">
           {currentStep.fields.map((field: any) => (
             <UI.FormSection
               key={field.id}

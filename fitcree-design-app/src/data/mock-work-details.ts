@@ -15,13 +15,13 @@ export interface WorkDetail {
   siteType?: string;
   target: string[];
   purpose: string[];
-  durationLabel: string;
-  durationBreakdown: string[];
+  durationValue?: string;
+  durationUnit?: string;
   tools: string[];
   siteTags: string[];
+  responsibilities: string[];
   clientType: 'self' | 'client_anonymous' | 'client_public';
   clientName?: string;
-  cost: string;
   createdDate: string;
   views: number;
   likes: number;
@@ -53,12 +53,12 @@ export const MOCK_WORK_DETAILS: Record<string, WorkDetail> = {
     siteType: 'コーポレートサイト',
     target: ['#飲食好き', '#女性'],
     purpose: ['#コンバージョン改善', '#集客施策'],
-    durationLabel: 'ディレクション、デザイン',
-    durationBreakdown: ['#デザイン', '#ディレクション'],
+    durationValue: '1',
+    durationUnit: 'ヶ月',
     tools: ['#Figma', '#ドリーム名', '#ドリーム名'],
     siteTags: ['#ページュ', '#近代角ゴシック'],
+    responsibilities: ['#ディレクション', '#デザイン', '#コーディング'],
     clientType: 'self',
-    cost: '300,000円',
     createdDate: '2026/02/10',
     views: 24,
     likes: 6,

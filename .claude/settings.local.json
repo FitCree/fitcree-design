@@ -11,7 +11,8 @@
       "Bash(grep -n \"fixed inset-0\\\\|backdrop-blur\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)",
       "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)",
       "Bash(cat \"/Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\(with-header\\)/page.tsx\")",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(xargs kill:*)"
     ]
   }
 }

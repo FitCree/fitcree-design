@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight } from 'lucide-react';
+import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check } from 'lucide-react';
 import { WorkDetail } from '@/data/mock-work-details';
 import { User } from '@/types/data';
 import { PortfolioWork } from '@/types/data';
@@ -49,46 +49,68 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
       {!isPreview && (
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-4">
               <img
                 src={creator.avatarUrl}
                 alt={creator.name}
-                className="w-12 h-12 rounded-full border border-neutral-200"
+                className="w-14 h-14 rounded-full border border-neutral-200"
               />
               <div>
-                <p className="font-bold text-neutral-800">{creator.name}</p>
-                <p className="text-xs text-neutral-500">{creator.role}</p>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className="text-xs text-neutral-400">最終ログイン：8時間前</span>
-                  <span className="text-xs text-green-600 font-medium">対応可能です</span>
+                <p className="font-bold text-neutral-800 text-lg">{creator.name}</p>
+                {creator.role && (
+                  <p className="text-sm text-neutral-600 mt-0.5">{creator.role}</p>
+                )}
+                <div className="flex flex-wrap items-center gap-3 mt-1.5">
+                  <span className="text-xs text-neutral-600">個人</span>
+                  {creator.location && (
+                    <span className="flex items-center gap-1 text-xs text-neutral-600">
+                      <MapPin className="w-3 h-3" />
+                      {creator.location}
+                    </span>
+                  )}
+                </div>
+                {/* 認証バッジ */}
+                <div className="flex flex-wrap items-center gap-3 mt-2">
+                  <span className="flex items-center gap-1 text-xs text-neutral-600">
+                    <Check className="w-3.5 h-3.5 text-green-500" />
+                    本人確認
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-neutral-600">
+                    <Check className="w-3.5 h-3.5 text-green-500" />
+                    機密保持契約(NDA)
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-neutral-600">
+                    <Check className="w-3.5 h-3.5 text-green-500" />
+                    インボイス
+                  </span>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col items-end gap-4">
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => alert('この機能は準備中です')}
                   className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-5 rounded-lg transition-colors"
                 >
-                  編集する
+                  作品を編集
                 </button>
                 <button
                   onClick={() => alert('この機能は準備中です')}
                   className="p-2 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
                 >
-                  <Share2 className="w-4 h-4 text-neutral-500" />
+                  <Share2 className="w-4 h-4 text-neutral-600" />
                 </button>
               </div>
               {/* 統計 */}
-              <div className="flex items-center gap-4 text-xs text-neutral-400">
+              <div className="flex items-center gap-4 text-xs text-neutral-600">
                 <span className="flex items-center gap-1">
-                  <Eye className="w-3.5 h-3.5" /> {work.views}
+                  <Eye className="w-4 h-4" /> {work.views}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Heart className="w-3.5 h-3.5" /> {work.likes}
+                  <Heart className="w-4 h-4" /> {work.likes}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Share2 className="w-3.5 h-3.5" /> {work.shares}
+                  <Share2 className="w-4 h-4" /> {work.shares}
                 </span>
               </div>
             </div>
@@ -99,7 +121,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
       {/* メインコンテンツ */}
       <div className="max-w-4xl mx-auto px-4 pb-16">
         {/* タイトル */}
-        <h1 className="text-2xl font-bold text-neutral-800 mb-10 mt-8">{work.title}</h1>
+        <h1 className={`text-2xl font-bold text-neutral-800 mb-10 ${isPreview ? 'mt-4' : 'mt-8'}`}>{work.title}</h1>
 
         {/* ── 作品概要 ── */}
         <section className="mb-10">
@@ -108,19 +130,15 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
           {/* カテゴリ・期間 */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-neutral-500">分野：</span>
-              <span className="inline-block text-xs text-white bg-neutral-700 rounded px-2 py-0.5 font-medium">
+              <span className="text-sm font-bold text-neutral-700">分野：</span>
+              <span className="inline-block text-sm text-white bg-neutral-700 rounded px-2 py-0.5 font-medium">
                 {work.categoryLabel}
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mb-5">
-            <span className="text-xs text-neutral-500">担当期間：</span>
-            <span className="text-sm text-neutral-700">{work.durationLabel}</span>
-          </div>
 
           {/* 説明文 */}
-          <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-line mb-6">
+          <p className="textbase text-neutral-800 leading-relaxed whitespace-pre-line mb-6">
             {work.description}
           </p>
 
@@ -144,14 +162,14 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             <table className="w-full text-sm mb-5">
               <tbody>
                 {work.siteName && (
-                  <tr className="border-b border-neutral-100">
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">サイト名：</td>
+                  <tr>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">サイト名</td>
                     <td className="py-3 text-neutral-800">{work.siteName}</td>
                   </tr>
                 )}
                 {work.siteUrl && (
-                  <tr className="border-b border-neutral-100">
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">URL：</td>
+                  <tr>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">URL</td>
                     <td className="py-3">
                       <a href={work.siteUrl} target="_blank" rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-700 underline flex items-center gap-1 text-sm">
@@ -162,20 +180,20 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                   </tr>
                 )}
                 {work.industry && (
-                  <tr className="border-b border-neutral-100">
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">業種：</td>
+                  <tr>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">業種</td>
                     <td className="py-3 text-neutral-800">{work.industry}</td>
                   </tr>
                 )}
                 {work.siteType && (
-                  <tr className="border-b border-neutral-100">
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">サイト種別：</td>
+                  <tr>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">サイト種別</td>
                     <td className="py-3 text-neutral-800">{work.siteType}</td>
                   </tr>
                 )}
                 {work.tools.length > 0 && (
-                  <tr className="border-b border-neutral-100">
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">使用ツール/スキル：</td>
+                  <tr>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">使用ツール/スキル</td>
                     <td className="py-3">
                       <div className="flex flex-wrap gap-2">
                         {work.tools.map((t, i) => (
@@ -189,7 +207,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 )}
                 {work.siteTags.length > 0 && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-500 w-36 align-top">その他タグ：</td>
+                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">その他タグ</td>
                     <td className="py-3">
                       <div className="flex flex-wrap gap-2">
                         {work.siteTags.map((t, i) => (
@@ -209,8 +227,8 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
               <table className="w-full text-sm">
                 <tbody>
                   {work.target.length > 0 && (
-                    <tr className="border-b border-neutral-100">
-                      <td className="py-3 pr-4 text-neutral-500 w-36 align-top font-bold">ターゲット</td>
+                    <tr>
+                      <td className="py-3 pr-4 text-neutral-800 w-40 align-top">ターゲット</td>
                       <td className="py-3">
                         <div className="flex flex-wrap gap-2">
                           {work.target.map((t, i) => (
@@ -224,7 +242,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                   )}
                   {work.purpose.length > 0 && (
                     <tr>
-                      <td className="py-3 pr-4 text-neutral-500 w-36 align-top font-bold">目的/背景</td>
+                      <td className="py-3 pr-4 text-neutral-800 w-40 align-top">目的/背景</td>
                       <td className="py-3">
                         <div className="flex flex-wrap gap-2">
                           {work.purpose.map((t, i) => (
@@ -247,17 +265,33 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
           <SectionHeading>業務情報</SectionHeading>
           <table className="w-full text-sm">
             <tbody>
-              <tr className="border-b border-neutral-100">
-                <td className="py-3 pr-4 text-neutral-500 w-36 align-top">クライアント情報</td>
+              {work.responsibilities.length > 0 && (
+                <tr>
+                  <td className="py-3 pr-4 text-neutral-800 w-40 align-top">担当範囲</td>
+                  <td className="py-3">
+                    <div className="flex flex-wrap gap-2">
+                      {work.responsibilities.map((t, i) => (
+                        <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              )}
+              {work.durationValue && (
+                <tr>
+                  <td className="py-3 pr-4 text-neutral-800 w-40 align-top">概算期間</td>
+                  <td className="py-3 text-neutral-800">{work.durationValue}{work.durationUnit}</td>
+                </tr>
+              )}
+              <tr>
+                <td className="py-3 pr-4 text-neutral-800 w-40 align-top">クライアント情報</td>
                 <td className="py-3 text-neutral-800">
-                  {work.clientType === 'self' ? '自主制作' :
+                  {work.clientType === 'self' ? 'クライアントなし（自主制作／仮想制作）' :
                    work.clientType === 'client_anonymous' ? 'クライアントワーク（非公開）' :
                    work.clientName || 'クライアントワーク'}
                 </td>
-              </tr>
-              <tr>
-                <td className="py-3 pr-4 text-neutral-500 w-36 align-top">費用感</td>
-                <td className="py-3 text-neutral-800">{work.cost}</td>
               </tr>
             </tbody>
           </table>
@@ -266,32 +300,30 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
         {/* ── CONTACT セクション（実際の詳細ページのみ） ── */}
         {!isPreview && (
           <section className="mb-12">
-            <div className="bg-neutral-50 border border-neutral-200 rounded-2xl p-8">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-neutral-800 mb-1">CONTACT</h2>
-                  <p className="text-sm text-neutral-600">
-                    ぜひこのクリエイターに相談してみてください！
-                  </p>
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-10">
+              <div className="flex flex-col items-center text-center gap-4">
+                <h2 className="text-2xl font-bold text-neutral-800">CONTACT</h2>
+                <p className="text-sm text-neutral-600">
+                  ぜひこのクリエイターに相談してみてください！
+                </p>
+                <div className="flex items-center gap-3 mt-2">
+                  <img
+                    src={creator.avatarUrl}
+                    alt={creator.name}
+                    className="w-12 h-12 rounded-full border-2 border-white shadow-sm"
+                  />
+                  <div className="text-left">
+                    <p className="font-bold text-neutral-800 text-sm">{creator.name}</p>
+                    <p className="text-xs text-neutral-600">{creator.role}</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => alert('この機能は準備中です')}
-                  className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors flex-shrink-0"
+                  className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md shadow-orange-200 mt-2"
                 >
                   相談する
                   <Send className="w-4 h-4" />
                 </button>
-              </div>
-              <div className="flex items-center gap-3 mt-6 pt-5 border-t border-neutral-200">
-                <img
-                  src={creator.avatarUrl}
-                  alt={creator.name}
-                  className="w-10 h-10 rounded-full border border-neutral-200"
-                />
-                <div>
-                  <p className="font-bold text-neutral-800 text-sm">{creator.name}</p>
-                  <p className="text-xs text-neutral-500">{creator.role}</p>
-                </div>
               </div>
             </div>
           </section>
@@ -318,8 +350,8 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             </div> */}
 
             {otherWorks.length > 0 && (
-              <section>
-                <h3 className="text-sm font-bold text-neutral-700 mb-4">その他の人気作品</h3>
+              <section className="mt-20 border-t border-neutral-200 pt-8">
+                <h3 className="text-base font-bold text-neutral-700 mb-4">その他の人気作品</h3>
                 <div className="grid grid-cols-2 gap-5">
                   {otherWorks.slice(0, 4).map((w) => (
                     <WorkCard key={w.id} work={w} uniformRatio />

@@ -40,7 +40,7 @@ export const TagInput = ({ value = [], onChange, placeholder, maxTags = 10, vari
 
   return (
     <div className="w-full">
-      <div className={`flex flex-wrap gap-2 p-3 border border-neutral-300 rounded-lg focus-within:ring-2 ${theme.ring} bg-white min-h-[48px] items-center`}>
+      <div className={`flex flex-wrap gap-2 p-3 border border-neutral-300 rounded-lg focus-within:ring-2 ${theme.ringWithin} bg-white min-h-[48px] items-center`}>
         {value.map((tag: string, idx: number) => (
           <button
             key={idx}

@@ -29,7 +29,7 @@ export default function PostPreviewPage() {
             編集に戻る
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-1 rounded">プレビュー</span>
+            <span className="text-sm text-white bg-slate-700 px-4 py-1 rounded-full font-bold">プレビュー</span>
           </div>
           <div className="flex items-center gap-3">
             <button

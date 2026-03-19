@@ -24,11 +24,16 @@ export const RadioList = ({ options, name, selectedValue, onChange, cols, varian
     <ul className={getGridClass()}>
       {normalizedOptions.map((opt: any) => (
         <li key={opt.id}>
-          <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? `${theme.bgSelected} ${theme.border} ring-1 ${theme.ring}` : 'bg-white border-neutral-300'}`}>
+          <label className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-neutral-50 ${selectedValue === opt.id ? `${theme.bgSelected} ${theme.border} ring-1 ${theme.ringSelected}` : 'bg-white border-neutral-300'}`}>
             <input
               type="radio" name={name} checked={selectedValue === opt.id} onChange={() => onChange(opt.id)}
-              className={`w-4 h-4 mr-3 flex-shrink-0 ${theme.checkbox} ${theme.ring}`}
+              className="sr-only peer"
             />
+            <span className={`w-4 h-4 mr-3 flex-shrink-0 rounded-full border-2 inline-flex items-center justify-center ${selectedValue === opt.id ? `${theme.border} ${theme.bgSelected}` : 'border-neutral-400'}`}>
+              {selectedValue === opt.id && (
+                <span className={`w-2 h-2 rounded-full ${theme.accent.replace('text-', 'bg-')}`} />
+              )}
+            </span>
             {opt.description ? (
               <div className="flex-1">
                 <span className="font-bold text-neutral-800 text-sm block">{opt.label}</span>
