@@ -51,10 +51,10 @@ const HeaderDropdown = ({ isOpen, onClose, user }: { isOpen: boolean; onClose: (
         </button>
       </div>
 
-      <div className="border-t border-neutral-100 px-4 py-2 flex items-center justify-center gap-4 text-sm text-neutral-500">
-        <a href="https://fitcree.com/guide" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-600 transition-colors">ガイド</a>
+      <div className="border-t border-neutral-100 px-4 py-2 flex items-center justify-center gap-1 text-sm text-neutral-500">
+        <a href="https://fitcree.com/guide" target="_blank" rel="noopener noreferrer" className="text-center px-1 py-1 w-full hover:text-neutral-600 hover:bg-neutral-50 transition-colors">ガイド</a>
         <span>/</span>
-        <a href="https://fitcree.com/support/registration" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-600 transition-colors">サポート窓口</a>
+        <a href="https://fitcree.com/support/registration" target="_blank" rel="noopener noreferrer" className="text-center px-1 py-1 w-full hover:text-neutral-600 hover:bg-neutral-50 transition-colors">サポート窓口</a>
       </div>
     </div>
   );
