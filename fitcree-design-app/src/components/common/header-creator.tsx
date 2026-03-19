@@ -2,12 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   User, Settings, Heart, Activity, LogOut,
   Search, Plus, Mail, Bell, Briefcase
 } from "lucide-react";
 import { MOCK_CREATORS } from "@/data/mock-data";
 import { getConsultationsForCreator } from "@/data/mock-consultations";
+import AddWorkModal from "@/components/creator/AddWorkModal";
 
 // Use the first creator as the current user for now
 const MOCK_USER = MOCK_CREATORS[0];
@@ -72,7 +74,9 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
 };
 
 export default function HeaderCreator() {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showAddWorkModal, setShowAddWorkModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -104,7 +108,7 @@ export default function HeaderCreator() {
           <Search size={16} className="text-orange-500 mr-2" />
           案件を探す
         </Link>
-        <button onClick={() => alert("このページは作成中です")} className="flex items-center text-sm text-neutral-600 font-bold hover:text-orange-600 transition-colors">
+        <button onClick={() => setShowAddWorkModal(true)} className="flex items-center text-sm text-neutral-600 font-bold hover:text-orange-600 transition-colors">
           <Plus size={16} className="text-orange-500 mr-2" />
           作品を追加
         </button>
@@ -141,6 +145,16 @@ export default function HeaderCreator() {
           <HeaderDropdown isOpen={isDropdownOpen} onClose={() => setIsDropdownOpen(false)} />
         </div>
       </div>
+
+      {showAddWorkModal && (
+        <AddWorkModal
+          onClose={() => setShowAddWorkModal(false)}
+          onComplete={(source, category) => {
+            setShowAddWorkModal(false);
+            router.push(`/creator/works/post?source=${source}&category=${category}`);
+          }}
+        />
+      )}
     </header>
   );
 }

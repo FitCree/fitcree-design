@@ -170,8 +170,8 @@ export default function ClientProjectDetailPage() {
 
       {/* ===== 依頼を複製モーダル ===== */}
       {showDuplicateModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowDuplicateModal(false)}>
+          <div className="bg-white rounded-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-neutral-800">依頼を複製</h2>
@@ -218,8 +218,8 @@ export default function ClientProjectDetailPage() {
 
       {/* ===== 募集を締め切るモーダル ===== */}
       {showCloseModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => { setShowCloseModal(false); setCloseReason(''); setCloseReasonOther(''); }}>
+          <div className="bg-white rounded-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-neutral-800">募集を締め切る</h2>
