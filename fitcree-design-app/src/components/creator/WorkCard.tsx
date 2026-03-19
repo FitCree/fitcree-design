@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { Heart, MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
+import { MoreHorizontal } from 'lucide-react';
 import { PortfolioWork, WorkCategory } from '@/types/data';
 
 /** カテゴリ別アスペクト比 */
@@ -16,16 +17,17 @@ interface WorkCardProps {
   work: PortfolioWork;
   /** true のとき全カード 16:9 に統一（「すべて」表示用） */
   uniformRatio?: boolean;
+  /** リンクを無効にする（プレビュー内の表示など） */
+  disableLink?: boolean;
 }
 
-export default function WorkCard({ work, uniformRatio = false }: WorkCardProps) {
-  const [liked, setLiked] = useState(work.isLiked);
+export default function WorkCard({ work, uniformRatio = false, disableLink = false }: WorkCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const aspect = uniformRatio ? 'aspect-[16/9]' : ASPECT_RATIO[work.category];
 
-  return (
-    <article className="group">
+  const linkContent = (
+    <>
       {/* サムネイル */}
       <div className={`relative ${aspect} rounded-lg overflow-hidden bg-neutral-100`}>
         <img
@@ -46,19 +48,21 @@ export default function WorkCard({ work, uniformRatio = false }: WorkCardProps) 
       <h3 className="text-sm font-medium text-neutral-800 mt-2 line-clamp-2 leading-snug">
         {work.title}
       </h3>
+    </>
+  );
+
+  return (
+    <article className="group">
+      {disableLink ? (
+        <div>{linkContent}</div>
+      ) : (
+        <Link href={`/creator/works/${work.id}`} className="block">
+          {linkContent}
+        </Link>
+      )}
 
       {/* ハート + メニュー */}
       <div className="flex items-center gap-1 mt-2">
-        {/* <button
-          onClick={() => setLiked(!liked)}
-          className={`p-1 transition-colors ${
-            liked ? 'text-red-500' : 'text-neutral-400 hover:text-red-400'
-          }`}
-          aria-label={liked ? 'いいねを取り消す' : 'いいねする'}
-        >
-          <Heart className="w-4 h-4" fill={liked ? 'currentColor' : 'none'} />
-        </button> */}
-
         <div className="relative ml-auto">
           <button
             onClick={() => setMenuOpen(!menuOpen)}

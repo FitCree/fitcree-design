@@ -9,7 +9,9 @@
       "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/client/[clientId]/project/[projectId]/)",
       "Bash(grep -n \"isModalOpen\\\\|setIsModalOpen\\\\|Modal\\\\|Dialog\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)",
       "Bash(grep -n \"fixed inset-0\\\\|backdrop-blur\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/jobs/[id]/apply/page.tsx)",
-      "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)"
+      "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)",
+      "Bash(cat \"/Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\(with-header\\)/page.tsx\")",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

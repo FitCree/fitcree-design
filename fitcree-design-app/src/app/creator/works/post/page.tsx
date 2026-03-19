@@ -214,7 +214,7 @@ function PostWorkPage() {
               下書き保存
             </button>
             <button
-              onClick={() => alert('プレビュー画面へ遷移します（未実装）')}
+              onClick={() => router.push('/creator/works/post/preview')}
               className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all"
             >
               公開に進む！
@@ -664,7 +664,7 @@ function PostWorkPage() {
             {/* ===== 送信ボタン ===== */}
             <div className="pb-8">
               <button
-                onClick={() => alert('プレビュー画面へ遷移します（未実装）')}
+                onClick={() => router.push('/creator/works/post/preview')}
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all text-base flex items-center justify-center gap-2"
               >
                 この内容で公開に進む
