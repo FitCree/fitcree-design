@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { MOCK_CREATORS, MOCK_WORKS } from '@/data/mock-data';
 import { WorkCategory } from '@/types/data';
 import CreatorProfileHeader from './CreatorProfileHeader';
@@ -9,15 +9,22 @@ import CreatorTabs, { CreatorTabId } from './CreatorTabs';
 import WorkCategoryFilter from './WorkCategoryFilter';
 import WorkGrid from './WorkGrid';
 import AddWorkModal from './AddWorkModal';
+import CreatorProfileTab from './CreatorProfileTab';
 
 const INITIAL_SHOW_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
+const VALID_TABS: CreatorTabId[] = ['works', 'profile', 'skills', 'guide', 'reviews'];
+
 export default function CreatorTopPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const currentUser = MOCK_CREATORS[0];
 
-  const [activeTab, setActiveTab] = useState<CreatorTabId>('works');
+  const initialTab = searchParams.get('tab') as CreatorTabId | null;
+  const [activeTab, setActiveTab] = useState<CreatorTabId>(
+    initialTab && VALID_TABS.includes(initialTab) ? initialTab : 'works'
+  );
   const [activeCategory, setActiveCategory] = useState<WorkCategory | 'all'>('all');
   const [showCount, setShowCount] = useState(INITIAL_SHOW_COUNT);
   const [showAddWorkModal, setShowAddWorkModal] = useState(false);
@@ -69,6 +76,8 @@ export default function CreatorTopPage() {
             uniformRatio={activeCategory === 'all'}
           />
         </div>
+      ) : activeTab === 'profile' ? (
+        <CreatorProfileTab user={currentUser} />
       ) : (
         <div className="text-center py-16 text-neutral-400">
           <p className="text-base">このタブは準備中です</p>

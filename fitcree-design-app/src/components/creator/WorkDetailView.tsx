@@ -1,12 +1,13 @@
 "use client";
 
 import React from 'react';
-import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check } from 'lucide-react';
+import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check, Pencil } from 'lucide-react';
 import { WorkDetail } from '@/data/mock-work-details';
 import { User } from '@/types/data';
 import { PortfolioWork } from '@/types/data';
 import WorkCard from './WorkCard';
 import CreatorTabs from './CreatorTabs';
+import ActionLinkButton from '@/components/common/ActionLinkButton';
 
 
 interface WorkDetailViewProps {
@@ -88,12 +89,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             </div>
             <div className="flex flex-col items-end gap-4">
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => alert('この機能は準備中です')}
-                  className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-5 rounded-lg transition-colors"
-                >
-                  作品を編集
-                </button>
+                <ActionLinkButton href="#" label="作品を編集" icon={Pencil} />
                 <button
                   onClick={() => alert('この機能は準備中です')}
                   className="p-2 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"

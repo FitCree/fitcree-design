@@ -87,7 +87,7 @@ export default function AddWorkModal({ onClose, onComplete }: AddWorkModalProps)
                 {/* 自主制作 or 外部制作 */}
                 <button
                   onClick={() => handleSourceSelect('external')}
-                  className="group relative flex flex-col items-center justify-center gap-3 p-6 rounded-xl border-2 border-neutral-200 bg-white hover:border-orange-400 hover:ring-2 hover:ring-orange-200 transition-all aspect-[4/3]"
+                  className="group relative flex flex-col items-center justify-center gap-3 p-6 rounded-xl border-2 border-neutral-200 bg-orange-50 hover:border-orange-400 hover:ring-2 hover:ring-orange-200 transition-all aspect-[4/3]"
                 >
                   <Palette size={28} className="text-neutral-400 group-hover:text-orange-500 transition-colors" />
                   <div className="text-center">

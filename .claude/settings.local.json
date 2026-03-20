@@ -12,7 +12,14 @@
       "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)",
       "Bash(cat \"/Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\(with-header\\)/page.tsx\")",
       "mcp__Claude_Preview__preview_start",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)",
+      "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/profile/)",
+      "Bash(ls -R /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/)",
+      "Bash(cat /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/page.tsx)",
+      "Bash(xargs ls:*)",
+      "Bash(xargs cat:*)",
+      "Bash(ls /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/\\\\\\(with-header\\\\\\)/profile/)"
     ]
   }
 }

@@ -1,5 +1,6 @@
 import { User } from '@/types/data';
 import { MapPin, BadgeCheck, Settings, Share2, Check, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 interface CreatorProfileHeaderProps {
   user: User;
@@ -65,22 +66,22 @@ export default function CreatorProfileHeader({ user, onAddWork }: CreatorProfile
                 <Plus className="w-4 h-4" aria-hidden="true" />
                 作品を追加
               </button>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => alert('このページは準備中です')}
+              {/* <div className="flex gap-2">
+                <Link
+                  href="/creator/profile"
                   className="flex items-center gap-4 flex-1 bg-white border border-neutral-200 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"
                 >
                   <Settings className="w-4 h-4" aria-hidden="true" />
                   プロフィール編集
-                </button>
-                {/* <button
+                </Link>
+                <button
                   onClick={() => alert('このページは準備中です')}
                   className="flex items-center justify-center gap-2 flex-1 bg-white border border-neutral-200 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"
                 >
                   <Share2 className="w-4 h-4" aria-hidden="true" />
                   シェア
-                </button> */}
-              </div>
+                </button>
+              </div> */}
             </div>
           </div>
         </div>
