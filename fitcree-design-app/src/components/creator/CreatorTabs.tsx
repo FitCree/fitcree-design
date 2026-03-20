@@ -1,7 +1,7 @@
 const TABS = [
   { id: 'works', label: '作品' },
   { id: 'profile', label: 'プロフィール' },
-  { id: 'skills', label: '得意・スキル' },
+  { id: 'skills', label: 'スキル・ツール' },
   { id: 'guide', label: '依頼ガイド' },
   { id: 'reviews', label: '評価' },
 ] as const;

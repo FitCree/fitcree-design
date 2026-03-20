@@ -13,6 +13,8 @@ import { TextArea } from '@/components/forms/elements/TextArea';
 import { SelectInput } from '@/components/forms/elements/SelectInput';
 import { RadioList } from '@/components/forms/elements/RadioList';
 import { FileUploader } from '@/components/forms/elements/FileUploader';
+import ProfileSideNav from '@/components/creator/ProfileSideNav';
+import ActionLinkButton from '@/components/common/ActionLinkButton';
 
 const VARIANT = 'creator';
 
@@ -87,46 +89,21 @@ export default function CreatorProfileEditPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 pb-16 text-neutral-900">
+    <div className="max-w-5xl mx-auto px-4 py-8 pb-24 text-neutral-900">
       {/* ページヘッダー */}
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold flex items-center gap-2 text-neutral-800 tracking-tight border-b-2 border-orange-500 pb-2 inline-flex">
           <Settings2 className="text-orange-500" strokeWidth={3} />
           プロフィール編集
         </h1>
-        <Link
-          href="/creator?tab=profile"
-          className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold rounded-lg transition-colors"
-        >
-          <Eye className="w-4 h-4" />
-          実際の表示を確認
-        </Link>
+        <ActionLinkButton href="/creator?tab=profile" label="プロフィールページへ" icon={Eye} />
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* サイドナビゲーション */}
-        <aside className="w-[20%] flex-shrink-0">
-          <nav className="flex flex-col space-y-1">
-            <Link
-              href="/creator/profile"
-              className="px-4 py-3 text-sm font-bold bg-orange-50 text-orange-600 border-l-4 border-orange-500"
-            >
-              基本情報
-            </Link>
-            <Link
-              href="#"
-              className="px-4 py-3 text-sm text-neutral-600 hover:bg-neutral-100 transition-colors"
-            >
-              ポートフォリオ管理
-            </Link>
-            <Link
-              href="/creator/profile/skills"
-              className="px-4 py-3 text-sm text-neutral-600 hover:bg-neutral-100 transition-colors"
-            >
-              スキル・ツール
-            </Link>
-          </nav>
-        </aside>
+
+        {/* 左サイドナビゲーション */}
+        {/* fitcree-design-app/src/components/creator/ProfileSideNav.tsx */}
+        <ProfileSideNav />
 
         {/* メインコンテンツ */}
         <main className="w-[80%] space-y-12">
@@ -304,22 +281,25 @@ export default function CreatorProfileEditPage() {
             </div>
           </section>
 
-          {/* ═══════════ フッターボタン ═══════════ */}
-          <div className="flex items-center justify-center gap-4 pt-4 pb-8">
-            <button
-              onClick={() => window.history.back()}
-              className="px-8 py-3 bg-white border border-neutral-300 text-neutral-700 font-bold rounded-lg hover:bg-neutral-50 transition-colors"
-            >
-              キャンセル
-            </button>
-            <button
-              onClick={() => alert('保存しました（デモ）')}
-              className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors"
-            >
-              保存
-            </button>
-          </div>
         </main>
+      </div>
+
+      {/* ═══════════ 固定フッターボタン ═══════════ */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur border-t border-neutral-200 z-40">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-end gap-3">
+          <button
+            onClick={() => window.history.back()}
+            className="px-6 py-2 bg-white border border-neutral-300 text-neutral-700 text-sm font-bold rounded-lg hover:bg-neutral-50 transition-colors"
+          >
+            キャンセル
+          </button>
+          <button
+            onClick={() => alert('保存しました（デモ）')}
+            className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold rounded-lg transition-colors"
+          >
+            保存
+          </button>
+        </div>
       </div>
     </div>
   );

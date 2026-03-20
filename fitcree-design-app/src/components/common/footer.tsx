@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-100 border-t border-neutral-200 pt-12 pb-8 px-4 sm:px-8">
+    <footer id="site-footer" className="bg-neutral-100 border-t border-neutral-200 pt-12 pb-8 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
           <div className="flex flex-col gap-4">

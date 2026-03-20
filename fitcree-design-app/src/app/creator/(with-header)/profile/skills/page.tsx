@@ -14,9 +14,12 @@ import {
   Settings,
   Briefcase,
   Sparkles,
+  Eye,
 } from 'lucide-react';
 import Link from 'next/link';
 import { SKILL_CATEGORIES, SKILL_MASTER, SKILL_LEVEL_LABELS } from '@/data/master-data';
+import ProfileSideNav from '@/components/creator/ProfileSideNav';
+import ActionLinkButton from '@/components/common/ActionLinkButton';
 import { TipsBox } from '@/components/forms/elements/TipsBox';
 
 export default function CreatorSkillsPage() {
@@ -102,37 +105,19 @@ export default function CreatorSkillsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 pb-16 text-neutral-900">
-      <div className="mb-8">
+      <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold flex items-center gap-2 text-neutral-800 tracking-tight border-b-2 border-orange-500 pb-2 inline-flex">
           <Settings2 className="text-orange-500" strokeWidth={3} />
           プロフィール編集
         </h1>
+        <ActionLinkButton href="/creator?tab=skills" label="スキル・ツールページへ" icon={Eye} />
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* サイドナビゲーション */}
-        <aside className="w-[20%] flex-shrink-0">
-          <nav className="flex flex-col space-y-1">
-            <Link
-              href="/creator/profile"
-              className="px-4 py-3 text-sm text-neutral-600 hover:bg-neutral-100 transition-colors"
-            >
-              基本情報
-            </Link>
-            <Link
-              href="/creator/profile/skills"
-              className="px-4 py-3 text-sm font-bold bg-orange-50 text-orange-600 border-l-4 border-orange-500"
-            >
-              スキル・ツール
-            </Link>
-            <Link
-              href="#"
-              className="px-4 py-3 text-sm text-neutral-600 hover:bg-neutral-100 transition-colors"
-            >
-              ポートフォリオ管理
-            </Link>
-          </nav>
-        </aside>
+
+        {/* 左サイドナビゲーション */}
+        {/* fitcree-design-app/src/components/creator/ProfileSideNav.tsx */}
+        <ProfileSideNav />
 
         {/* メインコンテンツ */}
         <main className="w-[80%] bg-white rounded-xl border border-neutral-200 p-6 md:p-8">
