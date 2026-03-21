@@ -8,6 +8,8 @@ import { PortfolioWork } from '@/types/data';
 import WorkCard from './WorkCard';
 import CreatorTabs from './CreatorTabs';
 import ActionLinkButton from '@/components/common/ActionLinkButton';
+import type { ViewMode } from './CreatorProfileHeader';
+import Link from 'next/link';
 
 
 interface WorkDetailViewProps {
@@ -19,6 +21,8 @@ interface WorkDetailViewProps {
   otherWorks?: PortfolioWork[];
   /** プレビュー時の公開ボタン押下コールバック */
   onPublish?: () => void;
+  /** 表示モード */
+  viewMode?: ViewMode;
 }
 
 /** セクション見出し（太字 + 下線） */
@@ -30,7 +34,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish }: WorkDetailViewProps) {
+export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish, viewMode = 'creator' }: WorkDetailViewProps) {
   return (
     <div className="min-h-screen bg-white">
       {/* ヒーロー画像 */}
@@ -51,13 +55,29 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-4">
-              <img
-                src={creator.avatarUrl}
-                alt={creator.name}
-                className="w-14 h-14 rounded-full border border-neutral-200"
-              />
+              {viewMode === 'client' ? (
+                <Link href={`/client/creators/${creator.id}`}>
+                  <img
+                    src={creator.avatarUrl}
+                    alt={creator.name}
+                    className="w-14 h-14 rounded-full border border-neutral-200 hover:opacity-80 transition-opacity"
+                  />
+                </Link>
+              ) : (
+                <img
+                  src={creator.avatarUrl}
+                  alt={creator.name}
+                  className="w-14 h-14 rounded-full border border-neutral-200"
+                />
+              )}
               <div>
-                <p className="font-bold text-neutral-800 text-lg">{creator.name}</p>
+                {viewMode === 'client' ? (
+                  <Link href={`/client/creators/${creator.id}`} className="font-bold text-neutral-800 text-lg hover:text-blue-600 transition-colors">
+                    {creator.name}
+                  </Link>
+                ) : (
+                  <p className="font-bold text-neutral-800 text-lg">{creator.name}</p>
+                )}
                 {creator.role && (
                   <p className="text-sm text-neutral-600 mt-0.5">{creator.role}</p>
                 )}
@@ -89,7 +109,17 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             </div>
             <div className="flex flex-col items-end gap-4">
               <div className="flex items-center gap-2">
-                <ActionLinkButton href="#" label="作品を編集" icon={Pencil} />
+                {viewMode === 'creator' ? (
+                  <ActionLinkButton href="#" label="作品を編集" icon={Pencil} />
+                ) : (
+                  <button
+                    onClick={() => alert('お気に入りに追加しました')}
+                    className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-bold text-neutral-700"
+                  >
+                    <Heart className="w-4 h-4" />
+                    お気に入り
+                  </button>
+                )}
                 <button
                   onClick={() => alert('この機能は準備中です')}
                   className="p-2 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
@@ -296,7 +326,11 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
         {/* ── CONTACT セクション（実際の詳細ページのみ） ── */}
         {!isPreview && (
           <section className="mb-12">
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-10">
+            <div className={`rounded-2xl p-10 border ${
+              viewMode === 'client'
+                ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200'
+                : 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200'
+            }`}>
               <div className="flex flex-col items-center text-center gap-4">
                 <h2 className="text-2xl font-bold text-neutral-800">CONTACT</h2>
                 <p className="text-sm text-neutral-600">
@@ -315,7 +349,11 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 </div>
                 <button
                   onClick={() => alert('この機能は準備中です')}
-                  className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md shadow-orange-200 mt-2"
+                  className={`flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 ${
+                    viewMode === 'client'
+                      ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
+                      : 'bg-orange-500 hover:bg-orange-600 shadow-orange-200'
+                  }`}
                 >
                   相談する
                   <Send className="w-4 h-4" />
@@ -350,7 +388,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 <h3 className="text-base font-bold text-neutral-700 mb-4">その他の人気作品</h3>
                 <div className="grid grid-cols-2 gap-5">
                   {otherWorks.slice(0, 4).map((w) => (
-                    <WorkCard key={w.id} work={w} uniformRatio />
+                    <WorkCard key={w.id} work={w} uniformRatio viewMode={viewMode} />
                   ))}
                 </div>
                 {otherWorks.length > 4 && (

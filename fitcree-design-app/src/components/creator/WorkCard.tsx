@@ -60,7 +60,7 @@ export default function WorkCard({ work, uniformRatio = false, disableLink = fal
       {disableLink ? (
         <div>{linkContent}</div>
       ) : (
-        <Link href={`/creator/works/${work.id}`} className="block">
+        <Link href={viewMode === 'client' ? `/client/works/${work.id}` : `/creator/works/${work.id}`} className="block">
           {linkContent}
         </Link>
       )}
