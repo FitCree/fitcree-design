@@ -115,6 +115,11 @@ export default function Home() {
                   案件投稿フォーム プレビュー
                 </Link>
               </li>
+              <li>
+                <Link className="link-blue" href="/client/creators/creator-1">
+                  クライアントモード閲覧時のクリエイタートップページ
+                </Link>
+              </li>
             </ul>
           </div>
 

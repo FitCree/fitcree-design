@@ -1,6 +1,7 @@
 import { User } from '@/types/data';
 import { MapPin, Check, Link as LinkIcon, ExternalLink, Pencil } from 'lucide-react';
 import ActionLinkButton from '@/components/common/ActionLinkButton';
+import { ViewMode } from './CreatorProfileHeader';
 
 // プロフィールのモックデータ（編集ページと同期）
 const PROFILE_DATA = {
@@ -27,9 +28,10 @@ const PROFILE_DATA = {
 
 interface CreatorProfileTabProps {
   user: User;
+  viewMode?: ViewMode;
 }
 
-export default function CreatorProfileTab({ user }: CreatorProfileTabProps) {
+export default function CreatorProfileTab({ user, viewMode = 'creator' }: CreatorProfileTabProps) {
   return (
     <div className="max-w-2xl mx-auto space-y-10 py-6">
 
@@ -37,7 +39,9 @@ export default function CreatorProfileTab({ user }: CreatorProfileTabProps) {
       <section>
         <div className="flex items-center justify-between mb-4 pb-2 border-b border-neutral-200">
           <h3 className="text-lg font-bold text-neutral-800">自己紹介</h3>
-          <ActionLinkButton href="/creator/profile" label="プロフィールを編集" icon={Pencil} />
+          {viewMode === 'creator' && (
+            <ActionLinkButton href="/creator/profile" label="プロフィールを編集" icon={Pencil} />
+          )}
         </div>
 
         {/* キャッチフレーズ */}

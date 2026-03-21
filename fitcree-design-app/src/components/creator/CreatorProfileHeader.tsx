@@ -1,13 +1,16 @@
 import { User } from '@/types/data';
-import { MapPin, BadgeCheck, Settings, Share2, Check, Plus } from 'lucide-react';
+import { MapPin, BadgeCheck, Settings, Share2, Check, Plus, Send, Heart } from 'lucide-react';
 import Link from 'next/link';
+
+export type ViewMode = 'creator' | 'client';
 
 interface CreatorProfileHeaderProps {
   user: User;
   onAddWork?: () => void;
+  viewMode?: ViewMode;
 }
 
-export default function CreatorProfileHeader({ user, onAddWork }: CreatorProfileHeaderProps) {
+export default function CreatorProfileHeader({ user, onAddWork, viewMode = 'creator' }: CreatorProfileHeaderProps) {
   return (
     <section className="rounded-lg py-10 md:py-16 md:px-6">
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
@@ -59,29 +62,32 @@ export default function CreatorProfileHeader({ user, onAddWork }: CreatorProfile
 
             {/* 右: ボタン群 */}
             <div className="min-w-60 flex flex-col gap-2 flex-shrink-0">
-              <button
-                onClick={onAddWork}
-                className="flex items-center gap-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
-              >
-                <Plus className="w-4 h-4" aria-hidden="true" />
-                作品を追加
-              </button>
-              {/* <div className="flex gap-2">
-                <Link
-                  href="/creator/profile"
-                  className="flex items-center gap-4 flex-1 bg-white border border-neutral-200 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"
-                >
-                  <Settings className="w-4 h-4" aria-hidden="true" />
-                  プロフィール編集
-                </Link>
+              {viewMode === 'creator' ? (
                 <button
-                  onClick={() => alert('このページは準備中です')}
-                  className="flex items-center justify-center gap-2 flex-1 bg-white border border-neutral-200 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"
+                  onClick={onAddWork}
+                  className="flex items-center gap-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                 >
-                  <Share2 className="w-4 h-4" aria-hidden="true" />
-                  シェア
+                  <Plus className="w-4 h-4" aria-hidden="true" />
+                  作品を追加
                 </button>
-              </div> */}
+              ) : (
+                <>
+                  <button
+                    onClick={() => alert('この機能は準備中です')}
+                    className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  >
+                    <Send className="w-4 h-4" aria-hidden="true" />
+                    このクリエイターに相談する
+                  </button>
+                  <button
+                    onClick={() => alert('お気に入りに追加しました')}
+                    className="flex items-center justify-center gap-2 w-full bg-white border border-neutral-300 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"
+                  >
+                    <Heart className="w-4 h-4" aria-hidden="true" />
+                    お気に入り
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

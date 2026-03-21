@@ -1,5 +1,6 @@
 import { PortfolioWork } from '@/types/data';
 import WorkCard from './WorkCard';
+import type { ViewMode } from './CreatorProfileHeader';
 
 interface WorkGridProps {
   works: PortfolioWork[];
@@ -7,9 +8,11 @@ interface WorkGridProps {
   onLoadMore: () => void;
   /** true のとき全カード 16:9 に統一 */
   uniformRatio?: boolean;
+  /** 表示モード */
+  viewMode?: ViewMode;
 }
 
-export default function WorkGrid({ works, hasMore, onLoadMore, uniformRatio = false }: WorkGridProps) {
+export default function WorkGrid({ works, hasMore, onLoadMore, uniformRatio = false, viewMode = 'creator' }: WorkGridProps) {
   if (works.length === 0) {
     return (
       <div className="text-center py-16 text-neutral-400">
@@ -22,7 +25,7 @@ export default function WorkGrid({ works, hasMore, onLoadMore, uniformRatio = fa
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
         {works.map((work) => (
-          <WorkCard key={work.id} work={work} uniformRatio={uniformRatio} />
+          <WorkCard key={work.id} work={work} uniformRatio={uniformRatio} viewMode={viewMode} />
         ))}
       </div>
 

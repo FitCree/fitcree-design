@@ -13,15 +13,19 @@ const ASPECT_RATIO: Record<WorkCategory, string> = {
   graphic: 'aspect-[3/2]',
 };
 
+import type { ViewMode } from './CreatorProfileHeader';
+
 interface WorkCardProps {
   work: PortfolioWork;
   /** true のとき全カード 16:9 に統一（「すべて」表示用） */
   uniformRatio?: boolean;
   /** リンクを無効にする（プレビュー内の表示など） */
   disableLink?: boolean;
+  /** 表示モード */
+  viewMode?: ViewMode;
 }
 
-export default function WorkCard({ work, uniformRatio = false, disableLink = false }: WorkCardProps) {
+export default function WorkCard({ work, uniformRatio = false, disableLink = false, viewMode = 'creator' }: WorkCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const aspect = uniformRatio ? 'aspect-[16/9]' : ASPECT_RATIO[work.category];
@@ -61,44 +65,46 @@ export default function WorkCard({ work, uniformRatio = false, disableLink = fal
         </Link>
       )}
 
-      {/* ハート + メニュー */}
-      <div className="flex items-center gap-1 mt-2">
-        <div className="relative ml-auto">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="p-1 text-neutral-500 hover:text-orange-700 transition-colors"
-            aria-label="メニューを開く"
-          >
-            <MoreHorizontal className="w-5 h-5" />
-          </button>
+      {/* ハート + メニュー（クリエイターモードのみメニュー表示） */}
+      {viewMode === 'creator' && (
+        <div className="flex items-center gap-1 mt-2">
+          <div className="relative ml-auto">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-1 text-neutral-500 hover:text-orange-700 transition-colors"
+              aria-label="メニューを開く"
+            >
+              <MoreHorizontal className="w-5 h-5" />
+            </button>
 
-          {menuOpen && (
-            <>
-              <div
-                className="fixed inset-0 z-10"
-                onClick={() => setMenuOpen(false)}
-              />
-              <div className="absolute right-0 top-8 z-20 w-40 bg-white border border-neutral-200 rounded-lg py-1">
-                {['編集', '下書きに戻す', '先頭固定表示', 'アクセス状況'].map((item) => (
+            {menuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setMenuOpen(false)}
+                />
+                <div className="absolute right-0 top-8 z-20 w-40 bg-white border border-neutral-200 rounded-lg py-1">
+                  {['編集', '下書きに戻す', '先頭固定表示', 'アクセス状況'].map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
+                      className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50"
+                    >
+                      {item}
+                    </button>
+                  ))}
                   <button
-                    key={item}
                     onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
-                    className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50"
+                    className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
                   >
-                    {item}
+                    削除
                   </button>
-                ))}
-                <button
-                  onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
-                >
-                  削除
-                </button>
-              </div>
-            </>
-          )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </article>
   );
 }

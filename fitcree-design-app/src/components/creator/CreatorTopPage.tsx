@@ -3,8 +3,8 @@
 import { useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MOCK_CREATORS, MOCK_WORKS } from '@/data/mock-data';
-import { WorkCategory } from '@/types/data';
-import CreatorProfileHeader from './CreatorProfileHeader';
+import { WorkCategory, User } from '@/types/data';
+import CreatorProfileHeader, { ViewMode } from './CreatorProfileHeader';
 import CreatorTabs, { CreatorTabId } from './CreatorTabs';
 import WorkCategoryFilter from './WorkCategoryFilter';
 import WorkGrid from './WorkGrid';
@@ -16,10 +16,16 @@ const LOAD_MORE_COUNT = 6;
 
 const VALID_TABS: CreatorTabId[] = ['works', 'profile', 'skills', 'guide', 'reviews'];
 
-export default function CreatorTopPage() {
+interface CreatorTopPageProps {
+  viewMode?: ViewMode;
+  /** 外部から指定するユーザー（クライアントモードで他のクリエイターを表示する場合） */
+  targetUser?: User;
+}
+
+export default function CreatorTopPage({ viewMode = 'creator', targetUser }: CreatorTopPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentUser = MOCK_CREATORS[0];
+  const currentUser = targetUser || MOCK_CREATORS[0];
 
   const initialTab = searchParams.get('tab') as CreatorTabId | null;
   const [activeTab, setActiveTab] = useState<CreatorTabId>(
@@ -57,10 +63,11 @@ export default function CreatorTopPage() {
       <CreatorProfileHeader
         user={currentUser}
         onAddWork={() => setShowAddWorkModal(true)}
+        viewMode={viewMode}
       />
 
       {/* タブナビゲーション */}
-      <CreatorTabs activeTab={activeTab} onTabChange={handleTabChange} />
+      <CreatorTabs activeTab={activeTab} onTabChange={handleTabChange} viewMode={viewMode} />
 
       {/* タブコンテンツ */}
       {activeTab === 'works' ? (
@@ -74,18 +81,19 @@ export default function CreatorTopPage() {
             hasMore={hasMore}
             onLoadMore={() => setShowCount((prev) => prev + LOAD_MORE_COUNT)}
             uniformRatio={activeCategory === 'all'}
+            viewMode={viewMode}
           />
         </div>
       ) : activeTab === 'profile' ? (
-        <CreatorProfileTab user={currentUser} />
+        <CreatorProfileTab user={currentUser} viewMode={viewMode} />
       ) : (
         <div className="text-center py-16 text-neutral-400">
           <p className="text-base">このタブは準備中です</p>
         </div>
       )}
 
-      {/* 作品投稿モーダル */}
-      {showAddWorkModal && (
+      {/* 作品投稿モーダル（クリエイターモードのみ） */}
+      {viewMode === 'creator' && showAddWorkModal && (
         <AddWorkModal
           onClose={() => setShowAddWorkModal(false)}
           onComplete={(source, category) => {
