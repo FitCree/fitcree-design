@@ -1,8 +1,8 @@
 import { User } from '@/types/data';
-import { MapPin, BadgeCheck, Settings, Share2, Check, Plus, Send, Heart } from 'lucide-react';
+import { MapPin, BadgeCheck, Settings, Share2, Check, Plus, Send, Heart, LogIn } from 'lucide-react';
 import Link from 'next/link';
 
-export type ViewMode = 'creator' | 'client';
+export type ViewMode = 'creator' | 'client' | 'guest';
 
 interface CreatorProfileHeaderProps {
   user: User;
@@ -70,7 +70,7 @@ export default function CreatorProfileHeader({ user, onAddWork, viewMode = 'crea
                   <Plus className="w-4 h-4" aria-hidden="true" />
                   作品を追加
                 </button>
-              ) : (
+              ) : viewMode === 'client' ? (
                 <>
                   <button
                     onClick={() => alert('この機能は準備中です')}
@@ -87,6 +87,14 @@ export default function CreatorProfileHeader({ user, onAddWork, viewMode = 'crea
                     お気に入り
                   </button>
                 </>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+                >
+                  <LogIn className="w-4 h-4" aria-hidden="true" />
+                  ログインして相談する
+                </Link>
               )}
             </div>
           </div>

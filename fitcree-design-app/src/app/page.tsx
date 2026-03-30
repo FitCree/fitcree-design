@@ -125,6 +125,26 @@ export default function Home() {
 
           <div className="mt-12 w-full">
             <h2 className="mb-4 text-xl font-bold text-neutral-800">
+              ゲストモード（未ログイン）
+            </h2>
+            <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
+              <li>
+                <Link className="link-blue" href="/guest/creator">
+                  クリエイタートップページ
+                </Link>
+                <ul className="mt-2 flex flex-col gap-3 list-disc pl-5 text-neutral-800">
+                  <li>
+                    <Link className="link-blue" href="/guest/creator/works/work-1">
+                      作品詳細
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mt-12 w-full">
+            <h2 className="mb-4 text-xl font-bold text-neutral-800">
               検索ページ
             </h2>
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">

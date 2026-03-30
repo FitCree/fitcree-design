@@ -1,13 +1,14 @@
 "use client";
 
 import React from 'react';
-import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check, Pencil } from 'lucide-react';
+import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check, Pencil, LogIn } from 'lucide-react';
 import { WorkDetail } from '@/data/mock-work-details';
 import { User } from '@/types/data';
 import { PortfolioWork } from '@/types/data';
 import WorkCard from './WorkCard';
 import CreatorTabs from './CreatorTabs';
 import ActionLinkButton from '@/components/common/ActionLinkButton';
+import GuestLoginCTA from '@/components/guest/GuestLoginCTA';
 import type { ViewMode } from './CreatorProfileHeader';
 import Link from 'next/link';
 
@@ -53,26 +54,26 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
       {/* クリエイター情報バー（詳細ページのみ） */}
       {!isPreview && (
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div className="flex items-start gap-4">
-              {viewMode === 'client' ? (
-                <Link href={`/client/creators/${creator.id}`}>
+              {viewMode === 'client' || viewMode === 'guest' ? (
+                <Link href={viewMode === 'client' ? `/client/creators/${creator.id}` : `/guest/creator`}>
                   <img
                     src={creator.avatarUrl}
                     alt={creator.name}
-                    className="w-14 h-14 rounded-full border border-neutral-200 hover:opacity-80 transition-opacity"
+                    className="w-14 h-14 rounded-full border border-neutral-200 hover:opacity-80 transition-opacity flex-shrink-0"
                   />
                 </Link>
               ) : (
                 <img
                   src={creator.avatarUrl}
                   alt={creator.name}
-                  className="w-14 h-14 rounded-full border border-neutral-200"
+                  className="w-14 h-14 rounded-full border border-neutral-200 flex-shrink-0"
                 />
               )}
               <div>
-                {viewMode === 'client' ? (
-                  <Link href={`/client/creators/${creator.id}`} className="font-bold text-neutral-800 text-lg hover:text-blue-600 transition-colors">
+                {viewMode === 'client' || viewMode === 'guest' ? (
+                  <Link href={viewMode === 'client' ? `/client/creators/${creator.id}` : `/guest/creator`} className={`font-bold text-neutral-800 text-lg transition-colors ${viewMode === 'client' ? 'hover:text-blue-600' : 'hover:text-orange-600'}`}>
                     {creator.name}
                   </Link>
                 ) : (
@@ -107,14 +108,22 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-end gap-4">
+            <div className="flex flex-col items-stretch md:items-end gap-4 md:flex-shrink-0 w-full md:w-auto">
               <div className="flex items-center gap-2">
                 {viewMode === 'creator' ? (
-                  <ActionLinkButton href="#" label="作品を編集" icon={Pencil} />
+                  <ActionLinkButton href="#" label="作品を編集" icon={Pencil} className="flex-1 justify-center md:flex-none" />
+                ) : viewMode === 'guest' ? (
+                  <Link
+                    href="/login"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors text-sm font-bold md:flex-none"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    ログインして相談する
+                  </Link>
                 ) : (
                   <button
                     onClick={() => alert('お気に入りに追加しました')}
-                    className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-bold text-neutral-700"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-bold text-neutral-700 md:flex-none"
                   >
                     <Heart className="w-4 h-4" />
                     お気に入り
@@ -122,7 +131,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 )}
                 <button
                   onClick={() => alert('この機能は準備中です')}
-                  className="p-2 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
+                  className="p-2.5 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors flex-shrink-0"
                 >
                   <Share2 className="w-4 h-4 text-neutral-600" />
                 </button>
@@ -188,14 +197,14 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             <table className="w-full text-sm mb-5">
               <tbody>
                 {work.siteName && (
-                  <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">サイト名</td>
+                  <tr className="">
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">サイト名</td>
                     <td className="py-3 text-neutral-800">{work.siteName}</td>
                   </tr>
                 )}
                 {work.siteUrl && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">URL</td>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">URL</td>
                     <td className="py-3">
                       <a href={work.siteUrl} target="_blank" rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-700 underline flex items-center gap-1 text-sm">
@@ -207,19 +216,19 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 )}
                 {work.industry && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">業種</td>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">業種</td>
                     <td className="py-3 text-neutral-800">{work.industry}</td>
                   </tr>
                 )}
                 {work.siteType && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">サイト種別</td>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">サイト種別</td>
                     <td className="py-3 text-neutral-800">{work.siteType}</td>
                   </tr>
                 )}
                 {work.tools.length > 0 && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">使用ツール/スキル</td>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">使用ツール/スキル</td>
                     <td className="py-3">
                       <div className="flex flex-wrap gap-2">
                         {work.tools.map((t, i) => (
@@ -233,7 +242,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 )}
                 {work.siteTags.length > 0 && (
                   <tr>
-                    <td className="py-3 pr-4 text-neutral-800 w-40 align-top">その他タグ</td>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">その他タグ</td>
                     <td className="py-3">
                       <div className="flex flex-wrap gap-2">
                         {work.siteTags.map((t, i) => (
@@ -245,44 +254,36 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                     </td>
                   </tr>
                 )}
+                {work.target.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">ターゲット</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.target.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {work.purpose.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">目的/背景</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.purpose.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
-
-            {/* ターゲット・目的 */}
-            {(work.target.length > 0 || work.purpose.length > 0) && (
-              <table className="w-full text-sm">
-                <tbody>
-                  {work.target.length > 0 && (
-                    <tr>
-                      <td className="py-3 pr-4 text-neutral-800 w-40 align-top">ターゲット</td>
-                      <td className="py-3">
-                        <div className="flex flex-wrap gap-2">
-                          {work.target.map((t, i) => (
-                            <span key={i} className="text-sm text-orange-600 bg-orange-50 rounded-full px-3 py-0.5">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                  {work.purpose.length > 0 && (
-                    <tr>
-                      <td className="py-3 pr-4 text-neutral-800 w-40 align-top">目的/背景</td>
-                      <td className="py-3">
-                        <div className="flex flex-wrap gap-2">
-                          {work.purpose.map((t, i) => (
-                            <span key={i} className="text-sm text-orange-600 bg-orange-50 rounded-full px-3 py-0.5">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
           </section>
         )}
 
@@ -293,7 +294,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             <tbody>
               {work.responsibilities.length > 0 && (
                 <tr>
-                  <td className="py-3 pr-4 text-neutral-800 w-40 align-top">担当範囲</td>
+                  <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">担当範囲</td>
                   <td className="py-3">
                     <div className="flex flex-wrap gap-2">
                       {work.responsibilities.map((t, i) => (
@@ -307,12 +308,12 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
               )}
               {work.durationValue && (
                 <tr>
-                  <td className="py-3 pr-4 text-neutral-800 w-40 align-top">概算期間</td>
+                  <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">概算期間</td>
                   <td className="py-3 text-neutral-800">{work.durationValue}{work.durationUnit}</td>
                 </tr>
               )}
               <tr>
-                <td className="py-3 pr-4 text-neutral-800 w-40 align-top">クライアント情報</td>
+                <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">クライアント情報</td>
                 <td className="py-3 text-neutral-800">
                   {work.clientType === 'self' ? 'クライアントなし（自主制作／仮想制作）' :
                    work.clientType === 'client_anonymous' ? 'クライアントワーク（非公開）' :
@@ -347,17 +348,27 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                     <p className="text-xs text-neutral-600">{creator.role}</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => alert('この機能は準備中です')}
-                  className={`flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 ${
-                    viewMode === 'client'
-                      ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
-                      : 'bg-orange-500 hover:bg-orange-600 shadow-orange-200'
-                  }`}
-                >
-                  相談する
-                  <Send className="w-4 h-4" />
-                </button>
+                {viewMode === 'guest' ? (
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 bg-orange-500 hover:bg-orange-600 shadow-orange-200"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    ログインして相談する
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => alert('この機能は準備中です')}
+                    className={`flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 ${
+                      viewMode === 'client'
+                        ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
+                        : 'bg-orange-500 hover:bg-orange-600 shadow-orange-200'
+                    }`}
+                  >
+                    相談する
+                    <Send className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </section>
@@ -393,11 +404,15 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                 </div>
                 {otherWorks.length > 4 && (
                   <div className="mt-6">
-                    <button
-                      className="w-full py-3 border border-neutral-200 rounded-lg text-neutral-600 font-bold text-sm hover:bg-neutral-50 transition-colors"
-                    >
-                      もっとみる
-                    </button>
+                    {viewMode === 'guest' ? (
+                      <GuestLoginCTA message="すべての作品を見るにはログインが必要です" />
+                    ) : (
+                      <button
+                        className="w-full py-3 border border-neutral-200 rounded-lg text-neutral-600 font-bold text-sm hover:bg-neutral-50 transition-colors"
+                      >
+                        もっとみる
+                      </button>
+                    )}
                   </div>
                 )}
               </section>

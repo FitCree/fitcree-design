@@ -1,5 +1,6 @@
 import { PortfolioWork } from '@/types/data';
 import WorkCard from './WorkCard';
+import GuestLoginCTA from '@/components/guest/GuestLoginCTA';
 import type { ViewMode } from './CreatorProfileHeader';
 
 interface WorkGridProps {
@@ -31,12 +32,16 @@ export default function WorkGrid({ works, hasMore, onLoadMore, uniformRatio = fa
 
       {hasMore && (
         <div className="mt-8">
-          <button
-            onClick={onLoadMore}
-            className="w-full py-4 border border-neutral-200 rounded-lg text-neutral-600 font-bold hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
-          >
-            もっとみる
-          </button>
+          {viewMode === 'guest' ? (
+            <GuestLoginCTA message="すべての作品を見るにはログインが必要です" />
+          ) : (
+            <button
+              onClick={onLoadMore}
+              className="w-full py-4 border border-neutral-200 rounded-lg text-neutral-600 font-bold hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2"
+            >
+              もっとみる
+            </button>
+          )}
         </div>
       )}
     </div>
