@@ -31,6 +31,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { BUDGET_RANGES, REQUEST_CATEGORIES, PROJECT_STATUS_CONFIG } from '@/data/master-data';
+import CategoryBadge from '@/components/common/CategoryBadge';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -97,9 +98,7 @@ export default function ProjectDetailView({ project, client, isClientView = fals
 
         <div className="flex flex-wrap items-center gap-2 mb-8">
           {/* 依頼分野 */}
-          <p className="bg-orange-50 text-neutral-800 px-3 py-1 rounded-full border border-orange-200 text-sm text-orange-500 font-bold">
-            {REQUEST_CATEGORIES[project.categoryId]}
-          </p>
+          <CategoryBadge name={REQUEST_CATEGORIES[project.categoryId]} />
           {/* 業種 */}
           {details.industry?.map((ind, i) => (
             <p key={i} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 text-sm font-bold flex items-center gap-1">

@@ -16,11 +16,37 @@ import {
   Eye,
   HelpCircle,
   Users,
-  Search
+  Search,
+  Globe,
+  Palette,
+  PenTool,
+  Camera,
+  Video,
+  FileText,
+  Music,
+  Mic,
+  Code,
+  MoreHorizontal,
+  LucideIcon
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { INDUSTRIES, REQUEST_CATEGORIES } from '@/data/master-data';
 import { MOCK_CLIENTS } from '@/data/mock-data';
+import CategoryBadge from '@/components/common/CategoryBadge';
+
+// --- カテゴリアイコンマッピング（後方互換用に残す） ---
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  'Webサイト': Globe,
+  'イラスト': PenTool,
+  'グラフィック': Palette,
+  '写真': Camera,
+  '動画': Video,
+  'ライティング・編集': FileText,
+  '音楽・サウンド': Music,
+  '声・パフォーマンス': Mic,
+  'エンジニアリング': Code,
+  'その他': MoreHorizontal,
+};
 
 // --- Types & Adapters ---
 
@@ -317,9 +343,7 @@ export default function SearchPage() {
                     </p>
 
                     <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <p className="bg-orange-50 text-neutral-800 px-3 py-1 rounded-full border border-orange-200 text-xs md:text-sm text-orange-500 font-bold">
-                        {job.categoryName}
-                      </p>
+                      <CategoryBadge name={job.categoryName} size="xs" />
 
                       {job.industries?.map((ind, i) => (
                         <p key={i} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 text-xs md:text-sm font-bold flex items-center gap-1">
