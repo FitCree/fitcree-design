@@ -1,15 +1,27 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Flag } from 'lucide-react';
-import { MOCK_WORK_DETAILS } from '@/data/mock-work-details';
+import { MOCK_WORK_DETAILS, CATEGORY_PREVIEW_WORK } from '@/data/mock-work-details';
 import { MOCK_CREATORS, MOCK_WORKS } from '@/data/mock-data';
 import WorkDetailView from '@/components/creator/WorkDetailView';
 
-export default function PostPreviewPage() {
+export default function PostPreviewPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <PostPreviewPage />
+    </Suspense>
+  );
+}
+
+function PostPreviewPage() {
   const router = useRouter();
-  const work = MOCK_WORK_DETAILS['work-1']!;
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category') ?? 'web';
+
+  const workId = CATEGORY_PREVIEW_WORK[category] ?? 'work-1';
+  const work = MOCK_WORK_DETAILS[workId]!;
   const creator = MOCK_CREATORS[0];
   const otherWorks = MOCK_WORKS.filter((w) => w.creatorId === creator.id && w.id !== work.id);
 
@@ -99,7 +111,6 @@ export default function PostPreviewPage() {
       {showComplete && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-white rounded-xl max-w-sm w-full mx-4 p-8 animate-in fade-in zoom-in-95 duration-200 text-center">
-            {/* アイコン */}
             <div className="flex justify-end mb-2">
               <Flag className="w-10 h-10 text-orange-500" fill="currentColor" />
             </div>

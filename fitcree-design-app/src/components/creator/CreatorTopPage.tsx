@@ -48,11 +48,15 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
     setShowCount(INITIAL_SHOW_COUNT);
   };
 
+  const allCreatorWorks = useMemo(
+    () => MOCK_WORKS.filter((w) => w.creatorId === currentUser.id),
+    [currentUser.id]
+  );
+
   const filteredWorks = useMemo(() => {
-    const creatorWorks = MOCK_WORKS.filter((w) => w.creatorId === currentUser.id);
-    if (activeCategory === 'all') return creatorWorks;
-    return creatorWorks.filter((w) => w.category === activeCategory);
-  }, [activeCategory, currentUser.id]);
+    if (activeCategory === 'all') return allCreatorWorks;
+    return allCreatorWorks.filter((w) => w.category === activeCategory);
+  }, [activeCategory, allCreatorWorks]);
 
   const displayedWorks = filteredWorks.slice(0, showCount);
   const hasMore = displayedWorks.length < filteredWorks.length;
@@ -98,7 +102,11 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
           onClose={() => setShowAddWorkModal(false)}
           onComplete={(source, category) => {
             setShowAddWorkModal(false);
-            router.push(`/creator/works/post?source=${source}&category=${category}`);
+            if (category === 'video') {
+              router.push(`/creator/works/post/video?source=${source}`);
+            } else {
+              router.push(`/creator/works/post?source=${source}&category=${category}`);
+            }
           }}
         />
       )}

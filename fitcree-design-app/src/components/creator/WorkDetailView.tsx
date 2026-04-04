@@ -38,15 +38,26 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish, viewMode = 'creator' }: WorkDetailViewProps) {
   return (
     <div className="min-h-screen bg-white">
-      {/* ヒーロー画像 */}
+      {/* ヒーロー画像 / 動画埋め込み */}
       <div className="bg-neutral-100 py-8">
         <div className="max-w-4xl mx-auto px-4">
           <div className="rounded-xl overflow-hidden shadow-lg">
-            <img
-              src={work.heroImageUrl}
-              alt={work.title}
-              className="w-full aspect-[16/9] object-cover"
-            />
+            {work.category === 'video' && work.youtubeId ? (
+              <div className="aspect-[16/9]">
+                <iframe
+                  src={`https://www.youtube.com/embed/${work.youtubeId}`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <img
+                src={work.heroImageUrl}
+                alt={work.title}
+                className="w-full aspect-[16/9] object-cover"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -111,7 +122,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             <div className="flex flex-col items-stretch md:items-end gap-4 md:flex-shrink-0 w-full md:w-auto">
               <div className="flex items-center gap-2">
                 {viewMode === 'creator' ? (
-                  <ActionLinkButton href="#" label="作品を編集" icon={Pencil} className="flex-1 justify-center md:flex-none" />
+                  <ActionLinkButton href={`/creator/works/${work.id}/edit`} label="作品を編集" icon={Pencil} className="flex-1 justify-center md:flex-none" />
                 ) : viewMode === 'guest' ? (
                   <Link
                     href="/login"
@@ -166,7 +177,7 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-neutral-700">分野：</span>
-              <span className="inline-block text-sm text-white bg-neutral-700 rounded px-2 py-0.5 font-medium">
+              <span className="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-bold transition-colors bg-slate-700 text-white">
                 {work.categoryLabel}
               </span>
             </div>
@@ -188,6 +199,63 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
             </div>
           )}
         </section>
+
+        {/* ── 「動画」の制作情報 ── */}
+        {work.category === 'video' && (
+          <section className="mb-10">
+            <SectionHeading>「動画」の制作情報</SectionHeading>
+            <table className="w-full text-sm mb-5">
+              <tbody>
+                {work.videoName && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">動画タイトル・作品名</td>
+                    <td className="py-3 text-neutral-800">{work.videoName}</td>
+                  </tr>
+                )}
+                {work.industry && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">業種</td>
+                    <td className="py-3 text-neutral-800">{work.industry}</td>
+                  </tr>
+                )}
+                {work.videoType && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">動画種別</td>
+                    <td className="py-3 text-neutral-800">{work.videoType}</td>
+                  </tr>
+                )}
+                {work.tools.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">使用ツール／ソフト</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.tools.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {work.siteTags.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">自由タグ</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.siteTags.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </section>
+        )}
 
         {/* ── 「WEBサイト」の制作情報 ── */}
         {work.category === 'web' && (

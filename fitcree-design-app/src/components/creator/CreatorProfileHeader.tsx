@@ -72,13 +72,13 @@ export default function CreatorProfileHeader({ user, onAddWork, viewMode = 'crea
                 </button>
               ) : viewMode === 'client' ? (
                 <>
-                  <button
-                    onClick={() => alert('この機能は準備中です')}
+                  <Link
+                    href={`/client/creators/${user.id}/consult`}
                     className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
                     <Send className="w-4 h-4" aria-hidden="true" />
                     このクリエイターに相談する
-                  </button>
+                  </Link>
                   <button
                     onClick={() => alert('お気に入りに追加しました')}
                     className="flex items-center justify-center gap-2 w-full bg-white border border-neutral-300 text-neutral-700 font-bold py-3 px-4 rounded-lg hover:bg-neutral-50 transition-colors focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 text-sm"

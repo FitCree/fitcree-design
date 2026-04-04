@@ -41,7 +41,14 @@
       "Bash(export PATH=\"/Users/yuya.tanaka/.nodebrew/current/bin:$PATH\")",
       "Bash(npx --yes yarn build)",
       "Read(//usr/local/**)",
-      "Read(//opt/**)"
+      "Read(//opt/**)",
+      "Bash(/usr/local/bin/node node_modules/.bin/next build)",
+      "Bash(wait)",
+      "Bash(/usr/local/bin/node node_modules/.bin/tsc --noEmit)",
+      "Bash(find /usr/local/bin -name node -o -name node*)",
+      "Bash(ls /usr/local/bin/node*)",
+      "Bash(/usr/local/bin/node --version)",
+      "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/works/[workId]/)"
     ]
   }
 }

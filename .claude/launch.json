@@ -3,11 +3,14 @@
   "configurations": [
     {
       "name": "fitcree-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["node_modules/.bin/next", "dev"],
       "port": 3000,
       "autoPort": true,
-      "cwd": "fitcree-design-app"
+      "cwd": "fitcree-design-app",
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin"
+      }
     }
   ]
 }

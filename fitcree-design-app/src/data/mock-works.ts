@@ -53,7 +53,7 @@ export const MOCK_WORKS: PortfolioWork[] = [
     id: 'work-5',
     creatorId: 'creator-1',
     title: 'スタートアップ企業の採用プロモーション動画',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80',
+    thumbnailUrl: 'https://img.youtube.com/vi/031CPKWyl10/hqdefault.jpg',
     category: 'video',
     categoryLabel: '動画',
     isLiked: false,
