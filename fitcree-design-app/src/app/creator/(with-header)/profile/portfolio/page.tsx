@@ -247,24 +247,6 @@ export default function PortfolioManagePage() {
             ))}
           </div>
 
-          {/* ── 固定作品バナー ── */}
-          {pinnedWork && (
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 flex items-center gap-4">
-              <Pin className="w-5 h-5 text-orange-500 flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-orange-600 font-bold mb-0.5">先頭固定中の作品</p>
-                <p className="text-sm font-medium text-neutral-800 truncate">{pinnedWork.title}</p>
-              </div>
-              <button
-                onClick={() => handlePin(pinnedWork.id)}
-                className="flex-shrink-0 flex items-center gap-1.5 text-xs text-orange-600 hover:text-orange-700 font-bold border border-orange-300 rounded-lg px-3 py-1.5 hover:bg-orange-100 transition-colors"
-              >
-                <PinOff className="w-3 h-3" />
-                固定解除
-              </button>
-            </div>
-          )}
-
           {/* ── フィルター + 全選択 ── */}
           <div className="bg-white border border-neutral-200 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -346,8 +328,8 @@ export default function PortfolioManagePage() {
 
           {/* ── ヒント ── */}
           <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex gap-3">
-            <AlertCircle className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
-            <div className="text-xs text-neutral-500 space-y-1">
+            <AlertCircle className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-neutral-500 space-y-1">
               <p>ドラッグ＆ドロップで作品の表示順を自由に変更できます。</p>
               <p>先頭固定した作品はプロフィールページで常に最初に表示されます（1件のみ設定可）。</p>
               <p>下書き状態の作品はあなた以外には表示されません。</p>

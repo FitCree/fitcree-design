@@ -195,7 +195,7 @@ export default function CreatorSkillsPage() {
                         {/* 実績数 */}
                         <div className="flex flex-wrap gap-8">
                           <div className="flex flex-col">
-                            <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Total Works</span>
+                            <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">作品数</span>
                             <div className="flex items-center gap-1.5 mt-0.5">
                               <span className={`text-2xl font-bold ${total > 0 ? 'text-neutral-900' : 'text-neutral-300'}`}>
                                 {total.toString().padStart(2, '0')}
