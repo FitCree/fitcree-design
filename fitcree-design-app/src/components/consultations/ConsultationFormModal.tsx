@@ -99,7 +99,7 @@ export default function ConsultationConfirmModal({
                 </h3>
                 <div className="bg-neutral-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
                   <div className="flex justify-between text-sm">
-                    <span className="text-neutral-500">カテゴリ</span>
+                    <span className="text-neutral-500">依頼分野</span>
                     <span className="font-bold text-neutral-800">{form.category}</span>
                   </div>
                   <div className="flex justify-between text-sm">

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { MOCK_CREATORS, MOCK_WORKS } from '@/data/mock-data';
 import ConsultationConfirmModal, { ConsultFormData } from '@/components/consultations/ConsultationFormModal';
+import { RadioList } from '@/components/forms/elements/RadioList';
 
 const CATEGORY_OPTIONS = [
   'Webデザイン',
@@ -64,7 +65,7 @@ function ConsultPageContent() {
   function validate(): boolean {
     const newErrors: Partial<ConsultFormData> = {};
     if (!form.title.trim()) newErrors.title = '相談タイトルを入力してください';
-    if (!form.category) newErrors.category = 'カテゴリを選択してください';
+    if (!form.category) newErrors.category = '分野を選択してください';
     if (!form.budgetRange) newErrors.budgetRange = '予算感を選択してください';
     if (!form.message.trim()) newErrors.message = '相談メッセージを入力してください';
     setErrors(newErrors);
@@ -126,7 +127,7 @@ function ConsultPageContent() {
             className="w-14 h-10 object-cover rounded-md shrink-0"
           />
           <div className="min-w-0">
-            <p className="text-xs text-blue-600 font-bold mb-0.5">この作品について相談する</p>
+            <p className="text-xs text-blue-600 font-bold mb-0.5">この作品からの相談です</p>
             <p className="text-sm text-neutral-700 font-bold truncate">{selectedWork.title}</p>
           </div>
         </div>
@@ -176,23 +177,32 @@ function ConsultPageContent() {
           <input
             type="text"
             value={form.title}
+            maxLength={100}
             onChange={(e) => {
               setForm((f) => ({ ...f, title: e.target.value }));
               if (errors.title) setErrors((e) => ({ ...e, title: undefined }));
             }}
             placeholder="例：カフェのブランディングをお願いしたい"
-            className={`w-full border rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full border rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white ${
               errors.title ? 'border-red-400' : 'border-neutral-200'
             }`}
           />
-          {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
+          <div className="flex justify-between items-center mt-1">
+            {errors.title
+              ? <p className="text-xs text-red-500">{errors.title}</p>
+              : <span />
+            }
+            <p className={`text-xs ml-auto ${form.title.length >= 100 ? 'text-red-500 font-bold' : 'text-neutral-400'}`}>
+              {form.title.length} / 100
+            </p>
+          </div>
         </div>
 
-        {/* カテゴリ */}
+        {/* 分野 */}
         <div>
           <label className="flex items-center gap-1.5 text-sm font-bold text-neutral-700 mb-2">
             <Briefcase size={14} className="text-orange-500" />
-            カテゴリ
+            依頼したい分野
             <span className="border border-red-700 text-red-700 bg-red-50 text-xs font-bold px-2 py-0.5 rounded-full">必須</span>
           </label>
           <select
@@ -220,25 +230,17 @@ function ConsultPageContent() {
             予算感
             <span className="border border-red-700 text-red-700 bg-red-50 text-xs font-bold px-2 py-0.5 rounded-full">必須</span>
           </label>
-          <div className="grid grid-cols-2 gap-2">
-            {BUDGET_OPTIONS.map((b) => (
-              <button
-                key={b}
-                type="button"
-                onClick={() => {
-                  setForm((f) => ({ ...f, budgetRange: b }));
-                  if (errors.budgetRange) setErrors((e) => ({ ...e, budgetRange: undefined }));
-                }}
-                className={`px-3 py-3 text-sm font-bold rounded-lg border transition-colors text-left ${
-                  form.budgetRange === b
-                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                    : 'border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:bg-neutral-50'
-                }`}
-              >
-                {b}
-              </button>
-            ))}
-          </div>
+          <RadioList
+            options={BUDGET_OPTIONS}
+            name="budgetRange"
+            selectedValue={form.budgetRange}
+            onChange={(v: string) => {
+              setForm((f) => ({ ...f, budgetRange: v }));
+              if (errors.budgetRange) setErrors((e) => ({ ...e, budgetRange: undefined }));
+            }}
+            cols={2}
+            variant="client"
+          />
           {errors.budgetRange && <p className="text-xs text-red-500 mt-1">{errors.budgetRange}</p>}
         </div>
 
@@ -253,7 +255,7 @@ function ConsultPageContent() {
             type="date"
             value={form.deadline}
             onChange={(e) => setForm((f) => ({ ...f, deadline: e.target.value }))}
-            className="w-full border border-neutral-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-neutral-200 rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
           />
         </div>
 
@@ -272,7 +274,7 @@ function ConsultPageContent() {
             }}
             placeholder={`${creator.name}さんの作品を拝見し、ぜひご相談したいと思いご連絡しました。\n\n依頼内容の概要や背景など、詳しくお書きください。`}
             rows={8}
-            className={`w-full border rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
+            className={`w-full border rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white ${
               errors.message ? 'border-red-400' : 'border-neutral-200'
             }`}
           />
