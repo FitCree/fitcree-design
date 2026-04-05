@@ -10,6 +10,7 @@ import WorkCategoryFilter from './WorkCategoryFilter';
 import WorkGrid from './WorkGrid';
 import AddWorkModal from './AddWorkModal';
 import CreatorProfileTab from './CreatorProfileTab';
+import CreatorSkillsTab from './CreatorSkillsTab';
 
 const INITIAL_SHOW_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
@@ -90,6 +91,8 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
         </div>
       ) : activeTab === 'profile' ? (
         <CreatorProfileTab user={currentUser} viewMode={viewMode} />
+      ) : activeTab === 'skills' ? (
+        <CreatorSkillsTab viewMode={viewMode} />
       ) : (
         <div className="text-center py-16 text-neutral-400">
           <p className="text-base">このタブは準備中です</p>

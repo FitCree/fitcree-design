@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Plus,
   Trash2,
@@ -23,6 +24,7 @@ import ActionLinkButton from '@/components/common/ActionLinkButton';
 import { TipsBox } from '@/components/forms/elements/TipsBox';
 
 export default function CreatorSkillsPage() {
+  const router = useRouter();
   // --- 状態管理 ---
   const [skills, setSkills] = useState([
     {
@@ -382,7 +384,13 @@ export default function CreatorSkillsPage() {
                           <div className="text-lg font-bold text-green-600">{editingSkill.works.personal}</div>
                         </div>
                       </div>
-                      <button className="w-full py-3 bg-white border border-orange-300 text-orange-500 rounded-full text-sm font-bold hover:bg-orange-50 flex items-center justify-center gap-2 transition-colors">
+                      <button
+                        onClick={() => {
+                          setIsModalOpen(false);
+                          router.push('/creator?tab=works');
+                        }}
+                        className="w-full py-3 bg-white border border-orange-300 text-orange-500 rounded-full text-sm font-bold hover:bg-orange-50 flex items-center justify-center gap-2 transition-colors"
+                      >
                         <LinkIcon size={14} /> 作品一覧で紐づけを確認
                       </button>
                     </div>

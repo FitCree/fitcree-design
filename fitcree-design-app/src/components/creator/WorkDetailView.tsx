@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, ChevronLeft, MapPin, Check, Pencil, LogIn, X } from 'lucide-react';
+import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, ChevronLeft, MapPin, Check, Pencil, LogIn, X, MoreHorizontal } from 'lucide-react';
 import { WorkDetail } from '@/data/mock-work-details';
 import { User } from '@/types/data';
 import { PortfolioWork } from '@/types/data';
@@ -37,6 +37,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish, viewMode = 'creator' }: WorkDetailViewProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const images = work.category === 'photo'
     ? (work.photoImages ?? [])
     : work.category === 'graphic'
@@ -188,12 +189,46 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                     お気に入り
                   </button>
                 )}
-                <button
-                  onClick={() => alert('この機能は準備中です')}
-                  className="p-2.5 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors flex-shrink-0"
-                >
-                  <Share2 className="w-4 h-4 text-neutral-600" />
-                </button>
+                {viewMode === 'creator' ? (
+                  <div className="relative flex-shrink-0">
+                    <button
+                      onClick={() => setMenuOpen(!menuOpen)}
+                      className="p-2.5 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
+                      aria-label="メニューを開く"
+                    >
+                      <MoreHorizontal className="w-4 h-4 text-neutral-600" />
+                    </button>
+                    {menuOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
+                        <div className="absolute right-0 top-11 z-20 w-44 bg-white border border-neutral-200 rounded-lg py-1 shadow-md">
+                          {['下書きに戻す', '先頭固定表示', 'アクセス状況'].map((item) => (
+                            <button
+                              key={item}
+                              onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
+                              className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50"
+                            >
+                              {item}
+                            </button>
+                          ))}
+                          <button
+                            onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
+                            className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
+                          >
+                            削除
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => alert('この機能は準備中です')}
+                    className="p-2.5 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors flex-shrink-0"
+                  >
+                    <Share2 className="w-4 h-4 text-neutral-600" />
+                  </button>
+                )}
               </div>
               {/* 統計 */}
               <div className="flex items-center gap-4 text-xs text-neutral-600">

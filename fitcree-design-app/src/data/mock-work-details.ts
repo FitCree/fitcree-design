@@ -64,8 +64,7 @@ export const MOCK_WORK_DETAILS: Record<string, WorkDetail> = {
       'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
     ],
-    description:
-      '企業の採用強化を目的に、コーポレートサイトをリニューアルしました。学生が理解しやすいように情報を整理し、写真を多く取り入れています。\n\n〇〇についてエ夫し、〇〇を機能して制作しています。\nダミーテキストですダミーテキストですダミーテキストですダミーテキストですダミーテキストですダミーテキストです。ダミーテキストですダミーテキストですダミーテキストですダミーテキストです。\n\nダミーテキストですダミーテキストでダミーテキストでダミーテキストですダミーテキストですダミーテキストで。。',
+    description:'企業の採用強化を目的に、コーポレートサイトをリニューアルしました。学生が理解しやすいように情報を整理し、写真を多く取り入れています。\n\n〇〇についてエ夫し、〇〇を機能して制作しています。\nダミーテキストですダミーテキストですダミーテキストですダミーテキストですダミーテキストですダミーテキストです。ダミーテキストですダミーテキストですダミーテキストですダミーテキストです。\n\nダミーテキストですダミーテキストでダミーテキストでダミーテキストですダミーテキストですダミーテキストで。。',
     siteUrl: 'https://www.uminofood-baktes.com/',
     siteName: '海のフード「Baktes」',
     industry: '飲食業',
@@ -74,7 +73,7 @@ export const MOCK_WORK_DETAILS: Record<string, WorkDetail> = {
     purpose: ['#コンバージョン改善', '#集客施策'],
     durationValue: '1',
     durationUnit: 'ヶ月',
-    tools: ['#Figma', '#ドリーム名', '#ドリーム名'],
+    tools: ['#Figma', '#Adobe Illustrator', '#photoshop'],
     siteTags: ['#ページュ', '#近代角ゴシック'],
     responsibilities: ['#ディレクション', '#デザイン', '#コーディング'],
     clientType: 'self',
