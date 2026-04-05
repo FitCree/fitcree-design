@@ -424,14 +424,18 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                     <LogIn className="w-4 h-4" />
                     ログインして相談する
                   </Link>
+                ) : viewMode === 'client' ? (
+                  <Link
+                    href={`/client/creators/${creator.id}/consult?workId=${work.id}`}
+                    className="flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 bg-blue-600 hover:bg-blue-700 shadow-blue-200"
+                  >
+                    この作品について相談する
+                    <Send className="w-4 h-4" />
+                  </Link>
                 ) : (
                   <button
                     onClick={() => alert('この機能は準備中です')}
-                    className={`flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 ${
-                      viewMode === 'client'
-                        ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
-                        : 'bg-orange-500 hover:bg-orange-600 shadow-orange-200'
-                    }`}
+                    className="flex items-center gap-2 text-white font-bold py-3.5 px-10 rounded-full transition-colors shadow-md mt-2 bg-orange-500 hover:bg-orange-600 shadow-orange-200"
                   >
                     相談する
                     <Send className="w-4 h-4" />

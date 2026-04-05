@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, Suspense } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import {
   ChevronLeft,
   ChevronRight,
@@ -45,7 +45,9 @@ const INITIAL_FORM: ConsultFormData = {
 function ConsultPageContent() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const creatorId = params.creatorId as string;
+  const initialWorkId = searchParams.get('workId') ?? '';
 
   const creator = MOCK_CREATORS.find((c) => c.id === creatorId) || MOCK_CREATORS[0];
   const works = useMemo(
@@ -53,7 +55,7 @@ function ConsultPageContent() {
     [creator.id]
   );
 
-  const [form, setForm] = useState<ConsultFormData>(INITIAL_FORM);
+  const [form, setForm] = useState<ConsultFormData>({ ...INITIAL_FORM, workId: initialWorkId });
   const [errors, setErrors] = useState<Partial<ConsultFormData>>({});
   const [modalStep, setModalStep] = useState<'confirm' | 'done' | null>(null);
 
@@ -81,16 +83,23 @@ function ConsultPageContent() {
     router.push(`/client/creators/${creator.id}`);
   }
 
+  const backHref = initialWorkId
+    ? `/client/works/${initialWorkId}`
+    : `/client/creators/${creator.id}`;
+  const backLabel = initialWorkId
+    ? '作品ページに戻る'
+    : `${creator.name}さんのページに戻る`;
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       {/* ページヘッダー */}
       <div className="mb-6">
         <button
-          onClick={() => router.push(`/client/creators/${creator.id}`)}
+          onClick={() => router.push(backHref)}
           className="flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-700 mb-4 transition-colors"
         >
           <ChevronLeft size={16} />
-          {creator.name}さんのページに戻る
+          {backLabel}
         </button>
 
         <div className="flex items-center gap-3">
@@ -107,6 +116,21 @@ function ConsultPageContent() {
       </div>
 
       <h1 className="text-xl font-black text-neutral-900 mb-6">お仕事の相談内容を入力</h1>
+
+      {/* 作品から遷移した場合のコンテキストバナー */}
+      {selectedWork && initialWorkId && (
+        <div className="flex items-center gap-3 mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <img
+            src={selectedWork.thumbnailUrl}
+            alt=""
+            className="w-14 h-10 object-cover rounded-md shrink-0"
+          />
+          <div className="min-w-0">
+            <p className="text-xs text-blue-600 font-bold mb-0.5">この作品について相談する</p>
+            <p className="text-sm text-neutral-700 font-bold truncate">{selectedWork.title}</p>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-8">
         {/* 気になった作品 */}
