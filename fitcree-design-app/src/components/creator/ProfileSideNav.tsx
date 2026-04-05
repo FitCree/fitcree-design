@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
   { href: '/creator/profile', label: '基本情報' },
-  { href: '#', label: 'ポートフォリオ管理' },
+  { href: '/creator/profile/portfolio', label: 'ポートフォリオ管理' },
   { href: '/creator/profile/skills', label: 'スキル・ツール' },
 ];
 
