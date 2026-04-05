@@ -72,7 +72,7 @@ export interface Project {
 export type ProjectStatus = Project['status'];
 
 // ── クリエイター作品（ポートフォリオ）──
-export type WorkCategory = 'web' | 'photo' | 'video' | 'graphic';
+export type WorkCategory = 'web' | 'photo' | 'video' | 'graphic' | 'illustration';
 
 export interface PortfolioWork {
     id: string;

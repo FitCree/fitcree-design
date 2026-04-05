@@ -104,6 +104,12 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
             setShowAddWorkModal(false);
             if (category === 'video') {
               router.push(`/creator/works/post/video?source=${source}`);
+            } else if (category === 'illustration') {
+              router.push(`/creator/works/post/illustration?source=${source}`);
+            } else if (category === 'photo') {
+              router.push(`/creator/works/post/photo?source=${source}`);
+            } else if (category === 'graphic') {
+              router.push(`/creator/works/post/graphic?source=${source}`);
             } else {
               router.push(`/creator/works/post?source=${source}&category=${category}`);
             }

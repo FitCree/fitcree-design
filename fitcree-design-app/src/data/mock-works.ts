@@ -3,6 +3,7 @@ import { PortfolioWork, WorkCategory } from '@/types/data';
 export const WORK_CATEGORIES: { id: WorkCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'すべて' },
   { id: 'web', label: 'WEB' },
+  { id: 'illustration', label: 'イラスト・アート' },
   { id: 'photo', label: '写真' },
   { id: 'video', label: '動画' },
   { id: 'graphic', label: 'グラフィック' },
@@ -32,12 +33,12 @@ export const MOCK_WORKS: PortfolioWork[] = [
   {
     id: 'work-3',
     creatorId: 'creator-1',
-    title: '高級レストランのブランディングサイト制作',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80',
-    category: 'web',
-    categoryLabel: 'WEB',
-    isLiked: true,
-    createdDate: '2026/01/15',
+    title: 'ファンタジーRPGのキャラクターデザイン集',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=600&q=80',
+    category: 'illustration',
+    categoryLabel: 'イラスト・アート',
+    isLiked: false,
+    createdDate: '2026/04/05',
   },
   {
     id: 'work-4',

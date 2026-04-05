@@ -4,6 +4,9 @@ import { useParams } from 'next/navigation';
 import { MOCK_WORK_DETAILS } from '@/data/mock-work-details';
 import WebEditForm from '@/components/creator/edit/WebEditForm';
 import VideoEditForm from '@/components/creator/edit/VideoEditForm';
+import IllustrationEditForm from '@/components/creator/edit/IllustrationEditForm';
+import PhotoEditForm from '@/components/creator/edit/PhotoEditForm';
+import GraphicEditForm from '@/components/creator/edit/GraphicEditForm';
 
 export default function EditWorkPage() {
   const params = useParams();
@@ -23,6 +26,12 @@ export default function EditWorkPage() {
   switch (work.category) {
     case 'video':
       return <VideoEditForm workId={workId} work={work} />;
+    case 'illustration':
+      return <IllustrationEditForm workId={workId} work={work} />;
+    case 'photo':
+      return <PhotoEditForm workId={workId} work={work} />;
+    case 'graphic':
+      return <GraphicEditForm workId={workId} work={work} />;
     case 'web':
     default:
       return <WebEditForm workId={workId} work={work} />;

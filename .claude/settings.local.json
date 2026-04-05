@@ -48,7 +48,8 @@
       "Bash(find /usr/local/bin -name node -o -name node*)",
       "Bash(ls /usr/local/bin/node*)",
       "Bash(/usr/local/bin/node --version)",
-      "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/works/[workId]/)"
+      "Bash(ls -la /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src/app/creator/works/[workId]/)",
+      "Bash(grep -r \"WEBサイト\\\\|動画\" /Users/yuya.tanaka/Works/FitCree/fitcree-design/fitcree-design-app/src --include=*.tsx --include=*.ts)"
     ]
   }
 }

@@ -17,8 +17,9 @@ import { DetailSection } from '@/components/common/DetailSection';
 import { WorkDetail } from '@/data/mock-work-details';
 import SuggestedTags from './SuggestedTags';
 import {
-  INDUSTRIES, DURATION_UNITS, AGE_RESTRICTION_OPTIONS, AI_OPTIONS, VISIBILITY_OPTIONS,
+  INDUSTRIES, DURATION_UNITS, AGE_RESTRICTION_OPTIONS, VISIBILITY_OPTIONS,
 } from './constants';
+import { AI_OPTIONS_VIDEO as AI_OPTIONS } from '@/constants/ai-options';
 
 const VIDEO_TYPES = [
   'プロモーション動画（PR動画）', 'CM・広告映像', 'コーポレートムービー',

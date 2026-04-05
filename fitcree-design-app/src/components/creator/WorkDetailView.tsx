@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, MapPin, Check, Pencil, LogIn } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Eye, Heart, Share2, ExternalLink, Send, ChevronRight, ChevronLeft, MapPin, Check, Pencil, LogIn, X } from 'lucide-react';
 import { WorkDetail } from '@/data/mock-work-details';
 import { User } from '@/types/data';
 import { PortfolioWork } from '@/types/data';
@@ -36,29 +36,77 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 }
 
 export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish, viewMode = 'creator' }: WorkDetailViewProps) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const images = work.category === 'photo'
+    ? (work.photoImages ?? [])
+    : work.category === 'graphic'
+    ? (work.graphicImages ?? [])
+    : (work.illustImages ?? []);
+
+  const openLightbox = (index: number) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+
+  const goPrev = useCallback(() => {
+    setLightboxIndex((i) => (i !== null ? (i - 1 + images.length) % images.length : null));
+  }, [images.length]);
+
+  const goNext = useCallback(() => {
+    setLightboxIndex((i) => (i !== null ? (i + 1) % images.length : null));
+  }, [images.length]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') goPrev();
+      else if (e.key === 'ArrowRight') goNext();
+      else if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightboxIndex, goPrev, goNext]);
+
   return (
     <div className="min-h-screen bg-white">
-      {/* ヒーロー画像 / 動画埋め込み */}
+      {/* ヒーロー画像 / 動画埋め込み / イラストグリッド */}
       <div className="bg-neutral-100 py-8">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="rounded-xl overflow-hidden shadow-lg">
-            {work.category === 'video' && work.youtubeId ? (
-              <div className="aspect-[16/9]">
-                <iframe
-                  src={`https://www.youtube.com/embed/${work.youtubeId}`}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
+          {(work.category === 'illustration' || work.category === 'photo' || work.category === 'graphic') && images.length > 0 ? (
+            <div className="grid grid-cols-3 gap-3">
+              {images.map((url, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl overflow-hidden shadow-md bg-white aspect-square cursor-zoom-in group relative"
+                  onClick={() => openLightbox(i)}
+                >
+                  <img
+                    src={url}
+                    alt={`${work.title} ${i + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              {work.category === 'video' && work.youtubeId ? (
+                <div className="aspect-[16/9]">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${work.youtubeId}`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <img
+                  src={work.heroImageUrl}
+                  alt={work.title}
+                  className="w-full aspect-[16/9] object-cover"
                 />
-              </div>
-            ) : (
-              <img
-                src={work.heroImageUrl}
-                alt={work.title}
-                className="w-full aspect-[16/9] object-cover"
-              />
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -247,6 +295,181 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                           <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
                             {t}
                           </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </section>
+        )}
+
+        {/* ── 「イラスト・アート」の制作情報 ── */}
+        {work.category === 'illustration' && (
+          <section className="mb-10">
+            <SectionHeading>「イラスト・アート」の制作情報</SectionHeading>
+            <table className="w-full text-sm mb-5">
+              <tbody>
+                {work.illustName && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">イラスト・作品名</td>
+                    <td className="py-3 text-neutral-800">{work.illustName}</td>
+                  </tr>
+                )}
+                {work.industry && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">業種</td>
+                    <td className="py-3 text-neutral-800">{work.industry}</td>
+                  </tr>
+                )}
+                {work.illustType && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">イラスト種別</td>
+                    <td className="py-3 text-neutral-800">{work.illustType}</td>
+                  </tr>
+                )}
+                {work.artStyle && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">画風・スタイル</td>
+                    <td className="py-3 text-neutral-800">{work.artStyle}</td>
+                  </tr>
+                )}
+                {work.tools.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">使用ツール／ソフト</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.tools.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {work.siteTags.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">自由タグ</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.siteTags.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </section>
+        )}
+
+        {/* ── 「グラフィック」の制作情報 ── */}
+        {work.category === 'graphic' && (
+          <section className="mb-10">
+            <SectionHeading>「グラフィック」の制作情報</SectionHeading>
+            <table className="w-full text-sm mb-5">
+              <tbody>
+                {work.graphicName && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">グラフィックタイトル・作品名</td>
+                    <td className="py-3 text-neutral-800">{work.graphicName}</td>
+                  </tr>
+                )}
+                {work.industry && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">業種</td>
+                    <td className="py-3 text-neutral-800">{work.industry}</td>
+                  </tr>
+                )}
+                {work.graphicType && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">グラフィック種別</td>
+                    <td className="py-3 text-neutral-800">{work.graphicType}</td>
+                  </tr>
+                )}
+                {work.tools.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">使用ツール／ソフト</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.tools.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">{t}</span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {work.siteTags.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">自由タグ</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.siteTags.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">{t}</span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </section>
+        )}
+
+        {/* ── 「写真」の制作情報 ── */}
+        {work.category === 'photo' && (
+          <section className="mb-10">
+            <SectionHeading>「写真」の制作情報</SectionHeading>
+            <table className="w-full text-sm mb-5">
+              <tbody>
+                {work.photoName && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">写真タイトル・作品名</td>
+                    <td className="py-3 text-neutral-800">{work.photoName}</td>
+                  </tr>
+                )}
+                {work.industry && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">業種</td>
+                    <td className="py-3 text-neutral-800">{work.industry}</td>
+                  </tr>
+                )}
+                {work.photoGenre && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">写真ジャンル</td>
+                    <td className="py-3 text-neutral-800">{work.photoGenre}</td>
+                  </tr>
+                )}
+                {work.shootingLocation && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">撮影場所</td>
+                    <td className="py-3 text-neutral-800">{work.shootingLocation}</td>
+                  </tr>
+                )}
+                {work.tools.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">使用機材／ソフト</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.tools.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">{t}</span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {work.siteTags.length > 0 && (
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-neutral-800 md:w-40 align-top">自由タグ</td>
+                    <td className="py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {work.siteTags.map((t, i) => (
+                          <span key={i} className="text-sm text-neutral-600 bg-neutral-100 rounded-full px-3 py-0.5">{t}</span>
                         ))}
                       </div>
                     </td>
@@ -493,6 +716,75 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
         )}
       </div>
 
+      {/* ===== ライトボックスモーダル ===== */}
+      {lightboxIndex !== null && images.length > 0 && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={closeLightbox}
+        >
+          {/* 閉じるボタン */}
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+          >
+            <X size={20} />
+          </button>
+
+          {/* 枚数カウンター */}
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold">
+            {lightboxIndex + 1} / {images.length}
+          </div>
+
+          {/* 前へボタン */}
+          {images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goPrev(); }}
+              className="absolute left-4 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            >
+              <ChevronLeft size={26} />
+            </button>
+          )}
+
+          {/* メイン画像 */}
+          <div
+            className="max-w-4xl max-h-[85vh] mx-16 flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={images[lightboxIndex]}
+              alt={`${work.title} ${lightboxIndex + 1}`}
+              className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+            />
+          </div>
+
+          {/* 次へボタン */}
+          {images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goNext(); }}
+              className="absolute right-4 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            >
+              <ChevronRight size={26} />
+            </button>
+          )}
+
+          {/* サムネイルドット */}
+          {images.length > 1 && (
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i); }}
+                  className={`rounded-full transition-all ${
+                    i === lightboxIndex
+                      ? 'w-5 h-2 bg-white'
+                      : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
