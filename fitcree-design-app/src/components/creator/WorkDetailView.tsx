@@ -35,9 +35,18 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
+type ConfirmAction = '下書きに戻す' | '先頭固定表示' | '削除' | null;
+
 export default function WorkDetailView({ work, creator, isPreview = false, otherWorks = [], onPublish, viewMode = 'creator' }: WorkDetailViewProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null);
+  const [completedAction, setCompletedAction] = useState<ConfirmAction>(null);
+
+  const handleConfirm = () => {
+    setCompletedAction(confirmAction);
+    setConfirmAction(null);
+  };
   const images = work.category === 'photo'
     ? (work.photoImages ?? [])
     : work.category === 'graphic'
@@ -66,8 +75,55 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
     return () => window.removeEventListener('keydown', onKey);
   }, [lightboxIndex, goPrev, goNext]);
 
+  const confirmMessages: Record<NonNullable<ConfirmAction>, string> = {
+    '下書きに戻す': 'この作品を下書きに戻しますか？',
+    '先頭固定表示': 'この作品を先頭に固定表示しますか？',
+    '削除': 'この作品を削除しますか？',
+  };
+  const completedMessages: Record<NonNullable<ConfirmAction>, string> = {
+    '下書きに戻す': '下書きに戻しました。',
+    '先頭固定表示': '先頭固定表示にしました。',
+    '削除': '削除しました。',
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      {/* 確認モーダル */}
+      {confirmAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-xl shadow-lg p-6 w-80 flex flex-col gap-4">
+            <p className="text-sm text-neutral-800 text-center">{confirmMessages[confirmAction]}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmAction(null)}
+                className="flex-1 py-2 text-sm border border-neutral-200 rounded-lg text-neutral-700 hover:bg-neutral-50 transition-colors"
+              >
+                いいえ
+              </button>
+              <button
+                onClick={handleConfirm}
+                className={`flex-1 py-2 text-sm rounded-lg text-white transition-colors ${confirmAction === '削除' ? 'bg-red-500 hover:bg-red-600' : 'bg-orange-500 hover:bg-orange-600'}`}
+              >
+                はい
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* 完了モーダル */}
+      {completedAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-xl shadow-lg p-6 w-80 flex flex-col gap-4">
+            <p className="text-sm text-neutral-800 text-center">{completedMessages[completedAction]}</p>
+            <button
+              onClick={() => setCompletedAction(null)}
+              className="w-full py-2 text-sm bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors"
+            >
+              閉じる
+            </button>
+          </div>
+        </div>
+      )}
       {/* ヒーロー画像 / 動画埋め込み / イラストグリッド */}
       <div className="bg-neutral-100 py-8">
         <div className="max-w-4xl mx-auto px-4">
@@ -202,10 +258,10 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
                         <div className="absolute right-0 top-11 z-20 w-44 bg-white border border-neutral-200 rounded-lg py-1 shadow-md">
-                          {['下書きに戻す', '先頭固定表示', 'アクセス状況'].map((item) => (
+                          {(['下書きに戻す', '先頭固定表示'] as const).map((item) => (
                             <button
                               key={item}
-                              onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
+                              onClick={() => { setMenuOpen(false); setConfirmAction(item); }}
                               className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50"
                             >
                               {item}
@@ -213,6 +269,12 @@ export default function WorkDetailView({ work, creator, isPreview = false, other
                           ))}
                           <button
                             onClick={() => { setMenuOpen(false); alert('この機能は準備中です'); }}
+                            className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50"
+                          >
+                            アクセス状況
+                          </button>
+                          <button
+                            onClick={() => { setMenuOpen(false); setConfirmAction('削除'); }}
                             className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
                           >
                             削除

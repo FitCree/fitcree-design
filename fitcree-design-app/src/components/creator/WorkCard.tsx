@@ -11,6 +11,7 @@ const ASPECT_RATIO: Record<WorkCategory, string> = {
   photo: 'aspect-[3/2]',
   video: 'aspect-[16/9]',
   graphic: 'aspect-[3/2]',
+  illustration: 'aspect-[3/2]',
 };
 
 import type { ViewMode } from './CreatorProfileHeader';
