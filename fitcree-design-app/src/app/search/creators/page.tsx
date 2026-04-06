@@ -37,25 +37,21 @@ const USAGE_OPTIONS = [
 ];
 
 // テイスト（作風）
-const STYLE_TAGS = [
-  'シンプル・ミニマル',
-  'ポップ・かわいい',
-  'クール・スタイリッシュ',
-  'ナチュラル・温かみ',
-  'プロ・ビジネス向け',
-  'クリエイティブ・個性的',
-];
+// const STYLE_TAGS = [
+//   'シンプル・ミニマル',
+//   'ポップ・かわいい',
+//   'クール・スタイリッシュ',
+//   'ナチュラル・温かみ',
+//   'プロ・ビジネス向け',
+//   'クリエイティブ・個性的',
+// ];
 
 // 対応条件
 const CONDITION_TAGS = [
   'インボイス対応',
   'NDA対応',
   '本人確認済み',
-  'スピード対応（3日以内）',
-  '丁寧なヒアリング',
-  '修正対応◎',
-  'ディレクション込み',
-  'リモート完結',
+  // '対面可能',
 ];
 
 // デモ用サムネイル（作品のないクリエイター向け補完）
@@ -214,6 +210,8 @@ export default function CreatorsSearchPage() {
   const [activeStyleTags, setActiveStyleTags] = useState<string[]>([]);
   const [activeConditions, setActiveConditions] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'recommended' | 'newest'>('recommended');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PER_PAGE = 5;
   const [expandedSections, setExpandedSections] = useState({
     category: false,
     usage: false,
@@ -273,6 +271,12 @@ export default function CreatorsSearchPage() {
     }
     return result;
   }, [activeCategory, searchQuery, sortBy, activeStyleTags, activeUsages, activeIndustries, activeConditions]);
+
+  // フィルター・ソート変更時はページを1に戻す
+  React.useEffect(() => { setCurrentPage(1); }, [activeCategory, searchQuery, sortBy, activeStyleTags, activeUsages, activeIndustries, activeConditions]);
+
+  const totalPages = Math.ceil(filteredCreators.length / PER_PAGE);
+  const pagedCreators = filteredCreators.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   const allCategories = ['すべて', ...REQUEST_CATEGORIES];
 
@@ -392,7 +396,7 @@ export default function CreatorsSearchPage() {
             </FilterSection>
 
             {/* テイスト */}
-            <FilterSection
+            {/* <FilterSection
               label="テイスト"
               expanded={expandedSections.taste}
               onToggle={() => toggleSection('taste')}
@@ -413,7 +417,7 @@ export default function CreatorsSearchPage() {
                   </button>
                 ))}
               </div>
-            </FilterSection>
+            </FilterSection> */}
 
             {/* 対応条件 */}
             <FilterSection
@@ -525,11 +529,12 @@ export default function CreatorsSearchPage() {
             {/* クリエイターカード */}
             {filteredCreators.length > 0 ? (
               <div className="space-y-4">
-                {filteredCreators.map((creator, idx) => {
+                {pagedCreators.map((creator, idx) => {
+                  const idx2 = (currentPage - 1) * PER_PAGE + idx;
                   const creatorWorks = MOCK_WORKS.filter(w => w.creatorId === creator.id);
                   const worksToShow = (creatorWorks.length > 0
                     ? creatorWorks.slice(0, 3)
-                    : DEMO_THUMBS.slice((idx * 3) % DEMO_THUMBS.length, ((idx * 3) % DEMO_THUMBS.length) + 3).map((url, i) => ({
+                    : DEMO_THUMBS.slice((idx2 * 3) % DEMO_THUMBS.length, ((idx2 * 3) % DEMO_THUMBS.length) + 3).map((url, i) => ({
                         id: `demo-${creator.id}-${i}`,
                         creatorId: creator.id,
                         title: '',
@@ -695,6 +700,38 @@ export default function CreatorsSearchPage() {
                     </article>
                   );
                 })}
+                {/* ページネーション */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-1.5 pt-2">
+                    <button
+                      onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      disabled={currentPage === 1}
+                      className="px-3 py-2 text-sm font-bold rounded-xl border border-neutral-200 bg-white text-neutral-500 hover:border-orange-300 hover:text-orange-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    >
+                      ←
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className={`w-9 h-9 text-sm font-bold rounded-xl transition-all ${
+                          page === currentPage
+                            ? 'bg-orange-500 text-white border border-orange-500'
+                            : 'bg-white border border-neutral-200 text-neutral-500 hover:border-orange-300 hover:text-orange-500'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      disabled={currentPage === totalPages}
+                      className="px-3 py-2 text-sm font-bold rounded-xl border border-neutral-200 bg-white text-neutral-500 hover:border-orange-300 hover:text-orange-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    >
+                      →
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="py-24 text-center">

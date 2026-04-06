@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Pencil, Briefcase, Globe, User, Star } from 'lucide-react';
 import ActionLinkButton from '@/components/common/ActionLinkButton';
+import GuestLoginCTA from '@/components/guest/GuestLoginCTA';
 import { SKILL_CATEGORIES, SKILL_LEVEL_LABELS } from '@/data/master-data';
 import { ViewMode } from './CreatorProfileHeader';
 
@@ -103,6 +104,11 @@ export default function CreatorSkillsTab({ viewMode = 'creator' }: CreatorSkills
       </div>
 
       {/* スキル一覧 */}
+      <div className="relative">
+        {viewMode === 'guest' && (
+          <GuestLoginCTA message="スキル・ツールを見るにはログインが必要です" overlay />
+        )}
+      <div className={viewMode === 'guest' ? 'blur-sm select-none pointer-events-none' : ''}>
       {activeCategory === 'all' && groupedSkills ? (
         // カテゴリ別グルーピング表示
         <div className="space-y-8">
@@ -142,6 +148,8 @@ export default function CreatorSkillsTab({ viewMode = 'creator' }: CreatorSkills
           )}
         </div>
       )}
+      </div>
+      </div>
     </div>
   );
 }
