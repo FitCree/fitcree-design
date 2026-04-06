@@ -279,7 +279,7 @@ export default function CreatorsSearchPage() {
   return (
     <div className="bg-neutral-50">
       {/* ページタイトル帯 */}
-      <div className="bg-white border-b border-neutral-100">
+      <div>
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-6">
           <h1 className="text-xl font-bold text-neutral-900 font-outfit">クリエイターを探す</h1>
         </div>
