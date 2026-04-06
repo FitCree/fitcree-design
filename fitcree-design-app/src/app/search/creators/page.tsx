@@ -285,7 +285,7 @@ export default function CreatorsSearchPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 pb-8">
         <div className="flex gap-6 items-start">
 
           {/* ──────────────────────────────
@@ -572,7 +572,7 @@ export default function CreatorsSearchPage() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2">
                               <div className="min-w-0">
-                                <div className="flex items-center gap-2 flex-wrap">
+                                <div className="flex items-center gap-4 flex-wrap">
                                   <h2 className="font-bold text-neutral-900 group-hover:text-orange-600 transition-colors">
                                     {creator.name}
                                   </h2>
@@ -598,17 +598,57 @@ export default function CreatorsSearchPage() {
                               </Link>
                             </div>
 
+                            {/* ── 下段: スキルタグ + 信頼バッジ ── */}
+                        <div className="mt-2 flex items-center gap-2 flex-wrap">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="flex items-center gap-1 text-xs text-neutral-500">
+                              作品12件
+                            </span>
+                            {/* <span className="text-neutral-200 text-xs">|</span>
+                            {(CREATOR_WORK_TAGS[creator.id] ?? []).map(tag => (
+                              <span
+                                key={tag}
+                                className="text-xs text-neutral-500 bg-neutral-100 px-2.5 py-0.5 rounded-full font-medium"
+                              >
+                                {tag}
+                              </span>
+                            ))} */}
+                          </div>
+                          <div className="hidden md:flex items-center gap-2 text-xs text-neutral-500 flex-shrink-0">
+                          <span className="text-neutral-200">|</span>
+                            {creator.location && (
+                              <span className="flex items-center gap-0.5">
+                                <MapPin size={10} />
+                                {creator.location}
+                              </span>
+                            )}
+                            <span className="flex items-center gap-0.5">
+                              <Check size={10} className="text-green-500" />
+                              本人確認
+                            </span>
+                            <span className="flex items-center gap-0.5">
+                              <Check size={10} className="text-green-500" />
+                              NDA
+                            </span>
+                            <span className="flex items-center gap-0.5">
+                              <Check size={10} className="text-green-500" />
+                              インボイス
+                            </span>
+                          </div>
+                        </div>
+
                           </div>
                         </div>
 
                         {/* ── 中段: ポートフォリオサムネイル ── */}
                         {workCount > 0 && (
                           <div className="mt-4">
-                            <div className="grid grid-cols-3 gap-2">
+                            {/* モバイル: 横スクロール / md以上: 3列グリッド */}
+                            <div className="flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-3 md:overflow-visible md:pb-0 scrollbar-hide">
                               {worksToShow.map((work, i) => (
                                 <div
                                   key={work.id}
-                                  className="aspect-[4/3] rounded-xl overflow-hidden bg-neutral-100 relative"
+                                  className="flex-shrink-0 w-52 md:w-auto aspect-[4/3] rounded-xl overflow-hidden bg-neutral-100 relative"
                                 >
                                   <img
                                     src={work.thumbnailUrl}
@@ -633,45 +673,7 @@ export default function CreatorsSearchPage() {
                           </div>
                         )}
 
-                        {/* ── 下段: スキルタグ + 信頼バッジ ── */}
-                        <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="flex items-center gap-1 text-xs text-neutral-400">
-                              <Images size={10} />
-                              作品12件
-                            </span>
-                            <span className="text-neutral-200 text-xs">|</span>
-                            {(CREATOR_WORK_TAGS[creator.id] ?? []).map(tag => (
-                              <span
-                                key={tag}
-                                className="text-xs text-neutral-500 bg-neutral-100 px-2.5 py-0.5 rounded-full font-medium"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                          <div className="flex items-center gap-2 text-xs text-neutral-500 flex-shrink-0">
-                            {creator.location && (
-                              <span className="flex items-center gap-0.5">
-                                <MapPin size={10} />
-                                {creator.location}
-                              </span>
-                            )}
-                            <span className="text-neutral-200">|</span>
-                            <span className="flex items-center gap-0.5">
-                              <Check size={10} className="text-green-500" />
-                              本人確認
-                            </span>
-                            <span className="flex items-center gap-0.5">
-                              <Check size={10} className="text-green-500" />
-                              NDA
-                            </span>
-                            <span className="flex items-center gap-0.5">
-                              <Check size={10} className="text-green-500" />
-                              インボイス
-                            </span>
-                          </div>
-                        </div>
+                      
 
                         {/* CTA（モバイル） */}
                         <div className="sm:hidden mt-3 flex gap-2 relative z-30 pointer-events-auto">

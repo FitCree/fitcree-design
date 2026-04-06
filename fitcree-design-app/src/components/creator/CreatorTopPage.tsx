@@ -95,7 +95,7 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
         <CreatorSkillsTab viewMode={viewMode} />
       ) : (
         <div className="text-center py-16 text-neutral-400">
-          <p className="text-base">このタブは準備中です</p>
+          <p className="text-base">準備中です</p>
         </div>
       )}
 

@@ -38,11 +38,6 @@ export default function Home() {
                       プロフィール編集
                     </Link>
                   </li>
-                  <li>
-                    <Link className="link-blue" href="/creator/profile/skills">
-                      プロフィール編集 - スキル・ツール（作成中）
-                    </Link>
-                  </li>
                 </ul>
               </li>
               <li>
@@ -80,7 +75,7 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/client">
-                  クライアントトップページ サンプル
+                  クライアントトップページ
                 </Link>
                 <ul className="mt-2 flex flex-col gap-3 list-disc pl-5 text-neutral-800">
                   <li>
@@ -150,7 +145,7 @@ export default function Home() {
             <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/search/creators">
-                  クリエイター検索 (作成中)
+                  クリエイター検索
                 </Link>
               </li>
             </ul>
