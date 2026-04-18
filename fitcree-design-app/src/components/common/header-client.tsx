@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import {
   User, Settings, Heart, Activity, LogOut,
-  Search, Plus, Mail, Bell
+  Search, Plus, Mail, Bell, LayoutGrid
 } from "lucide-react";
 import { MOCK_CLIENTS } from "@/data/mock-data";
 
@@ -113,6 +113,13 @@ export default function HeaderClient() {
 
       {/* Right: Icons & Avatar */}
       <div className="flex items-center gap-2 sm:gap-4">
+        <Link
+          href="/client/workspace"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-blue-500 text-blue-600 text-sm font-bold hover:bg-blue-50 transition-colors focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+        >
+          <LayoutGrid size={14} />
+          ワークスペース
+        </Link>
         <button className="text-neutral-500 hover:text-neutral-700 p-2 relative">
           <Mail size={20} />
         </button>

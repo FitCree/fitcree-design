@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   User, Settings, Heart, Activity, LogOut,
-  Search, Plus, Mail, Bell, Briefcase
+  Search, Plus, Mail, Bell, Briefcase, LayoutGrid
 } from "lucide-react";
 import { MOCK_CREATORS } from "@/data/mock-data";
 import { getConsultationsForCreator } from "@/data/mock-consultations";
@@ -35,6 +35,9 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       <div className="py-2">
         <Link href="/creator/profile" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
           <User size={16} className="text-neutral-400" /> プロフィール編集
+        </Link>
+        <Link href="/creator/workspace" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
+          <LayoutGrid size={16} className="text-neutral-400" /> ワークスペース
         </Link>
         <Link href="/creator/applications" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
           <Activity size={16} className="text-neutral-400" /> 応募状況
@@ -116,6 +119,13 @@ export default function HeaderCreator() {
 
       {/* Right: Icons & Avatar */}
       <div className="flex items-center gap-2 sm:gap-4">
+        <Link
+          href="/creator/workspace"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border-2 border-orange-500 text-orange-600 text-sm font-bold hover:bg-orange-50 transition-colors focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+        >
+          <LayoutGrid size={14} />
+          ワークスペース
+        </Link>
         <button className="text-neutral-500 hover:text-neutral-700 p-2 relative">
           <Mail size={20} />
         </button>
