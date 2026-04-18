@@ -5,7 +5,8 @@
 
 ```
 / (Root)
-├── .cursorrules             # AIへの自動命令定義（ハブ）
+├── .cursorrules             # Cursor AI向け自動命令定義
+├── CLAUDE.md                # Claude Code向け自動命令定義
 ├── Makefile                 # 開発補助コマンド
 └── fitcree-design-app/      # アプリケーション本体
     ├── docs/                # 【最重要】設計・規約（Source of Truth）
@@ -33,17 +34,14 @@
 ### docs/
 プロジェクトの全仕様が集約されています。AIは実装前に必ずこの中身を確認し、定義されたルール（特に `design-system.md`）から逸脱したコードを生成しないでください。
 
-### src/app/globals.css
-プロジェクトの色やフォントの設定がここに記述されています。AIはスタイルを確認する際、このファイルを優先的に参照してください。
+### src/app/globals.css（Tailwind v4 テーマ設定）
+プロジェクトの色やフォントの設定がここに記述されています。本プロジェクトはTailwind CSS v4を使用しており、テーマ設定は `@theme inline` ディレクティブで管理しています（`tailwind.config.ts` は存在しません）。AIはスタイルを確認する際、このファイルを優先的に参照してください。
 
 ### src/app/
 Next.jsの規約に基づいたルーティングを配置します。デザインの実装（UIの組み立て）はここで行いますが、ロジックや共通部品は抽出して components や lib に配置することを推奨します。
 
 ### src/components/
-- `forms/`: `FormElements.tsx` や `FormLayout.tsx` を含み、入力フォームの一貫性を管理します。AIは新しいフォームを作る際、まずこの中の既存パーツが使えないか必ず検索してください。
-- `common/`: ロール別（Client / Creator / Guest）のヘッダーなど、全ページで共通して使用される要素を配置します。
-- `ui-kit.tsx`: 基本的なボタンやバッジなど、FitCree全体のデザインの基礎となる最小単位の部品を管理します。
-
-### tailwind.config.ts
-デザインシステムの根幹となる色の名前や拡張設定が記述されています。
+- `forms/`: `FormElements.tsx` や `FormLayout.tsx` を含み、入力フォームの一貫性を管理します。`elements/form-theme.ts` にはロール別（Creator/Client）のテーマ定義があります。AIは新しいフォームを作る際、まずこの中の既存パーツが使えないか必ず検索してください。
+- `common/`: ロール別（Client / Creator / Guest）のヘッダーなど、全ページで共通して使用される要素を配置します。ActionLinkButton, CategoryBadge, DetailSection 等の汎用パーツもここにあります。
+- `ui-kit.tsx`: 現在はプレースホルダー状態。今後、基本的なボタンやバッジなどの最小単位の共通UIパーツをここに集約予定。現時点での共通パーツは `common/` や `forms/elements/` 内の各コンポーネントを参照すること。
 
