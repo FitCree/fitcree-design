@@ -6,16 +6,16 @@
 
 実装を開始する前に、必ず以下のドキュメントを確認してください：
 
-- `fitcree-design-app/docs/overview.md` — サービスの目的・ターゲット・コアコンセプト
-- `fitcree-design-app/docs/design-system.md` — デザイン・余白・色・装飾のルール（聖典）
-- `fitcree-design-app/docs/architecture.md` — ディレクトリ構成・各フォルダの責務
-- `fitcree-design-app/docs/accessibility.md` — WCAG A/AA準拠のアクセシビリティ基準
+- `docs/overview.md` — サービスの目的・ターゲット・コアコンセプト
+- `docs/design-system.md` — デザイン・余白・色・装飾のルール（聖典）
+- `docs/architecture.md` — ディレクトリ構成・各フォルダの責務
+- `docs/accessibility.md` — WCAG A/AA準拠のアクセシビリティ基準
 
 ## 2. 思考プロセス
 
 指示を受けた際、以下のステップで思考してください：
 
-1. `fitcree-design-app/docs/` で関連するルールを確認する
+1. `docs/` で関連するルールを確認する
 2. `fitcree-design-app/src/components/` で再利用可能なコンポーネントを探す
 3. ルールに則ったTailwindクラスを選択する
 
@@ -24,6 +24,7 @@
 - **既存コンポーネント優先**: `fitcree-design-app/src/components/` 内（特に `forms/elements/`, `common/`）の既存パーツを最優先で再利用
 - **ロール別テーマ**: フォーム要素は `fitcree-design-app/src/components/forms/elements/form-theme.ts` の `getFormTheme()` を使ってCreator/Clientのカラーを切り替える。色のハードコード禁止
 - **アクセシビリティ**: `docs/accessibility.md` の基準（WCAG A/AA）を遵守
+
 - **Hex直書き禁止**: `.tsx` ファイル内で `#` から始まるカラーコードを使わない。Tailwindクラスのみ使用
 - **ダークモード**: 現在は非対応。`dark:` プレフィックスは使用しない
 - **shadow**: 原則使用しない（許可ケースは design-system.md 参照）
