@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  User, Settings, Heart, Activity, LogOut,
+  User, Settings, Heart, LogOut,
   Search, Plus, Mail, Bell, Briefcase, LayoutGrid
 } from "lucide-react";
 import { MOCK_CREATORS } from "@/data/mock-data";
@@ -39,11 +39,8 @@ const HeaderDropdown = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         <Link href="/creator/workspace" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
           <LayoutGrid size={16} className="text-neutral-400" /> ワークスペース
         </Link>
-        <Link href="/creator/applications" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
-          <Activity size={16} className="text-neutral-400" /> 応募状況
-        </Link>
-        <Link href="/creator/consultations" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
-          <Briefcase size={16} className="text-neutral-400" /> お仕事の相談
+        <Link href="/creator/activity" onClick={onClose} className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3">
+          <Briefcase size={16} className="text-neutral-400" /> お仕事の相談・応募状況
           {UNREAD_CONSULTATION_COUNT > 0 && (
             <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
               {UNREAD_CONSULTATION_COUNT}
@@ -130,7 +127,7 @@ export default function HeaderCreator() {
           <Mail size={20} />
         </button>
 
-        <Link href="/creator/consultations" className="text-neutral-500 hover:text-neutral-700 p-2 relative block">
+        <Link href="/creator/activity" className="text-neutral-500 hover:text-neutral-700 p-2 relative block">
           <Bell size={20} />
           {UNREAD_CONSULTATION_COUNT > 0 && (
             <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 rounded-full border-2 border-white text-[10px] font-bold text-white leading-none px-1">
