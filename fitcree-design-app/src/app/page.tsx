@@ -9,7 +9,6 @@ export default function Home() {
       <HeaderGuest />
       <main className="flex-grow w-full py-32 px-6 bg-white">
         <div className="m-auto max-w-3xl">
-          {/* ... 内容は省略せず維持 ... */}
 
           <h1 className="text-3xl font-bold leading-10 tracking-tight text-neutral-800">
             FitCree Design Project
@@ -38,31 +37,36 @@ export default function Home() {
                       プロフィール編集
                     </Link>
                   </li>
+                  <li>
+                    <Link className="link-blue" href="/creator/workspace">
+                      Workspace
+                    </Link>
+                  </li>
                 </ul>
               </li>
               <li>
                 <Link className="link-blue" href="/creator/search">
-                  案件検索一覧
+                  案件検索
                 </Link>
               </li>
               <li>
-                <Link className="link-blue" href="/creator/applications">
-                  案件への応募状況一覧
+                <Link className="link-blue" href="/creator/activity">
+                  仕事依頼／案件への応募状況
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/creator/jobs/101/apply">
-                  案件への応募フォーム
+                  案件応募（フォーム）
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/creator/jobs/101/application-details">
-                  応募中案件の内容確認
+                  応募中の案件確認
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/creator/welcome">
-                  登録完了（テストマーケ用の仮バージョン）
+                  アカウント登録完了（α版 仮バージョン）
                 </Link>
               </li>
             </ul>
@@ -97,22 +101,17 @@ export default function Home() {
               </li>
               <li>
                 <Link className="link-blue" href="/client/post-job">
-                  案件投稿フォーム
-                </Link>
-              </li>
-              <li>
-                <Link className="link-blue" href="/client/post-job/specs">
-                  案件投稿フォーム 仕様書 (表)
-                </Link>
-              </li>
-              <li>
-                <Link className="link-blue" href="/client/post-job/preview">
-                  案件投稿フォーム プレビュー
+                  案件投稿（フォーム）
                 </Link>
               </li>
               <li>
                 <Link className="link-blue" href="/client/creators/creator-1">
                   クライアントモード閲覧時のクリエイタートップページ
+                </Link>
+              </li>
+              <li>
+                <Link className="link-blue" href="/client/workspace">
+                  Workspace
                 </Link>
               </li>
             </ul>
@@ -135,14 +134,6 @@ export default function Home() {
                   </li>
                 </ul>
               </li>
-            </ul>
-          </div>
-
-          <div className="mt-12 w-full">
-            <h2 className="mb-4 text-xl font-bold text-neutral-800">
-              検索ページ
-            </h2>
-            <ul className="flex flex-col gap-3 list-disc pl-5 text-neutral-800">
               <li>
                 <Link className="link-blue" href="/search/creators">
                   クリエイター検索
@@ -178,18 +169,6 @@ export default function Home() {
               </li>
             </ul>
           </div>
-
-          <h2 className="mt-12 text-3xl font-bold text-neutral-800">
-            本デザイン環境に関する情報
-          </h2>
-          <p className="mt-2 text-base text-neutral-800">
-            本デザインは、AIエディターを活用して構築しています。<br />詳しくは、GitHubの<code>README.md</code>を確認してください
-          </p>
-          <p className="mt-2 text-base text-neutral-800">
-            <Link className="link-blue" href="https://github.com/FitCree/fitcree-design" target="_blank">
-              https://github.com/FitCree/fitcree-design
-            </Link>
-          </p>
         </div>
       </main>
       <Footer />
