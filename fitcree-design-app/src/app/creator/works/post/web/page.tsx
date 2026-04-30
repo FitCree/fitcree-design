@@ -2,60 +2,30 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  ArrowLeft,
-  Save,
-  ChevronRight,
-  Globe,
-  FileText,
-  Image as ImageIcon,
-  Camera,
-  Briefcase,
-  Wrench,
-  Tag,
-  Users,
-  DollarSign,
-  Shield,
-  Eye,
-  Sparkles,
-  Info,
-} from 'lucide-react';
+import { Globe, FileText, Wrench, Info } from 'lucide-react';
 import { TextInput } from '@/components/forms/elements/TextInput';
 import { TextArea } from '@/components/forms/elements/TextArea';
 import { SelectInput } from '@/components/forms/elements/SelectInput';
-import { RadioList } from '@/components/forms/elements/RadioList';
 import { TagInput } from '@/components/forms/elements/TagInput';
 import { FileUploader } from '@/components/forms/elements/FileUploader';
 import { FormSection } from '@/components/forms/elements/FormSection';
 import { DetailSection } from '@/components/common/DetailSection';
 import { AI_OPTIONS_WEB as AI_OPTIONS } from '@/constants/ai-options';
-import { AGE_RESTRICTION_OPTIONS, VISIBILITY_OPTIONS } from '@/constants/work-options';
+import { INDUSTRIES } from '@/constants/work-options';
+import { PostFormHeader } from '@/components/creator/post/PostFormHeader';
+import { PostSubmitButton } from '@/components/creator/post/PostSubmitButton';
+import { SuggestedTags } from '@/components/creator/post/SuggestedTags';
+import { BusinessInfoSection } from '@/components/creator/post/BusinessInfoSection';
+import { PublicationSettingsSection } from '@/components/creator/post/PublicationSettingsSection';
 
 // ===== おすすめタグデータ =====
 const SUGGESTED_TAGS = {
   target: ['若年層', '高齢者', '女性', '男性'],
   purpose: ['UX向上', 'コンバージョン促進', '集客施策'],
-
   tools: ['Figma', 'Adobe Photoshop', 'Adobe XD', 'Illustrator', 'Sketch'],
   siteTags: ['ページ', 'オーシャンブルー', '近代的リッチ', '軽快'],
   responsibilities: ['ディレクション', 'デザイン', 'コーディング', 'ライティング', '撮影', '企画・構成'],
 };
-
-// ===== 業種一覧 =====
-const INDUSTRIES = [
-  '飲食',
-  'IT・テクノロジー',
-  '教育・学校',
-  '医療・ヘルスケア',
-  '不動産',
-  '美容・ファッション',
-  '金融・保険',
-  '小売・EC',
-  '製造',
-  '旅行・観光',
-  'メディア・エンタメ',
-  'その他',
-];
 
 // ===== サイト種別 =====
 const SITE_TYPES = [
@@ -84,10 +54,6 @@ const SITE_TYPES = [
   'その他',
 ];
 
-// ===== 概算期間の単位 =====
-const DURATION_UNITS = ['時間', '日', '週間', 'ヶ月'];
-
-
 // ===== モック入力済みデータ =====
 const PREFILLED_DATA = {
   siteUrl: 'https://fitcree.com/',
@@ -106,45 +72,14 @@ const PREFILLED_DATA = {
   purpose: ['#UX向上', '#コンバージョン促進', '#集客施策'],
   durationValue: '1',
   durationUnit: 'ヶ月',
-
   tools: ['#Figma', '#Adobe Photoshop', '#Adobe XD'],
   siteTags: ['#ページ', '#オーシャンブルー', '#近代的リッチ', '#軽快'],
   responsibilities: ['#ディレクション', '#デザイン', '#コーディング'],
   clientType: 'client_anonymous',
-  clientName: '',
   aiUsage: 'none',
   ageRestriction: 'all',
   visibility: 'public',
 };
-
-// ===== おすすめタグボタン =====
-function SuggestedTags({
-  tags,
-  currentValues,
-  onAdd,
-}: {
-  tags: string[];
-  currentValues: string[];
-  onAdd: (tag: string) => void;
-}) {
-  const available = tags.filter((t) => !currentValues.includes(`#${t}`));
-  if (available.length === 0) return null;
-  return (
-    <div className="flex flex-wrap items-center gap-1.5 mt-2">
-      {available.map((tag) => (
-        <button
-          key={tag}
-          type="button"
-          onClick={() => onAdd(tag)}
-          className="px-2.5 py-1 text-xs font-medium rounded-md bg-white text-orange-500 border border-orange-200 hover:bg-orange-50 transition-colors"
-        >
-          #{tag}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 
 export default function PostWebPageWrapper() {
   return (
@@ -159,7 +94,6 @@ function PostWebPage() {
   const searchParams = useSearchParams();
   const prefilled = searchParams.get('prefilled') === '1';
 
-  // フォーム状態（prefilled時はモックデータ使用）
   const [siteUrl, setSiteUrl] = useState(prefilled ? PREFILLED_DATA.siteUrl : '');
   const [siteAdded, setSiteAdded] = useState(prefilled);
   const [title, setTitle] = useState(prefilled ? PREFILLED_DATA.title : '');
@@ -173,7 +107,6 @@ function PostWebPage() {
   const [purpose, setPurpose] = useState<string[]>(prefilled ? PREFILLED_DATA.purpose : []);
   const [durationValue, setDurationValue] = useState(prefilled ? PREFILLED_DATA.durationValue : '');
   const [durationUnit, setDurationUnit] = useState(prefilled ? PREFILLED_DATA.durationUnit : '');
-
   const [tools, setTools] = useState<string[]>(prefilled ? PREFILLED_DATA.tools : []);
   const [siteTags, setSiteTags] = useState<string[]>(prefilled ? PREFILLED_DATA.siteTags : []);
   const [responsibilities, setResponsibilities] = useState<string[]>(prefilled ? PREFILLED_DATA.responsibilities : []);
@@ -183,46 +116,23 @@ function PostWebPage() {
   const [ageRestriction, setAgeRestriction] = useState(prefilled ? PREFILLED_DATA.ageRestriction : 'all');
   const [visibility, setVisibility] = useState(prefilled ? PREFILLED_DATA.visibility : 'public');
 
-  const handleAddTag = (
-    tag: string,
-    current: string[],
-    setter: (v: string[]) => void
-  ) => {
-    if (!current.includes(`#${tag}`)) {
-      setter([...current, `#${tag}`]);
-    }
+  const previewUrl = '/creator/works/post/preview?category=web';
+
+  const handleAddTag = (tag: string, current: string[], setter: (v: string[]) => void) => {
+    if (!current.includes(`#${tag}`)) setter([...current, `#${tag}`]);
   };
 
   return (
     <div className="min-h-screen bg-neutral-100">
-      {/* ===== ヘッダー ===== */}
-      <header className="bg-white border-b border-neutral-200 sticky top-0 z-30 px-4 py-3">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <button
-            onClick={() => router.back()}
-            className="text-neutral-600 hover:text-neutral-800 text-sm font-medium transition-colors"
-          >
-            投稿キャンセル
-          </button>
-          <div className="flex items-center gap-6">
-            <button className="text-neutral-500 text-sm font-bold hover:text-neutral-700 transition-colors flex items-center gap-1.5">
-              <Save size={15} />
-              下書き保存
-            </button>
-            <button
-              onClick={() => router.push('/creator/works/post/preview?category=web')}
-              className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold px-5 py-2 rounded-lg transition-all"
-            >
-              公開に進む
-            </button>
-          </div>
-        </div>
-      </header>
+      <PostFormHeader
+        onCancel={() => router.back()}
+        onPublish={() => router.push(previewUrl)}
+      />
 
-      {/* ===== メインコンテンツ 2カラム ===== */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* ========== 左カラム: サイトURL ========== */}
+
+          {/* ===== 左カラム: サイトURL ===== */}
           <div className="lg:col-span-4">
             <div className="bg-white rounded-xl border border-neutral-200 p-6 lg:sticky lg:top-20">
               <h2 className="text-lg font-bold text-neutral-800 mb-1">
@@ -233,16 +143,12 @@ function PostWebPage() {
               </p>
 
               <FormSection label="サイトURL" variant="creator">
-                <div className="flex gap-2">
-                  <div className="flex-1">
-                    <TextInput
-                      value={siteUrl}
-                      onChange={setSiteUrl}
-                      placeholder="https://fitcree.com/"
-                      variant="creator"
-                    />
-                  </div>
-                </div>
+                <TextInput
+                  value={siteUrl}
+                  onChange={setSiteUrl}
+                  placeholder="https://fitcree.com/"
+                  variant="creator"
+                />
               </FormSection>
 
               <button
@@ -267,7 +173,6 @@ function PostWebPage() {
                 </div>
               )}
 
-              {/* ヒント */}
               <div className="mt-6 p-3 bg-blue-50 border border-blue-100 rounded-lg">
                 <p className="text-xs text-blue-700 leading-relaxed flex items-start gap-1.5">
                   <Info size={13} className="shrink-0 mt-0.5" />
@@ -279,358 +184,133 @@ function PostWebPage() {
             </div>
           </div>
 
-          {/* ========== 右カラム: 詳細入力フォーム ========== */}
           <div className="lg:col-span-8 space-y-8">
-            {/* ────── 作品概要 ────── */}
             <DetailSection title="作品概要" icon={FileText} bodyClassName="p-6 space-y-0">
-                <FormSection
-                  label="作品タイトル"
-                  required
-                  variant="creator"
-                  description="このページのタイトルとして表示されます。検索を意識した組合せで、クライアントも使用するようなキーワードを入れましょう。"
-                  examples={[
-                    '株式会社〇〇 コーポレートサイト制作',
-                    '新規開店の子育てシステム入りLPデザイン',
-                    '新ブランドの「チラシ」LPリニューアル',
-                  ]}
-                >
-                  <TextInput
-                    value={title}
-                    onChange={setTitle}
-                    placeholder="作品タイトルを入力してください"
-                    maxLength={80}
-                    variant="creator"
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="サムネイル画像"
-                  required
-                  variant="creator"
-                  description="この作品を一覧で表示する際のサムネイルをアップロードしてください。最も魅力が伝わる部分にしましょう。"
-                >
-                  <FileUploader
-                    variant="creator"
-                    label="ファイルをアップロード"
-                    description="またはドラッグ＆ドロップ"
-                    accept="image/jpeg,image/png,image/webp"
-                    previewImage={thumbnailUrl || null}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="キャプチャ"
-                  variant="creator"
-                  description="他にも見て欲しい部分などをアップロードしましょう。最大6枚まで追加できます。"
-                >
-                  {captures.length > 0 ? (
-                    <div className="grid grid-cols-3 gap-3 mb-3">
-                      {captures.map((url, i) => (
-                        <div key={i} className="aspect-video rounded-lg overflow-hidden border border-neutral-200 bg-neutral-50">
-                          <img src={url} alt="" className="w-full h-full object-cover" />
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                  <FileUploader
-                    variant="creator"
-                    label="ファイルをアップロード"
-                    description="またはドラッグ＆ドロップ"
-                    accept="image/jpeg,image/png"
-                    multiple
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="作品説明文"
-                  variant="creator"
-                  description="この作品の目的や背景、制作で工夫した点、あなたの想いなどを自由に記入してください。 発注者はここから制作の意図やあなたの強みを読み取ります。"
-                  examples={[
-                    '企業の採用強化を目的に、コーポレートサイトをリニューアルしました。学生が理解しやすいように情報を整理し、写真を多く取り入れています。',
-                    '新しい飲食店ブランドの立ち上げに伴い、予約導線を意識したUI設計を行いました。ユーザーが直感的に操作できるよう、ボタン配置に工夫しています。',
-                    '自主制作作品です。自分が得意とするシンプルなデザインを活かし、架空の美容室のサイトを想定して制作しました。',
-                  ]}
-                >
-                  <TextArea
-                    value={description}
-                    onChange={setDescription}
-                    placeholder="作品の目的、制作背景、工夫した点などを記載してください"
-                    rows={8}
-                    maxLength={2000}
-                    variant="creator"
-                  />
-                </FormSection>
-            </DetailSection>
-
-            {/* ────── 「WEBサイト」の制作情報 ────── */}
-            <DetailSection title="「WEBサイト」の制作情報" icon={Wrench} bodyClassName="px-6 pb-6">
-                <div className="mb-2">
-                  <p className="text-sm text-neutral-500 mt-4">
-                    発注者があなたにお仕事を依頼する際の判断材料になります。適切なキーワードを記載し、仕事獲得率をアップさせましょう。
-                  </p>
-                </div>
-
-                <FormSection
-                  label="サイト名"
-                  required
-                  variant="creator"
-                  description="サイトの名前もしくは正式な名称を入力してください。"
-                >
-                  <TextInput
-                    value={siteName}
-                    onChange={setSiteName}
-                    placeholder="サイト名を入力"
-                    variant="creator"
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="業種"
-                  variant="creator"
-                  description="このサイトの業種を選択しましょう。"
-                >
-                  <SelectInput
-                    value={industry}
-                    onChange={setIndustry}
-                    options={INDUSTRIES}
-                    placeholder="選択"
-                    variant="creator"
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="サイト種別"
-                  variant="creator"
-                  description="LP・コーポレート・ECなど、WEBサイトの種類を選択しましょう。"
-                >
-                  <SelectInput
-                    value={siteType}
-                    onChange={setSiteType}
-                    options={SITE_TYPES}
-                    placeholder="選択"
-                    variant="creator"
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="ターゲット"
-                  variant="creator"
-                  description="この作品の想定ターゲット（エンドユーザー）を入力しましょう。"
-                >
-                  <TagInput
-                    value={target}
-                    onChange={setTarget}
-                    placeholder="タグを追加"
-                    maxTags={10}
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.target}
-                    currentValues={target}
-                    onAdd={(tag) => handleAddTag(tag, target, setTarget)}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="目的／背景"
-                  variant="creator"
-                  description="この作品を作った目的や制作背景があれば、入力してください。"
-                >
-                  <TagInput
-                    value={purpose}
-                    onChange={setPurpose}
-                    placeholder="タグを追加"
-                    maxTags={10}
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.purpose}
-                    currentValues={purpose}
-                    onAdd={(tag) => handleAddTag(tag, purpose, setPurpose)}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="ツール／スキル"
-                  variant="creator"
-                  description="制作に使用したツールやスキルを追加しましょう。"
-                >
-                  <TagInput
-                    value={tools}
-                    onChange={setTools}
-                    placeholder="タグを追加"
-                    maxTags={10}
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.tools}
-                    currentValues={tools}
-                    onAdd={(tag) => handleAddTag(tag, tools, setTools)}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="自由タグ"
-                  variant="creator"
-                  description="カラーやテイストなど、このサイトの特徴的な雰囲気を自由に追記しましょう。"
-                >
-                  <TagInput
-                    value={siteTags}
-                    onChange={setSiteTags}
-                    placeholder="タグを追加"
-                    maxTags={15}
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.siteTags}
-                    currentValues={siteTags}
-                    onAdd={(tag) => handleAddTag(tag, siteTags, setSiteTags)}
-                  />
-                </FormSection>
-            </DetailSection>
-
-            {/* ────── 業務情報 ────── */}
-            <DetailSection title="業務情報" icon={Briefcase} bodyClassName="p-6">
-                <FormSection
-                  label="担当範囲"
-                  variant="creator"
-                  description="この作品であなたが担当した範囲をタグで入力してください。"
-                >
-                  <TagInput
-                    value={responsibilities}
-                    onChange={setResponsibilities}
-                    placeholder="タグを追加"
-                    variant="creator"
-                  />
-                  <SuggestedTags
-                    tags={SUGGESTED_TAGS.responsibilities}
-                    currentValues={responsibilities}
-                    onAdd={(tag) => handleAddTag(tag, responsibilities, setResponsibilities)}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="概算期間"
-                  variant="creator"
-                  description="担当範囲においてかかった時間を入力してください。"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-24">
-                      <TextInput
-                        value={durationValue}
-                        onChange={setDurationValue}
-                        placeholder=""
-                        variant="creator"
-                      />
-                    </div>
-                    <SelectInput
-                      value={durationUnit}
-                      onChange={setDurationUnit}
-                      options={DURATION_UNITS}
-                      variant="creator"
-                    />
-                  </div>
-                </FormSection>
-
-                <FormSection
-                  label="クライアント情報"
-                  variant="creator"
-                  description="この作品の相手を選択してください。"
-                >
-                  <RadioList
-                    name="clientType"
-                    selectedValue={clientType}
-                    onChange={setClientType}
-                    variant="creator"
-                    options={[
-                      { id: 'self', label: 'クライアントなし（自主制作／仮想制作）' },
-                      {
-                        id: 'client_anonymous',
-                        label: 'クライアントあり（名前は非公開）',
-                        description: '外部案件で、クライアント名は公開されません。',
-                      },
-                      {
-                        id: 'client_public',
-                        label: 'クライアントあり（名前公開可）',
-                        description:
-                          'クライアントの許可を得た場合に選択してください（企業名もしくは一部を入力）',
-                      },
-                    ]}
-                  />
-                  {clientType === 'client_public' && (
-                    <div className="mt-3">
-                      <TextInput
-                        value={clientName}
-                        onChange={setClientName}
-                        placeholder="クライアント名を入力"
-                        variant="creator"
-                      />
-                    </div>
-                  )}
-                </FormSection>
-
-            </DetailSection>
-
-            {/* ────── 公開設定 ────── */}
-            <DetailSection title="公開設定" icon={Shield} bodyClassName="p-6">
-                <FormSection
-                  label="生成AIの利用状況"
-                  variant="creator"
-                  description="この作品における生成AIの利用状況を教えてください。"
-                >
-                  <RadioList
-                    name="aiUsage"
-                    selectedValue={aiUsage}
-                    onChange={setAiUsage}
-                    variant="creator"
-                    options={AI_OPTIONS}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="年齢制限"
-                  variant="creator"
-                  description="成人向けコンテンツを含む場合は、適切な年齢制限を選択してください。"
-                >
-                  <RadioList
-                    name="ageRestriction"
-                    selectedValue={ageRestriction}
-                    onChange={setAgeRestriction}
-                    variant="creator"
-                    options={AGE_RESTRICTION_OPTIONS}
-                  />
-                </FormSection>
-
-                <FormSection
-                  label="公開範囲"
-                  variant="creator"
-                  description=""
-                >
-                  <RadioList
-                    name="visibility"
-                    selectedValue={visibility}
-                    onChange={setVisibility}
-                    variant="creator"
-                    options={VISIBILITY_OPTIONS}
-                  />
-                  {visibility === 'limited' && (
-                    <p className="text-xs text-neutral-500 mt-2 pl-1">
-                      作品URLを知っている方のみ閲覧できるようになります。非公開にしたい場合は「下書き」をご活用ください。
-                    </p>
-                  )}
-                </FormSection>
-            </DetailSection>
-
-            {/* ===== 送信ボタン ===== */}
-            <div className="pb-8">
-              <button
-                onClick={() => router.push('/creator/works/post/preview?category=web')}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all text-base flex items-center justify-center gap-2"
+              <FormSection
+                label="作品タイトル"
+                required
+                variant="creator"
+                description="このページのタイトルとして表示されます。検索を意識した組合せで、クライアントも使用するようなキーワードを入れましょう。"
+                examples={[
+                  '株式会社〇〇 コーポレートサイト制作',
+                  '新規開店の子育てシステム入りLPデザイン',
+                  '新ブランドの「チラシ」LPリニューアル',
+                ]}
               >
-                この内容で公開に進む
-                <ChevronRight size={18} />
-              </button>
-            </div>
+                <TextInput value={title} onChange={setTitle} placeholder="作品タイトルを入力してください" maxLength={80} variant="creator" />
+              </FormSection>
+
+              <FormSection
+                label="サムネイル画像"
+                required
+                variant="creator"
+                description="この作品を一覧で表示する際のサムネイルをアップロードしてください。最も魅力が伝わる部分にしましょう。"
+              >
+                <FileUploader
+                  variant="creator"
+                  label="ファイルをアップロード"
+                  description="またはドラッグ＆ドロップ"
+                  accept="image/jpeg,image/png,image/webp"
+                  previewImage={thumbnailUrl || null}
+                />
+              </FormSection>
+
+              <FormSection
+                label="キャプチャ"
+                variant="creator"
+                description="他にも見て欲しい部分などをアップロードしましょう。最大6枚まで追加できます。"
+              >
+                {captures.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3 mb-3">
+                    {captures.map((url, i) => (
+                      <div key={i} className="aspect-video rounded-lg overflow-hidden border border-neutral-200 bg-neutral-50">
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <FileUploader variant="creator" label="ファイルをアップロード" description="またはドラッグ＆ドロップ" accept="image/jpeg,image/png" multiple />
+              </FormSection>
+
+              <FormSection
+                label="作品説明文"
+                variant="creator"
+                description="この作品の目的や背景、制作で工夫した点、あなたの想いなどを自由に記入してください。 発注者はここから制作の意図やあなたの強みを読み取ります。"
+                examples={[
+                  '企業の採用強化を目的に、コーポレートサイトをリニューアルしました。学生が理解しやすいように情報を整理し、写真を多く取り入れています。',
+                  '新しい飲食店ブランドの立ち上げに伴い、予約導線を意識したUI設計を行いました。ユーザーが直感的に操作できるよう、ボタン配置に工夫しています。',
+                  '自主制作作品です。自分が得意とするシンプルなデザインを活かし、架空の美容室のサイトを想定して制作しました。',
+                ]}
+              >
+                <TextArea value={description} onChange={setDescription} placeholder="作品の目的、制作背景、工夫した点などを記載してください" rows={8} maxLength={2000} variant="creator" />
+              </FormSection>
+            </DetailSection>
+
+            <DetailSection title="「WEBサイト」の制作情報" icon={Wrench} bodyClassName="px-6 pb-6">
+              <div className="mb-2">
+                <p className="text-sm text-neutral-500 mt-4">
+                  発注者があなたにお仕事を依頼する際の判断材料になります。適切なキーワードを記載し、仕事獲得率をアップさせましょう。
+                </p>
+              </div>
+
+              <FormSection label="サイト名" required variant="creator" description="サイトの名前もしくは正式な名称を入力してください。">
+                <TextInput value={siteName} onChange={setSiteName} placeholder="サイト名を入力" variant="creator" />
+              </FormSection>
+
+              <FormSection label="業種" variant="creator" description="このサイトの業種を選択しましょう。">
+                <SelectInput value={industry} onChange={setIndustry} options={INDUSTRIES} placeholder="選択" variant="creator" />
+              </FormSection>
+
+              <FormSection label="サイト種別" variant="creator" description="LP・コーポレート・ECなど、WEBサイトの種類を選択しましょう。">
+                <SelectInput value={siteType} onChange={setSiteType} options={SITE_TYPES} placeholder="選択" variant="creator" />
+              </FormSection>
+
+              <FormSection label="ターゲット" variant="creator" description="この作品の想定ターゲット（エンドユーザー）を入力しましょう。">
+                <TagInput value={target} onChange={setTarget} placeholder="タグを追加" maxTags={10} variant="creator" />
+                <SuggestedTags tags={SUGGESTED_TAGS.target} currentValues={target} onAdd={(tag) => handleAddTag(tag, target, setTarget)} />
+              </FormSection>
+
+              <FormSection label="目的／背景" variant="creator" description="この作品を作った目的や制作背景があれば、入力してください。">
+                <TagInput value={purpose} onChange={setPurpose} placeholder="タグを追加" maxTags={10} variant="creator" />
+                <SuggestedTags tags={SUGGESTED_TAGS.purpose} currentValues={purpose} onAdd={(tag) => handleAddTag(tag, purpose, setPurpose)} />
+              </FormSection>
+
+              <FormSection label="ツール／スキル" variant="creator" description="制作に使用したツールやスキルを追加しましょう。">
+                <TagInput value={tools} onChange={setTools} placeholder="タグを追加" maxTags={10} variant="creator" />
+                <SuggestedTags tags={SUGGESTED_TAGS.tools} currentValues={tools} onAdd={(tag) => handleAddTag(tag, tools, setTools)} />
+              </FormSection>
+
+              <FormSection label="自由タグ" variant="creator" description="カラーやテイストなど、このサイトの特徴的な雰囲気を自由に追記しましょう。">
+                <TagInput value={siteTags} onChange={setSiteTags} placeholder="タグを追加" maxTags={15} variant="creator" />
+                <SuggestedTags tags={SUGGESTED_TAGS.siteTags} currentValues={siteTags} onAdd={(tag) => handleAddTag(tag, siteTags, setSiteTags)} />
+              </FormSection>
+            </DetailSection>
+
+            <BusinessInfoSection
+              responsibilities={responsibilities}
+              onResponsibilitiesChange={setResponsibilities}
+              suggestedResponsibilities={SUGGESTED_TAGS.responsibilities}
+              durationValue={durationValue}
+              onDurationValueChange={setDurationValue}
+              durationUnit={durationUnit}
+              onDurationUnitChange={setDurationUnit}
+              clientType={clientType}
+              onClientTypeChange={setClientType}
+              clientName={clientName}
+              onClientNameChange={setClientName}
+            />
+
+            <PublicationSettingsSection
+              aiOptions={AI_OPTIONS}
+              aiUsage={aiUsage}
+              onAiUsageChange={setAiUsage}
+              ageRestriction={ageRestriction}
+              onAgeRestrictionChange={setAgeRestriction}
+              visibility={visibility}
+              onVisibilityChange={setVisibility}
+            />
+
+            <PostSubmitButton onClick={() => router.push(previewUrl)} />
           </div>
         </div>
       </main>
