@@ -390,7 +390,7 @@ export default function PortfolioManagePage() {
             } else if (category === 'graphic') {
               router.push(`/creator/works/post/graphic?source=${source}`);
             } else {
-              router.push(`/creator/works/post?source=${source}&category=${category}`);
+              router.push(`/creator/works/post/web?source=${source}`);
             }
           }}
         />

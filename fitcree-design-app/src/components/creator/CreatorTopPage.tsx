@@ -114,7 +114,7 @@ export default function CreatorTopPage({ viewMode = 'creator', targetUser }: Cre
             } else if (category === 'graphic') {
               router.push(`/creator/works/post/graphic?source=${source}`);
             } else {
-              router.push(`/creator/works/post?source=${source}&category=${category}`);
+              router.push(`/creator/works/post/web?source=${source}`);
             }
           }}
         />
