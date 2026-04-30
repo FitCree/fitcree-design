@@ -272,7 +272,7 @@ export default function VideoEditForm({ workId, work }: VideoEditFormProps) {
             {/* 業務情報 */}
             <DetailSection title="業務情報" icon={Briefcase} bodyClassName="p-6">
               <FormSection label="担当範囲" variant="creator" description="この作品であなたが担当した範囲をタグで入力してください。">
-                <TagInput value={responsibilities} onChange={setResponsibilities} placeholder="例：#撮影、#編集、#カラーグレーディング" variant="creator" />
+                <TagInput value={responsibilities} onChange={setResponsibilities} placeholder="タグを追加" variant="creator" />
                 <SuggestedTags tags={SUGGESTED_TAGS.responsibilities} currentValues={responsibilities} onAdd={(tag) => handleAddTag(tag, responsibilities, setResponsibilities)} />
               </FormSection>
 

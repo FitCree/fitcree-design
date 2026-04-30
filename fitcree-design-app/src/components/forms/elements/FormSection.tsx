@@ -20,13 +20,16 @@ export const FormSection = ({ label, required, children, helpText, examples, des
       )}
       {children}
       {examples && examples.length > 0 && (
-        <ul className="text-sm text-neutral-600 mt-2 space-y-1 list-disc list-inside">
-          {examples.map((example: string, index: number) => (
-            <li key={index} className="pl-4 [text-indent:-1rem]">
-              例 : {example}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-2">
+          <p className="text-xs text-neutral-700 mb-1">記入例</p>
+          <ul className="text-sm text-neutral-600 space-y-1 list-disc list-outside ml-4">
+            {examples.map((example: string, index: number) => (
+              <li key={index}>
+                {example}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
       {helpText && (
         <p className="text-xs text-neutral-600 mt-2 flex items-center gap-1">

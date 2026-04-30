@@ -16,7 +16,8 @@ export const getFormTheme = (variant: FormVariant = 'client') => {
       accentColor: 'accent-blue-600',
       tagBg: 'bg-blue-50',
       tagText: 'text-blue-700',
-      tagHover: 'hover:bg-blue-100'
+      tagHover: 'hover:bg-blue-100',
+      tagBorder: 'border border-blue-200'
     },
     creator: {
       ring: 'focus:ring-orange-300',
@@ -32,7 +33,8 @@ export const getFormTheme = (variant: FormVariant = 'client') => {
       accentColor: 'accent-orange-500',
       tagBg: 'bg-orange-50',
       tagText: 'text-orange-500',
-      tagHover: 'hover:bg-orange-100'
+      tagHover: 'hover:bg-orange-100',
+      tagBorder: 'border border-orange-200'
     }
   };
 

@@ -84,11 +84,11 @@ function SuggestedTags({ tags, currentValues, onAdd }: { tags: string[]; current
   if (available.length === 0) return null;
   return (
     <div className="flex flex-wrap items-center gap-1.5 mt-2">
-      <span className="text-xs text-neutral-400 font-bold">例</span>
+      {/* <span className="text-xs text-neutral-400 font-bold">例</span> */}
       {available.map((tag) => (
         <button key={tag} type="button" onClick={() => onAdd(tag)}
-          className="px-2.5 py-1 text-xs font-medium rounded-md bg-orange-50 text-orange-500 border border-orange-100 hover:bg-orange-100 transition-colors">
-          {tag}
+          className="px-2.5 py-1 text-xs font-medium rounded-md bg-white text-orange-500 border border-orange-200 hover:bg-orange-50 transition-colors">
+          #{tag}
         </button>
       ))}
     </div>
@@ -363,7 +363,7 @@ function PostPhotoPage() {
             {/* 業務情報 */}
             <DetailSection title="業務情報" icon={Briefcase} bodyClassName="p-6">
               <FormSection label="担当範囲" variant="creator" description="この作品であなたが担当した範囲をタグで入力してください。">
-                <TagInput value={responsibilities} onChange={setResponsibilities} placeholder="例：#撮影、#レタッチ" variant="creator" />
+                <TagInput value={responsibilities} onChange={setResponsibilities} placeholder="タグを追加" variant="creator" />
                 <SuggestedTags tags={SUGGESTED_TAGS.responsibilities} currentValues={responsibilities} onAdd={(tag) => handleAddTag(tag, responsibilities, setResponsibilities)} />
               </FormSection>
 

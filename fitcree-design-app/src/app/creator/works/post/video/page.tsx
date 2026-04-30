@@ -128,15 +128,15 @@ function SuggestedTags({
   if (available.length === 0) return null;
   return (
     <div className="flex flex-wrap items-center gap-1.5 mt-2">
-      <span className="text-xs text-neutral-400 font-bold">例</span>
+      {/* <span className="text-xs text-neutral-400 font-bold">例</span> */}
       {available.map((tag) => (
         <button
           key={tag}
           type="button"
           onClick={() => onAdd(tag)}
-          className="px-2.5 py-1 text-xs font-medium rounded-md bg-orange-50 text-orange-500 border border-orange-100 hover:bg-orange-100 transition-colors"
+          className="px-2.5 py-1 text-xs font-medium rounded-md bg-white text-orange-500 border border-orange-200 hover:bg-orange-50 transition-colors"
         >
-          {tag}
+          #{tag}
         </button>
       ))}
     </div>
@@ -489,7 +489,7 @@ function PostVideoPage() {
                 <TagInput
                   value={responsibilities}
                   onChange={setResponsibilities}
-                  placeholder="例：#撮影、#編集、#カラーグレーディング"
+                  placeholder="タグを追加"
                   variant="creator"
                 />
                 <SuggestedTags

@@ -46,7 +46,7 @@ export const TagInput = ({ value = [], onChange, placeholder, maxTags = 10, vari
             key={idx}
             type="button"
             onClick={() => removeTag(tag)}
-            className={`inline-flex items-center gap-1 px-3 py-1.5 ${theme.tagBg} ${theme.tagText} rounded-md text-sm font-medium ${theme.tagHover} transition-colors focus:outline-none focus:ring-2 ${theme.ring}`}
+            className={`inline-flex items-center gap-1 px-3 py-1.5 ${theme.tagBg} ${theme.tagText} ${theme.tagBorder ?? ''} rounded-md text-sm font-medium ${theme.tagHover} transition-colors focus:outline-none focus:ring-2 ${theme.ring}`}
           >
             {tag}
             <X size={16} className={`${theme.tagText}`} aria-label="削除" />
